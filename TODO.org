@@ -1,0 +1,32 @@
+* compile
+** add Begin/EndStackFrame ops
+*** push stack on end
+** copy Core types
+
+* ! _ % - copy drop swap
+
+** _!
+** _%
+** %!
+** %_
+
+* << / >>
+** shift left/right
+
+* add method arg types
+
+* add zip/unzip for zip/unzip
+
+* shift colon right on read
+
+or:: (! else _)
+
+fib: (! 1 > if dec ! fib % else dec fib +)
+1000 (20 fib _) benchmark say
+
+def: fib fun:
+  rotr dup 1 > if:
+    dec rotl dup-rotl + rec
+  else:
+    1 = if: swap;
+    pop;;
