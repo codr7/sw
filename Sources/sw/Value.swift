@@ -17,6 +17,10 @@ struct Value: Equatable {
 
     func tryCast<T, TT>(_ _: TT) -> T? where TT: BaseType<T> { data as? T }
 
+    func compile(_ vm: VM,
+                 _ arguments: inout Forms,
+                 _ index: Int) throws { try type.compile(vm, self, &arguments, index) }
+
     func dump(_ vm: VM) -> String { type.dump!(vm, self) }
 
     func emit(_ vm: VM, _ arguments: inout Forms, _ location: Location) throws {

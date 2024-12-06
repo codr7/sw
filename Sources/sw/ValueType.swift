@@ -9,6 +9,11 @@ protocol ValueType {
     typealias Dump = (_ vm: VM, _ value: Value) -> String
     var dump: Dump? {get}
 
+    func compile(_ vm: VM,
+                 _ target: Value,
+                 _ arguments: inout Forms,
+                 _ index: Int) throws
+    
     func emit(_ vm: VM,
               _ target: Value,
               _ arguments: inout Forms,
@@ -47,6 +52,11 @@ extension ValueType {
         vm.stack.push(target)
     }
 
+    func compile(_ vm: VM,
+                 _ target: Value,
+                 _ arguments: inout Forms,
+                 _ index: Int) throws { }
+    
     func emit(_ vm: VM,
               _ target: Value,
               _ arguments: inout Forms,

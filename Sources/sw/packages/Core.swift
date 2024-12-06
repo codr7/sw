@@ -58,18 +58,34 @@ extension packages {
             self["#f"] = F
 
 
-            bindMacro(vm, "[", [anyType], [anyType, anyType],
+            bindMacro(vm, "[", [], [],
                       {(vm, arguments, location) in
                           vm.emit(ops.BeginStack.make())
                       })
 
-            bindMacro(vm, "]", [anyType], [anyType, anyType],
+            bindMacro(vm, "]", [], [stackType],
                       {(vm, arguments, location) in
                           vm.emit(ops.EndStack.make())
                       })
 
+            bindMacro(vm, ":", [anyType], [],
+                      {(vm, arguments, location) in
+                          let id = arguments
+                            .removeFirst()
+                            .tryCast(forms.Id.self)!
+                            .value
+
+                          let v =  arguments
+                            .removeFirst()
+                            .tryCast(forms.Literal.self)!
+                            .value
+                          
+                          vm.currentPackage[id] = v
+                      })
+
             bindMacro(vm, "C", [anyType], [anyType, anyType],
                       {(vm, arguments, location) in
+                          try arguments.removeFirst().emit(vm, &arguments)
                           vm.emit(ops.Copy.make(1))
                       })
 
@@ -77,11 +93,16 @@ extension packages {
                       [anyType, anyType, anyType],
                       [anyType, anyType, anyType],
                       {(vm, arguments, location) in
+                          for _ in 0..<3 {
+                              try arguments.removeFirst().emit(vm, &arguments)
+                          }
+                          
                           vm.emit(ops.ShiftLeft.make())
                       })
 
             bindMacro(vm, "P", [anyType], [anyType, anyType],
                       {(vm, arguments, location) in
+                          try arguments.removeFirst().emit(vm, &arguments)
                           vm.emit(ops.Pop.make(1))
                       })
 
@@ -89,21 +110,34 @@ extension packages {
                       [anyType, anyType, anyType],
                       [anyType, anyType, anyType],
                       {(vm, arguments, location) in
+                          for _ in 0..<3 {
+                              try arguments.removeFirst().emit(vm, &arguments)
+                          }
+
                           vm.emit(ops.ShiftRight.make())
                       })
 
             bindMacro(vm, "S", [anyType, anyType], [anyType, anyType],
                       {(vm, arguments, location) in
+                          for _ in 0..<2 {
+                              try arguments.removeFirst().emit(vm, &arguments)
+                          }
+
                           vm.emit(ops.Swap.make())
                       })
 
             bindMacro(vm, "U", [pairType], [anyType, anyType],
                       {(vm, arguments, location) in
+                          try arguments.removeFirst().emit(vm, &arguments)
                           vm.emit(ops.Unzip.make())
                       })
 
             bindMacro(vm, "Z", [anyType, anyType], [pairType],
                       {(vm, arguments, location) in
+                          for _ in 0..<2 {
+                              try arguments.removeFirst().emit(vm, &arguments)
+                          }
+
                           vm.emit(ops.Zip.make())
                       })
 
