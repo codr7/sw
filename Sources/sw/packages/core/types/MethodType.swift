@@ -7,5 +7,13 @@ extension packages.Core {
             call = {(vm, target, location) throws in try target.cast(t).call(vm, location) }
             eq = {(value1, value2) in value1.cast(t).id == value2.cast(t).id}
         }
+
+        func emitId(_ vm: VM,
+                    _ target: Value,
+                    _ arguments: Forms,
+                    _ location: Location) throws -> Forms {
+            vm.emit(ops.CallTag.make(vm, target, location))
+            return arguments
+        }
     }
 }

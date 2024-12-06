@@ -1,3 +1,4 @@
+
 extension packages.Core {
     class StackType: BaseType<Stack>, CountTrait, ValueType {
         var count: CountTrait.Count?

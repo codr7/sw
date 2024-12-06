@@ -10,18 +10,16 @@ extension readers {
             var result = ""
             
             while let c = input.popChar() {
-                if c.isWhitespace ||
-                     c == "(" || c == ")" ||
-                     c == "[" || c == "]" ||
-                     c == "\"" || c == ":" || (c == ";" && !result.isEmpty) ||
-                     c == "#" {
+                if c.isWhitespace || c == "\"" ||
+                     (!result.isEmpty && (c == ";" || c == "[" || c == "]")) {
                     input.pushChar(c)
                     break
                 }
 
                 result.append(c)
                 location.column += 1
-                if c == ";" {break}
+                
+                if c == ";" || c == "[" || c == "]" {break}
             }
             
             if result.isEmpty { return false }

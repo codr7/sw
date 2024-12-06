@@ -17,6 +17,7 @@ class VM {
     
     var pc: PC = 0
     var stack: Stack = []
+    var stacks: [Stack] = []
     var tags: [Any] = []
 
     let core: packages.Core

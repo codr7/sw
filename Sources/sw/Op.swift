@@ -1,8 +1,10 @@
 typealias Op = UInt32;
 
 enum OpCode: UInt8 {
+    case BeginStack
     case CallTag
     case Copy
+    case EndStack
     case Goto
     case Pop
     case Push
@@ -65,10 +67,14 @@ struct ops {
 
     static func dump(_ vm: VM, _ op: Op) -> String {
         switch decode(op) {
+        case .BeginStack:
+            BeginStack.dump(vm, op)
         case .CallTag:
             CallTag.dump(vm, op)
         case .Copy:
             Copy.dump(vm, op)
+        case .EndStack:
+            EndStack.dump(vm, op)
         case .Goto:
             Goto.dump(vm, op)
         case .Pop:
@@ -94,10 +100,14 @@ struct ops {
 
     static func trace(_ vm: VM, _ op: Op) -> String {
         switch decode(op) {
+        case .BeginStack:
+            BeginStack.trace(vm, op)
         case .CallTag:
             CallTag.trace(vm, op)
         case .Copy:
             Copy.trace(vm, op)
+        case .EndStack:
+            EndStack.trace(vm, op)
         case .Goto:
             Goto.trace(vm, op)
         case .Pop:

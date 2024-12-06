@@ -2,7 +2,7 @@ typealias Stack = [Value]
 
 extension Stack {
     mutating func copy(_ n: Int) {
-        for _ in 0..<n { push(top!) } 
+        for _ in 0..<n { push(top) } 
     }
 
     mutating func drop(_ n: Int) {
@@ -34,7 +34,7 @@ extension Stack {
         self[i-1] = v
     }
 
-    var top: Value? {last}
+    var top: Value {last!}
 
     mutating func zip(_ vm: VM) {
         let r = pop()

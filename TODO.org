@@ -1,11 +1,7 @@
 C P S / L R
 
-* add stack type
-
-* add Begin/EndStack ops
-** add vm.stacks: [Stack]
-** push stack on end
-** bind to [/] macros
+* switch emit arguments to inout
+** remove result type
 
 * add Sexpr reader/type
 ** store pc
@@ -13,9 +9,6 @@ C P S / L R
 *** emit return
 ** eval on emit
 *** generalize Call struct to allow Value targets
-
-* switch emit arguments to inout
-** remove result type
 
 * more macros
 ** LC

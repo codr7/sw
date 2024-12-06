@@ -10,6 +10,10 @@ extension VM {
             //print("\(pc) \(ops.decode(op)) \(ops.trace(self, op))")
             
             switch ops.decode(op) {
+            case .BeginStack:
+                stacks.append(stack)
+                stack = []
+                pc += 1
             case .CallTag:
                 do {
                     let t = tags[ops.CallTag.target(op)] as! Value
@@ -19,6 +23,13 @@ extension VM {
             case .Copy:
                 stack.copy(ops.Copy.count(op))
                 pc += 1
+            case .EndStack:
+                do {
+                    var ns = stacks.removeLast()
+                    ns.push(core.stackType, stack)
+                    stack = ns
+                    pc += 1
+                }
             case .Goto:
                 pc = ops.Goto.pc(op)
             case .Pop:

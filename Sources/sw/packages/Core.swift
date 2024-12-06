@@ -57,6 +57,19 @@ extension packages {
             self["#t"] = T
             self["#f"] = F
 
+
+            bindMacro(vm, "[", [anyType], [anyType, anyType],
+                      {(vm, arguments, location) in
+                          vm.emit(ops.BeginStack.make())
+                          return arguments
+                      })
+
+            bindMacro(vm, "]", [anyType], [anyType, anyType],
+                      {(vm, arguments, location) in
+                          vm.emit(ops.EndStack.make())
+                          return arguments
+                      })
+
             bindMacro(vm, "C", [anyType], [anyType, anyType],
                       {(vm, arguments, location) in
                           vm.emit(ops.Copy.make(1))
@@ -103,6 +116,8 @@ extension packages {
                           return arguments
                       })
 
+            bindMethod(vm, "say", [anyType], [],
+                       {(vm, location) in print(vm.stack.pop().say(vm)) })
         }
     }
 }

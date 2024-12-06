@@ -5,7 +5,11 @@ class Macro: CustomStringConvertible {
     
     let arguments: [ValueType]
     let results: [ValueType]
-    var description: String { "(\(id) [\(arguments.map({"\($0.id)"}).joined(separator: " "))])" }
+
+    var description: String {
+        "\(id):: [\(arguments.map({"\($0.id)"}).joined(separator: " "))]"
+    }
+    
     let body: Body
     let id: String
     
