@@ -23,3 +23,22 @@
 hello
 ```
 `[[1 2 [3 4] 5]]`
+
+## IO
+`say` may be used to print any value to standard output.
+
+```
+[1 2 3] say
+```
+```
+1 2 3
+```
+`[]`
+
+## Debugging
+`dump` may be used to get a debug string representation for any value.
+
+```
+[1 2 3] dump
+```
+`["[1 2 3]"]`

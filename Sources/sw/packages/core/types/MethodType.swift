@@ -10,10 +10,9 @@ extension packages.Core {
 
         func emitId(_ vm: VM,
                     _ target: Value,
-                    _ arguments: Forms,
-                    _ location: Location) throws -> Forms {
+                    _ arguments: inout Forms,
+                    _ location: Location) throws {
             vm.emit(ops.CallTag.make(vm, target, location))
-            return arguments
         }
     }
 }

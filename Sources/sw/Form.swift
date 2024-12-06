@@ -2,7 +2,7 @@ protocol Form {
     var location: Location {get}
     func tryCast<T>(_ type: T.Type) -> T?
     func dump(_ vm: VM) -> String
-    func emit(_ vm: VM, _ arguments: Forms) throws -> Forms
+    func emit(_ vm: VM, _ arguments: inout Forms) throws
     func eval(_ vm: VM) throws
     func getIds(_ ids: inout Set<String>)
     func getType(_ vm: VM) -> ValueType?
@@ -15,7 +15,8 @@ extension Form {
     func eval(_ vm: VM) throws {
         let skipPc = vm.emit(ops.Stop.make())
         let startPc = vm.emitPc
-        _ = try emit(vm, [])
+        var arguments: Forms = []
+        _ = try emit(vm, &arguments)
         vm.emit(ops.Stop.make())
         vm.code[skipPc] = ops.Goto.make(vm.emitPc)
         try vm.eval(startPc)
@@ -38,8 +39,8 @@ typealias Forms = [Form]
 
 extension Forms {
     func emit(_ vm: VM) throws {
-        var fs: [Form] = self
-        while !fs.isEmpty { fs = try fs.removeFirst().emit(vm, fs) }
+        var arguments: [Form] = self
+        while !arguments.isEmpty { try arguments.removeFirst().emit(vm, &arguments) }
     }
 
     var ids: Set<String> {

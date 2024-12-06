@@ -10,6 +10,7 @@ extension packages.Core {
             
             count = {(target) in target.cast(t).count}
             dump = {(vm, value) in value.cast(t).dump(vm)}
+            say = {(vm, value) in value.cast(t).say(vm)}
             eq = {(value1, value2) in value1.cast(t) == value2.cast(t)}
             toBit = {(value) in !value.cast(t).isEmpty}
         }

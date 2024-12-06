@@ -19,6 +19,8 @@ extension Stack {
     mutating func push<TT, T>(_ type: TT, _ data: T)
       where TT: BaseType<T>, TT: ValueType { push(Value(type, data)) }
 
+    func say(_ vm: VM) -> String { "\(map({$0.say(vm)}).joined(separator: " "))" }
+    
     mutating func shiftLeft() {
         insert(pop(), at: count-2)
     }

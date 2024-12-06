@@ -9,9 +9,9 @@ extension packages.Core {
 
         func emitId(_ vm: VM,
                     _ target: Value,
-                    _ arguments: Forms,
-                    _ location: Location) throws -> Forms {
-            return try target.cast(self).emit(vm, arguments, location)
+                    _ arguments: inout Forms,
+                    _ location: Location) throws {
+            try target.cast(self).emit(vm, &arguments, location)
         }
     }
 }

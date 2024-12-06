@@ -1,7 +1,8 @@
 C P S / L R
 
-* switch emit arguments to inout
-** remove result type
+* add check macro
+
+* add load macro
 
 * add Sexpr reader/type
 ** store pc
