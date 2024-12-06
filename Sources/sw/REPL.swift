@@ -1,11 +1,9 @@
 class REPL {
-    let vm: VM
-    
-    init(_ vm: VM) {
-        self.vm = vm
-    }
+    let vm: VM    
+    init(_ vm: VM) { self.vm = vm }
     
     func run() throws  {
+        print("sw\(VERSION)\n")
         var input = Input()
         var prompt = 1
         var location = Location("repl")

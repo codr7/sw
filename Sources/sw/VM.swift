@@ -1,6 +1,8 @@
 import Foundation
 import SystemPackage
 
+let VERSION = 1
+
 class VM {
     var calls: [Call] = []
     var code: [Op] = []
@@ -10,8 +12,6 @@ class VM {
       readers.Whitespace.instance,
       readers.IntReader.instance,
       readers.IdReader.instance,
-      readers.CountReader.instance,
-      readers.PairReader.instance,
       readers.StringReader.instance
     )
     
