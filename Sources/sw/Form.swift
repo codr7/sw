@@ -8,7 +8,6 @@ protocol Form {
     func dump(_ vm: VM) -> String
     func emit(_ vm: VM, _ arguments: inout Forms) throws
     func eval(_ vm: VM) throws
-    func getIds(_ ids: inout Set<String>)
     func getType(_ vm: VM) -> ValueType?
     func getValue(_ vm: VM) -> Value?
     var isNone: Bool {get}
@@ -31,7 +30,6 @@ extension Form {
         try vm.eval(startPc)
     }
 
-    func getIds(_ ids: inout Set<String>) {}
     var isNone: Bool { false }
     var isSeparator: Bool { false }
 }
@@ -60,12 +58,6 @@ extension Forms {
         
         print("compiled " + arguments.dump(vm))
         while !arguments.isEmpty { try arguments.removeFirst().emit(vm, &arguments) }
-    }
-
-    var ids: Set<String> {
-        var result: Set<String> = []
-        for f in self { f.getIds(&result) }
-        return result
     }
 }
 

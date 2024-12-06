@@ -1,7 +1,5 @@
 C P S / L R
 
-* remove getIds()
-
 * add check macro
 
 * add load macro

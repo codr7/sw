@@ -43,8 +43,6 @@ extension forms {
             if let v = getValue(vm) { v.type } else { nil }
         }
 
-        func getIds(_ ids: inout Set<String>) { ids.insert(value) }
-
         override func getValue(_ vm: VM) -> Value? { Id.find(vm, vm.currentPackage, value) }
 
         var isSeparator: Bool { value.isSeparator }
