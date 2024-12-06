@@ -56,7 +56,6 @@ extension Forms {
             try arguments[i].compile(vm, &arguments, i)
         }
         
-        print("compiled " + arguments.dump(vm))
         while !arguments.isEmpty { try arguments.removeFirst().emit(vm, &arguments) }
     }
 }

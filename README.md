@@ -1,7 +1,7 @@
 ## Stacks
 
-### Stack Operations
-`sw` is a pure stack machine. Stack manipulators have uppercase single letter names to be 1) convenient to type and 2) easy to identify visually when reading code.
+### Operations
+Stack manipulators have uppercase single letter names to be 1) convenient to type and 2) easy to identify visually when reading code.
 
 - `C`opy [a; a a]
 - `P`op [a;]
@@ -23,6 +23,14 @@
 hello
 ```
 `[[1 2 [3 4] 5]]`
+
+## Definitions
+`:` may be used to bind names to values at compile time.
+
+```
+foo: 42 foo
+```
+`42`
 
 ## IO
 `say` may be used to print any value to standard output.
