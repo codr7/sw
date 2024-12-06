@@ -5,7 +5,6 @@ protocol Form {
     func emit(_ vm: VM, _ arguments: Forms) throws -> Forms
     func eval(_ vm: VM) throws
     func getIds(_ ids: inout Set<String>)
-    func getRegister(_ vm: VM) -> Register?
     func getType(_ vm: VM) -> ValueType?
     func getValue(_ vm: VM) -> Value?
     var isNone: Bool {get}
@@ -16,7 +15,7 @@ extension Form {
     func eval(_ vm: VM) throws {
         let skipPc = vm.emit(ops.Stop.make())
         let startPc = vm.emitPc
-        try emit(vm, [])
+        _ = try emit(vm, [])
         vm.emit(ops.Stop.make())
         vm.code[skipPc] = ops.Goto.make(vm.emitPc)
         try vm.eval(startPc)
@@ -40,7 +39,7 @@ typealias Forms = [Form]
 extension Forms {
     func emit(_ vm: VM) throws {
         var fs: [Form] = self
-        while !fs.isEmpty { fs = fs.removeLast().emit(vm, fs) }
+        while !fs.isEmpty { fs = try fs.removeLast().emit(vm, fs) }
     }
 
     var ids: Set<String> {

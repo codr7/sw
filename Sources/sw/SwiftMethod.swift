@@ -1,32 +1,22 @@
 class SwiftMethod: BaseMethod, Method {
-    typealias Body = (_ vm: VM,
-                      _ arguments: [Value],
-                      _ result: Register,
-                      _ location: Location) throws -> Void
+    typealias Body = (_ vm: VM, _ location: Location) throws -> Void
 
     let body: Body
 
     init(_ id: String,
-         _ arguments: [String],
-         _ resultType: ValueType?,
-         _ body: @escaping Body,
-         isVararg: Bool = false) {
+         _ arguments: [ValueType],
+         _ results: [ValueType],
+         _ body: @escaping Body) {
         self.body = body
-        
-        super.init(id,
-                   arguments,
-                   resultType,
-                   isVararg: isVararg)
+        super.init(id, arguments, results)
     }
 
-    func call(_ vm: VM,
-	      _ arguments: [Value],
-	      _ result: Register,
-	      _ location: Location) throws {
-        if arguments.count < minArgumentCount {
+    func call(_ vm: VM, _ location: Location) throws {
+        if vm.stack.count < arguments.count {
             throw EvalError("Not enough arguments: \(self)", location)
         }
+        
         vm.pc += 1
-        try body(vm, arguments, result, location)
+        try body(vm, location)
     }
 }

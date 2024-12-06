@@ -17,7 +17,7 @@ extension readers {
                 _ = try PairReader.instance.read(vm, &input, &output, &location)
             }
 
-            output.append(forms.Id("count", startLocstion))
+            output.append(forms.Id("count", startLocation))
             return true
         }
     }

@@ -37,17 +37,17 @@ class Package: CustomStringConvertible, Sequence {
         set(value) {bindings[id] = value}
     }
 
-    init(_ vm: VM, _ id: String) {
-        self.vm = vm
+    init(_ id: String) {
         self.id = id
+        self.parent = nil
     }
 
-    init(_ parent: Package, _ id: String) {
-        self.init(id, parent.vm)
+    init(_ id: String, _ parent: Package) {
+        self.id = id
         self.parent = parent
     }
 
-    func initBindings() {}
+    func initBindings(_ vm: VM) {}
 
     func bind(_ value: Macro) {
         self[value.id] = Value(packages.Core.macroType, value)
@@ -62,19 +62,17 @@ class Package: CustomStringConvertible, Sequence {
     }
 
     func bindMacro(_ id: String,
-                   _ arguments: [String],
-                   _ resultType: ValueType?,
+                   _ arguments: [ValueType],
+                   _ results: [ValueType],
                    _ body: @escaping Macro.Body) {
-        self[id] = Value(packages.Core.macroType, Macro(id, arguments, resultType, body))
+        self[id] = Value(packages.Core.macroType, Macro(id, arguments, results, body))
     }
 
     func bindMethod(_ id: String,
-                    _ arguments: [String],
-                    _ resultType: ValueType?,
-                    _ body: @escaping SwiftMethod.Body,
-                    _ isVararg: Bool = false) {
-        self[id] = Value(packages.Core.methodType,
-                         SwiftMethod(id, arguments, resultType, body, isVararg: isVararg))
+                    _ arguments: [ValueType],
+                    _ results: [ValueType],
+                    _ body: @escaping SwiftMethod.Body) {
+        self[id] = Value(packages.Core.methodType, SwiftMethod(id, arguments, results, body))
     }
 
     var ids: [String] { Array(bindings.keys) }

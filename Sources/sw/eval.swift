@@ -10,6 +10,12 @@ extension VM {
             //print("\(pc) \(ops.decode(op)) \(ops.trace(self, op))")
             
             switch ops.decode(op) {
+            case .CallTag:
+                do {
+                    let t = tags[ops.CallTag.target(op)] as! Value
+                    let l = tags[ops.CallTag.location(op)] as! Location
+                    try t.call(self, l)
+                }
             case .Copy:
                 stack.copy(ops.Copy.count(op))
                 pc += 1
@@ -21,14 +27,14 @@ extension VM {
             case .Push:
                 stack.push(tags[ops.Push.value(op)] as! Value)
                 pc += 1
-            case .PushNone:
-                stack.push(packages.Core.NONE)
+            case .SetLoadPath:
+                loadPath = tags[ops.SetLoadPath.path(op)] as! FilePath
                 pc += 1
             case .Stop:
                 pc += 1
                 return            
             case .Swap:
-                vm.stack.swap()
+                stack.swap()
                 pc += 1
             case .Unzip:
                 stack.unzip()

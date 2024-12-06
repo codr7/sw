@@ -19,11 +19,11 @@ struct Value: Equatable {
 
     func dump(_ vm: VM) -> String { type.dump!(vm, self) }
 
-    func emit(_ vm: VM, _ arguments: Forms, _ location: Location) -> Forms throws {
+    func emit(_ vm: VM, _ arguments: Forms, _ location: Location) throws -> Forms {
         try type.emit(vm, self, arguments, location)
     } 
 
-    func emitId(_ vm: VM, _ arguments: Forms, _ location: Location) -> Forms throws {
+    func emitId(_ vm: VM, _ arguments: Forms, _ location: Location) throws -> Forms {
         try type.emit(vm, self, arguments, location)
     }
     
@@ -31,6 +31,5 @@ struct Value: Equatable {
     func eqv(_ other: Value) -> Bool { type.equals(other.type) && type.eqv!(self, other) }
     func findId(_ id: String) -> Value? { type.findId!(self, id) }
     func say(_ vm: VM) -> String { type.say!(vm, self) }
-    func setItem(_ index: Int, _ value: Value) { type.setItem!(self, index, value) }
     func toBit() -> Bit { type.toBit!(self) }
 }

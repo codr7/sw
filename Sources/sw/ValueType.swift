@@ -9,8 +9,8 @@ protocol ValueType {
     typealias Dump = (_ vm: VM, _ value: Value) -> String
     var dump: Dump? {get}
 
-    func emit(_ vm: VM, _ target: Value, _ arguments: inout Forms, _ location: Location) throws
-    func emitId(_ vm: VM, _ target: Value, _ arguments: inout Forms, _ location: Location) throws
+    func emit(_ vm: VM, _ target: Value, _ arguments: Forms, _ location: Location) throws -> Forms
+    func emitId(_ vm: VM, _ target: Value, _ arguments: Forms, _ location: Location) throws -> Forms
 
     func getType(_ vm: VM) -> ValueType?
     func isDerived(from: ValueType) -> Bool
@@ -31,9 +31,6 @@ protocol ValueType {
     typealias Say = (_ vm: VM, _ target: Value) -> String
     var say: Say? {get}
     
-    typealias SetItem = (_ target: Value, _ index: Int, _ value: Value) -> Void
-    var setItem: SetItem? {get}
-
     typealias ToBit = (_ value: Value) -> Bit
     var toBit: ToBit? {get}
 }
@@ -46,12 +43,17 @@ extension ValueType {
      func emit(_ vm: VM,
                _ target: Value,
                _ arguments: Forms,
-               _ location: Location) throws -> Forms { vm.emit(ops.Push.make(vm, target)) }
+               _ location: Location) throws -> Forms {
+         vm.emit(ops.Push.make(vm, target))
+         return arguments;
+     }
 
     func emitId(_ vm: VM,
                 _ target: Value,
                 _ arguments: Forms,
-                _ location: Location) throws -> Forms { try emit(vm, target, &arguments, location) }
+                _ location: Location) throws -> Forms {
+        try emit(vm, target, arguments, location)
+    }
 
      
     func equals(_ other: any ValueType) -> Bool { other.id == id }

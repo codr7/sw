@@ -28,7 +28,7 @@ extension forms {
         func emit(_ vm: VM, _ arguments: Forms) throws -> Forms {
             let v = Id.find(vm, vm.currentPackage, value);
             if v == nil { throw EmitError("Unknown id: \(value)", location) }
-            return v!.emitId(vm, arguments, location)
+            return try v!.emitId(vm, arguments, location)
         }
 
         override func getType(_ vm: VM) -> ValueType? {
@@ -39,7 +39,6 @@ extension forms {
 
         override func getValue(_ vm: VM) -> Value? { Id.find(vm, vm.currentPackage, value) }
 
-        var isNone: Bool { value.isNone }
         var isSeparator: Bool { value.isSeparator }
     }
 }

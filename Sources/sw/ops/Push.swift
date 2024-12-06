@@ -6,8 +6,7 @@ extension ops {
         static func value(_ op: Op) -> Tag { decodeTag(op, valueStart) }
         
         static func make(_ vm: VM, _ value: Value) -> Op {
-            if value == packages.Core.NONE { PushNone.make() }
-            else { encode(OpCode.Push) + encodeTag(vm.tag(value), valueStart); }
+            encode(OpCode.Push) + encodeTag(vm.tag(value), valueStart);
         }
 
         static func dump(_ vm: VM, _ op: Op) -> String {

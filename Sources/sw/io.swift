@@ -1,3 +1,6 @@
+import Foundation
+import SystemPackage
+
 extension FileHandle {
     func readAll() throws -> String {
         let d = try readToEnd()!

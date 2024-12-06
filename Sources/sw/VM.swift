@@ -8,22 +8,24 @@ class VM {
     
     let reader = readers.AnyReader(
       readers.Whitespace.instance,
+      readers.IntReader.instance,
       readers.IdReader.instance,
       readers.CountReader.instance,
-      readers.IntReader.instance,
       readers.PairReader.instance,
       readers.StringReader.instance
     )
     
     var pc: PC = 0
-    var stack: Stack
+    var stack: Stack = []
     var tags: [Any] = []
 
-    let core = packages.Core("core")
-    var user = Package("user")
+    let core: packages.Core
+    let user: Package
     var currentPackage: Package
     
     init() {
+        core = packages.Core("core")
+        user = Package("user")
         currentPackage = user
         core.initBindings(self)
         user.initBindings(self)
@@ -64,13 +66,6 @@ class VM {
         } else {
             throw EmitError("File not found: \(p)", location)
         }
-    }
-    
-    func maybe<T>(_ target: BaseType<T> & ValueType) -> ValueType {
-        if let v = currentPackage["\(target.id)?"] { return v.cast(packages.Core.metaType) }
-        let t = Maybe<T>(target)
-        currentPackage.bind(t)
-        return t
     }
     
     func read(_ input: inout Input,
