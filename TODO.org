@@ -7,6 +7,16 @@ C P S / L R
 ** push stack on end
 ** bind to [/] macros
 
+* add Sexpr reader/type
+** store pc
+** add form
+*** emit return
+** eval on emit
+*** generalize Call struct to allow Value targets
+
+* switch emit arguments to inout
+** remove result type
+
 * more macros
 ** LC
 ** RC
