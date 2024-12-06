@@ -24,7 +24,7 @@ class VM {
     var currentPackage: Package
     
     init() {
-        core = packages.Core("core")
+        core = packages.Core()
         user = Package("user")
         currentPackage = user
         core.initBindings(self)

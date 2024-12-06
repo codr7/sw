@@ -24,7 +24,7 @@ struct Value: Equatable {
     } 
 
     func emitId(_ vm: VM, _ arguments: Forms, _ location: Location) throws -> Forms {
-        try type.emit(vm, self, arguments, location)
+        try type.emitId(vm, self, arguments, location)
     }
     
     func eq(_ other: Value) -> Bool { type.equals(other.type) && type.eq!(self, other) }

@@ -1,7 +1,7 @@
 extension forms {
     class Id: BaseForm, Form {
         static func find(_ vm: VM, _ source: Package, _ id: String) -> Value? {
-            var s = Value(packages.Core.packageType, source)
+            var s = Value(vm.core.packageType, source)
             var sid = id
             
             while let i = sid.firstIndex(of: "/") {

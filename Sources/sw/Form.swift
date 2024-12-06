@@ -39,7 +39,7 @@ typealias Forms = [Form]
 extension Forms {
     func emit(_ vm: VM) throws {
         var fs: [Form] = self
-        while !fs.isEmpty { fs = try fs.removeLast().emit(vm, fs) }
+        while !fs.isEmpty { fs = try fs.removeFirst().emit(vm, fs) }
     }
 
     var ids: Set<String> {

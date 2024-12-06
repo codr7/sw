@@ -31,7 +31,7 @@ extension readers {
             if c == nil || !c!.isNumber { return false }
             let startLocation = location
             let v = read(&input, 10, &location)
-            output.append(forms.Literal(Value(packages.Core.intType, v), startLocation))
+            output.append(forms.Literal(Value(vm.core.intType, v), startLocation))
             return true
         }
     }

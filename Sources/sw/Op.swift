@@ -3,11 +3,13 @@ typealias Op = UInt32;
 enum OpCode: UInt8 {
     case CallTag
     case Copy
-    case Drop
     case Goto
+    case Pop
     case Push
     case Stop
     case SetLoadPath
+    case ShiftLeft
+    case ShiftRight
     case Swap
     case Unzip
     case Zip
@@ -67,14 +69,18 @@ struct ops {
             CallTag.dump(vm, op)
         case .Copy:
             Copy.dump(vm, op)
-        case .Drop:
-            Drop.dump(vm, op)
         case .Goto:
             Goto.dump(vm, op)
+        case .Pop:
+            Pop.dump(vm, op)
         case .Push:
             Push.dump(vm, op)
         case .SetLoadPath:
             SetLoadPath.dump(vm, op)
+        case .ShiftLeft:
+            ShiftLeft.dump(vm, op)
+        case .ShiftRight:
+            ShiftRight.dump(vm, op)
         case .Stop:
             Stop.dump(vm, op)
         case .Swap:
@@ -92,14 +98,18 @@ struct ops {
             CallTag.trace(vm, op)
         case .Copy:
             Copy.trace(vm, op)
-        case .Drop:
-            Drop.trace(vm, op)
         case .Goto:
             Goto.trace(vm, op)
+        case .Pop:
+            Pop.trace(vm, op)
         case .Push:
             Push.trace(vm, op)
         case .SetLoadPath:
             SetLoadPath.trace(vm, op)
+        case .ShiftLeft:
+            ShiftLeft.trace(vm, op)
+        case .ShiftRight:
+            ShiftRight.trace(vm, op)
         case .Stop:
             Stop.trace(vm, op)
         case .Swap:

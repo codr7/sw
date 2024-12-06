@@ -1,41 +1,108 @@
 extension packages {
     class Core: Package {
-        nonisolated(unsafe) static let anyType = AnyType("Any", [])
+        let anyType: AnyType
+        let bitType: BitType
+        let intType: IntType
+        let macroType: MacroType
+        let metaType: MetaType
+        let packageType: PackageType
+        let pairType: PairType
+        let pathType: PathType
+        let stackType: StackType
+        let stringType: StringType
+        let timeType: TimeType
 
-        nonisolated(unsafe) static let bitType = BitType("Bit", [anyType])
-        nonisolated(unsafe) static let intType = IntType("Int", [anyType])
-        nonisolated(unsafe) static let macroType = MacroType("Macro", [anyType])
-        nonisolated(unsafe) static let metaType = MetaType("Meta", [anyType])
-        nonisolated(unsafe) static let packageType = PackageType("Package", [anyType])
-        nonisolated(unsafe) static let pairType = PairType("Pair", [anyType])
-        nonisolated(unsafe) static let pathType = PathType("Path", [anyType])
-        nonisolated(unsafe) static let stackType = StackType("Stack", [anyType])
-        nonisolated(unsafe) static let stringType = StringType("String", [anyType])
-        nonisolated(unsafe) static let timeType = TimeType("Time", [anyType])
+        let methodType: MethodType
+        let swMethodType: SwMethodType
 
-        nonisolated(unsafe) static let methodType = MethodType("Method", [anyType])
-        nonisolated(unsafe) static let swMethodType = SwMethodType("SwMethod", [methodType])
+        let T: Value
+        let F: Value
 
-        nonisolated(unsafe) static let T = Value(Core.bitType, true)
-        nonisolated(unsafe) static let F = Value(Core.bitType, false)
+        init() {
+            anyType = AnyType("Any", [])
+            bitType = BitType("Bit", [anyType])
+            intType = IntType("Int", [anyType])
+            macroType = MacroType("Macro", [anyType])
+            metaType = MetaType("Meta", [anyType])
+            packageType = PackageType("Package", [anyType])
+            pairType = PairType("Pair", [anyType])
+            pathType = PathType("Path", [anyType])
+            stackType = StackType("Stack", [anyType])
+            stringType = StringType("String", [anyType])
+            timeType = TimeType("Time", [anyType])
+            methodType = MethodType("Method", [anyType])
+            swMethodType = SwMethodType("SwMethod", [methodType])
 
+            T = Value(bitType, true)
+            F = Value(bitType, false)
+
+            super.init("core")
+        }
+        
         override func initBindings(_ vm: VM) {
-            bind(Core.anyType)
-            bind(Core.bitType)
-            bind(Core.intType)
-            bind(Core.macroType)
-            bind(Core.metaType)
-            bind(Core.methodType)
-            bind(Core.packageType)
-            bind(Core.pairType)
-            bind(Core.pathType)
-            bind(Core.stackType)
-            bind(Core.stringType)
-            bind(Core.swMethodType)
-            bind(Core.timeType)
+            bind(vm, anyType)
+            bind(vm, bitType)
+            bind(vm, intType)
+            bind(vm, macroType)
+            bind(vm, metaType)
+            bind(vm, methodType)
+            bind(vm, packageType)
+            bind(vm, pairType)
+            bind(vm, pathType)
+            bind(vm, stackType)
+            bind(vm, stringType)
+            bind(vm, swMethodType)
+            bind(vm, timeType)
             
-            self["T"] = Core.T
-            self["F"] = Core.F
+            self["#t"] = T
+            self["#f"] = F
+
+            bindMacro(vm, "C", [anyType], [anyType, anyType],
+                      {(vm, arguments, location) in
+                          vm.emit(ops.Copy.make(1))
+                          return arguments
+                      })
+
+            bindMacro(vm, "L",
+                      [anyType, anyType, anyType],
+                      [anyType, anyType, anyType],
+                      {(vm, arguments, location) in
+                          vm.emit(ops.ShiftLeft.make())
+                          return arguments
+                      })
+
+            bindMacro(vm, "P", [anyType], [anyType, anyType],
+                      {(vm, arguments, location) in
+                          vm.emit(ops.Pop.make(1))
+                          return arguments
+                      })
+
+            bindMacro(vm, "R",
+                      [anyType, anyType, anyType],
+                      [anyType, anyType, anyType],
+                      {(vm, arguments, location) in
+                          vm.emit(ops.ShiftRight.make())
+                          return arguments
+                      })
+
+            bindMacro(vm, "S", [anyType, anyType], [anyType, anyType],
+                      {(vm, arguments, location) in
+                          vm.emit(ops.Swap.make())
+                          return arguments
+                      })
+
+            bindMacro(vm, "U", [pairType], [anyType, anyType],
+                      {(vm, arguments, location) in
+                          vm.emit(ops.Unzip.make())
+                          return arguments
+                      })
+
+            bindMacro(vm, "Z", [anyType, anyType], [pairType],
+                      {(vm, arguments, location) in
+                          vm.emit(ops.Zip.make())
+                          return arguments
+                      })
+
         }
     }
 }

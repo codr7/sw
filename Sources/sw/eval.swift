@@ -19,16 +19,22 @@ extension VM {
             case .Copy:
                 stack.copy(ops.Copy.count(op))
                 pc += 1
-            case .Drop:
-                stack.drop(ops.Drop.count(op))
-                pc += 1
             case .Goto:
                 pc = ops.Goto.pc(op)
+            case .Pop:
+                stack.drop(ops.Pop.count(op))
+                pc += 1
             case .Push:
                 stack.push(tags[ops.Push.value(op)] as! Value)
                 pc += 1
             case .SetLoadPath:
                 loadPath = tags[ops.SetLoadPath.path(op)] as! FilePath
+                pc += 1
+            case .ShiftLeft:
+                stack.shiftLeft()
+                pc += 1
+            case .ShiftRight:
+                stack.shiftRight()
                 pc += 1
             case .Stop:
                 pc += 1
@@ -37,10 +43,10 @@ extension VM {
                 stack.swap()
                 pc += 1
             case .Unzip:
-                stack.unzip()
+                stack.unzip(self)
                 pc += 1
             case .Zip:
-                stack.zip()
+                stack.zip(self)
                 pc += 1
             }
             

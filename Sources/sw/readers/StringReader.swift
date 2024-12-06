@@ -23,7 +23,7 @@ extension readers {
             }
             
             if result.isEmpty { return false }
-            let v = Value(packages.Core.stringType, result)
+            let v = Value(vm.core.stringType, result)
             output.append(forms.Literal(v, startLocation))
             return true
         }

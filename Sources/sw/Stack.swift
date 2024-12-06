@@ -18,7 +18,15 @@ extension Stack {
 
     mutating func push<TT, T>(_ type: TT, _ data: T)
       where TT: BaseType<T>, TT: ValueType { push(Value(type, data)) }
+
+    mutating func shiftLeft() {
+        insert(pop(), at: count-2)
+    }
     
+    mutating func shiftRight() {
+        push(remove(at: count-3))
+    }
+
     mutating func swap() {
         let i = count-1
         let v = self[i]
@@ -28,14 +36,14 @@ extension Stack {
 
     var top: Value? {last}
 
-    mutating func zip() {
+    mutating func zip(_ vm: VM) {
         let r = pop()
         let l = pop()
-        push(packages.Core.pairType, (l, r))
+        push(vm.core.pairType, (l, r))
     }
     
-    mutating func unzip() {
-        let (l, r) = pop().cast(packages.Core.pairType)
+    mutating func unzip(_ vm: VM) {
+        let (l, r) = pop().cast(vm.core.pairType)
         push(l)
         push(r)            
     }

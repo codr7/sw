@@ -7,8 +7,11 @@ extension packages.Core {
             eq = {(value1, value2) in value1.cast(t).id == value2.cast(t).id}
         }
 
-        func emitId(_ vm: VM, _ target: Value, _ arguments: Forms, _ location: Location) throws -> Forms {
-            try target.cast(self).emit(vm, arguments, location)
+        func emitId(_ vm: VM,
+                    _ target: Value,
+                    _ arguments: Forms,
+                    _ location: Location) throws -> Forms {
+            return try target.cast(self).emit(vm, arguments, location)
         }
     }
 }

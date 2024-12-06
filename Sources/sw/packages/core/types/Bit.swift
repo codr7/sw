@@ -5,7 +5,7 @@ extension packages.Core {
             typeLookup[typeId] = self
             let t = self
 
-            dump = {(vm, value) in value.cast(t) ? "T" : "F"}
+            dump = {(vm, value) in value.cast(t) ? "#t" : "#f"}
             eq = {(value1, value2) in value1.cast(t) == value2.cast(t)}
             toBit = {(value) in value.cast(t)}
         }

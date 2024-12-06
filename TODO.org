@@ -1,27 +1,24 @@
-* add macros
-** ! _ % - copy drop swap
+* add stack type
 
-* add Begin/EndStackFrame ops
+* add Begin/EndStack ops
+** add vm.stacks: [Stack]
 ** push stack on end
 ** bind to [/] macros
 
 * more macros
-** _!
-** _%
-** %!
-** %_
+** LC
+** RC
+** PC
+** PS
+** SC
+** SP
 
-* << / >>
-** shift left/right
-
-or:: ! else _;
-
-fib: ! 1 > if dec ! fib % else dec fib +;
-1000 (20 fib _) benchmark say
+fib: C 1 > if dec C fib S else dec fib +;
+1000 (20 fib P) benchmark say
 
 fib:
-  >>! 1 > if
-    dec <<! << + fib return
+  RC 1 > if
+    dec LC L + fib return
   else
-    1 = if %;
-  _;
+    1 = if S;
+  P;

@@ -49,30 +49,32 @@ class Package: CustomStringConvertible, Sequence {
 
     func initBindings(_ vm: VM) {}
 
-    func bind(_ value: Macro) {
-        self[value.id] = Value(packages.Core.macroType, value)
+    func bind(_ vm: VM, _ value: Macro) {
+        self[value.id] = Value(vm.core.macroType, value)
     }
 
-    func bind(_ value: Package) {
-        self[value.id] = Value(packages.Core.packageType, value)
+    func bind(_ vm: VM, _ value: Package) {
+        self[value.id] = Value(vm.core.packageType, value)
     }
 
-    func bind(_ value: ValueType) {
-        self[value.id] = Value(packages.Core.metaType, value)
+    func bind(_ vm: VM, _ value: ValueType) {
+        self[value.id] = Value(vm.core.metaType, value)
     }
 
-    func bindMacro(_ id: String,
+    func bindMacro(_ vm: VM,
+                   _ id: String,
                    _ arguments: [ValueType],
                    _ results: [ValueType],
                    _ body: @escaping Macro.Body) {
-        self[id] = Value(packages.Core.macroType, Macro(id, arguments, results, body))
+        self[id] = Value(vm.core.macroType, Macro(id, arguments, results, body))
     }
 
-    func bindMethod(_ id: String,
+    func bindMethod(_ vm: VM,
+                    _ id: String,
                     _ arguments: [ValueType],
                     _ results: [ValueType],
                     _ body: @escaping SwiftMethod.Body) {
-        self[id] = Value(packages.Core.methodType, SwiftMethod(id, arguments, results, body))
+        self[id] = Value(vm.core.methodType, SwiftMethod(id, arguments, results, body))
     }
 
     var ids: [String] { Array(bindings.keys) }
