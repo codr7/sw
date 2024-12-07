@@ -42,6 +42,8 @@ extension VM {
                     stack = ns
                     pc += 1
                 }
+            case .Fail:
+                throw BaseError("Fail", tags[ops.Fail.location(op)] as! Location)
             case .Goto:
                 pc = ops.Goto.pc(op)
             case .Pop:

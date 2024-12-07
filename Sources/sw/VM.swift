@@ -49,10 +49,15 @@ class VM {
 
     var emitPc: PC { code.count }
 
+    @discardableResult
+    func emitStop() -> PC {
+        if code.isEmpty || ops.decode(code.last!) != .Stop { emit(ops.Stop.make()) }
+        return code.count-1
+    }
+    
     func endCall() -> Call { calls.removeLast() }
 
     func eval(to: PC) throws {
-        
         let op = code[to]
         code[to] = ops.Stop.make()
         defer { code[to] = op }

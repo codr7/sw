@@ -18,12 +18,6 @@ extension packages.Core {
                     _ location: Location) throws {
             let m = target.cast(self)
             try m.emit(vm, &arguments, location)
-
-            if vm.stack.count < m.arguments.count {
-                throw EmitError("Not enough arguments: \(m)", location)
-            }
-            
-            vm.emit(ops.CallTag.make(vm, target, location))
         }
     }
 }

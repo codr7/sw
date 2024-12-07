@@ -80,7 +80,7 @@ extension packages {
                             .tryCast(forms.Id.self)!
                             .value
                           
-                          let gotoPc = vm.emit(ops.Stop.make())
+                          let gotoPc = vm.emit(ops.Fail.make(vm, location))
                           let m = SwMethod(vm, id, [], [], vm.emitPc, location)
                           vm.currentPackage[id] = Value(self.swMethodType, m)
                           vm.beginPackage()
@@ -92,7 +92,6 @@ extension packages {
                               try f.emit(vm, &arguments)
                           }
 
-                          vm.emit(ops.Return.make())
                           vm.code[gotoPc] = ops.Goto.make(vm.emitPc)
                       })
 

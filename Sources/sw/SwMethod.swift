@@ -25,10 +25,7 @@ class SwMethod: BaseMethod, Method {
 
     func emit(_ vm: VM, _ arguments: inout Forms, _ location: Location) throws {
         for f in arguments.reversed() { vm.stack.push(vm.core.formType, f) }
-        let returnPc = vm.emitPc
-        vm.emit(ops.Stop.make())
-        vm.calls.append(Call(vm, self, returnPc, location))
-        vm.pc = emitPc
-        try vm.eval(to: returnPc)
+        vm.emitStop()
+        try vm.eval(from: emitPc)
     }
 }

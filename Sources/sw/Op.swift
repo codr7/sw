@@ -6,6 +6,7 @@ enum OpCode: UInt8 {
     case Check
     case Copy
     case EndStack
+    case Fail
     case Goto
     case Pop
     case Push
@@ -77,6 +78,8 @@ struct ops {
             Copy.dump(vm, op)
         case .EndStack:
             EndStack.dump(vm, op)
+        case .Fail:
+            Fail.dump(vm, op)
         case .Goto:
             Goto.dump(vm, op)
         case .Pop:
@@ -114,6 +117,8 @@ struct ops {
             Copy.trace(vm, op)
         case .EndStack:
             EndStack.trace(vm, op)
+        case .Fail:
+            Fail.trace(vm, op)
         case .Goto:
             Goto.trace(vm, op)
         case .Pop:

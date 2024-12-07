@@ -26,7 +26,8 @@ extension Form {
         let startPc = vm.emitPc
         var arguments: Forms = []
         _ = try emit(vm, &arguments)
-        vm.emit(ops.Stop.make())
+        
+        vm.emitStop()
         vm.code[skipPc] = ops.Goto.make(vm.emitPc)
         try vm.eval(from: startPc)
     }

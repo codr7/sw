@@ -1,5 +1,7 @@
 C P S / L R
 
+* restore arguments from stack
+
 * add do
 ** consume until ; or end
 ** write body
