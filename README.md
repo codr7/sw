@@ -66,7 +66,7 @@ foo 42
 `[]`
 
 ## Debugging
-`dump` may be used to get a debug string representation for any value.
+`dump` may be used to get a helpful string representation of any value.
 
 ```
 [1 2 3] dump
