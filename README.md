@@ -1,3 +1,6 @@
+## Intro
+`sw` is a pure stack language, as in without support for runtime bindings. In classical Forth fashion it also doesn't have a lot of opinions on how you combine features. 
+
 ## Stacks
 
 ### Operations
