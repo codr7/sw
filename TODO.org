@@ -6,6 +6,13 @@ C P S / L R
 (foo:42 foo)
 42 check
 
+foo: @
+
+* add @ macro
+** add to id reader
+** eval next at emit time
+** eval 
+
 * more macros
 ** LC
 ** RC
