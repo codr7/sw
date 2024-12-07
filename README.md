@@ -28,10 +28,10 @@ hello
 `[[1 2 [3 4] 5]]`
 
 ## Definitions
-`:` may be used to bind names to values at compile time. 
+`:` may be used to bind names to values at compile time, the value needs to be terminated with `;`. 
 
 ```
-foo: 42 foo
+foo: 42; foo
 ```
 `42`
 
