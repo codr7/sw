@@ -1,17 +1,29 @@
 C P S / L R
-* add sexpr macros
-** read up on forth word definitions/immediate words
+
+* add ; as end for :
+** or consume all arguments
+
+* change : to emit body
+
+* override emitId for  SwMethodType
+** call method with forms on stack
+
+* add do macro
+** consume until ; or end
+** write body
+** emit call
+
+* eval : body with forms on stack
+
+* , to eval top of stack
+
+* add Expr form
+** (...)
 ** begin/endPackage like []
+** emit items
 
 (foo:42 foo)
 42 check
-
-foo: @
-
-* add @ macro
-** add to id reader
-** eval next at emit time
-** eval 
 
 * more macros
 ** LC
@@ -21,10 +33,10 @@ foo: @
 ** SC
 ** SP
 
-fib: C 1 > if dec C fib S else dec fib +;
+fib: do C 1 > if dec C fib S else dec fib +;
 1000 (20 fib P) benchmark say
 
-fib:
+fib: do
   RC 1 > if
     dec LC L + fib return
   else

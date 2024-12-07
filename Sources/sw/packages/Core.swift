@@ -77,7 +77,7 @@ extension packages {
                             .tryCast(forms.Id.self)!
                             .value
 
-                          let v =  arguments
+                          let v = arguments
                             .removeFirst()
                             .tryCast(forms.Literal.self)!
                             .value
