@@ -15,6 +15,10 @@ C P S / L R
 (foo:42; foo)
 42 check
 
+* add IdType/LiteralType
+** derive formType
+** add form.valuetype: ValueType
+
 * more macros
 ** LC
 ** RC
@@ -34,26 +38,3 @@ fib: do
   P;
 
 * add load macro
-
-
-func permutations<T>(_ values: [T], _ current: [T], _ idx: Int, _ result: inout [[T]]) {
-    result.append(current)
-    if idx == current.count { return }
-    
-    for v in values[1...] {
-        for i in idx..<current.count {
-            var c = current
-            let pv = c[i]
-            c[i] = v
-            permutations(values, c, idx + 1, &result)
-            c[i] = pv
-        }
-    }    
-}
-
-func permutations<T>(_ values: [T], _ n: Int) -> [[T]] {
-    let current = Array(repeating: values[0], count: n)
-    var result: [[T]] = []
-    permutations(values, current, 0, &result)
-    return result
-}
