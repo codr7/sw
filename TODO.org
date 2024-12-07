@@ -1,13 +1,11 @@
 C P S / L R
 
-* restore arguments from stack
+* add , to eval top of stack
 
 * add do
 ** consume until ; or end
 ** write body
 ** emit call
-
-* , to eval top of stack
 
 * add Expr form
 ** (...)

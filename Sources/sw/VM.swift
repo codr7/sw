@@ -36,8 +36,19 @@ class VM {
         currentPackage = Package(currentPackage.id, currentPackage)
     }
 
+    func beginStack() {
+        stacks.append(stack)
+        stack = []
+    }
+    
     func endPackage() {
         currentPackage = currentPackage.parent!
+    }
+
+    func endStack(push: Bool) {
+        var ns = stacks.removeLast()
+        if push { ns.push(core.stackType, stack) }
+        stack = ns
     }
 
     @discardableResult

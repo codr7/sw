@@ -11,8 +11,7 @@ extension VM {
             
             switch ops.decode(op) {
             case .BeginStack:
-                stacks.append(stack)
-                stack = []
+                beginStack()
                 pc += 1
             case .CallTag:
                 do {
@@ -36,12 +35,8 @@ extension VM {
                 stack.copy(ops.Copy.count(op))
                 pc += 1
             case .EndStack:
-                do {
-                    var ns = stacks.removeLast()
-                    ns.push(core.stackType, stack)
-                    stack = ns
-                    pc += 1
-                }
+                endStack(push: true)
+                pc += 1
             case .Fail:
                 throw BaseError("Fail", tags[ops.Fail.location(op)] as! Location)
             case .Goto:
