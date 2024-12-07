@@ -15,6 +15,13 @@ C P S / L R
 (foo:42; foo)
 42 check
 
+* add support for optional argument list in :
+*** implement compile
+** add support for ; in expr
+** move arguments suffixed with ! like for macros
+
+foo (Int;Int):
+
 * add IdType/LiteralType
 ** derive formType
 ** add form.valuetype: ValueType

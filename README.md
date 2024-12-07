@@ -25,12 +25,31 @@ hello
 `[[1 2 [3 4] 5]]`
 
 ## Definitions
-`:` may be used to bind names to values at compile time.
+`:` may be used to bind names to values at compile time. 
 
 ```
 foo: 42 foo
 ```
 `42`
+
+The body is evaluated on compile time reference with the form stream pushed on the stack, `,` may be used to evaluate forms.
+
+```
+foo: , 42 =;
+```
+`[]`
+
+```
+foo 7
+```
+`[#f]`
+
+```
+foo 42
+```
+`[#t]`
+
+
 
 ## IO
 `say` may be used to print any value to standard output.
