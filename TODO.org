@@ -1,5 +1,8 @@
 C P S / L R
 
+* remove macro results
+** compile
+
 * add ; as end for :
 ** or consume all arguments
 
