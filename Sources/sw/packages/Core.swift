@@ -85,61 +85,42 @@ extension packages {
                           vm.currentPackage[id] = v
                       })
 
-            bindMacro(vm, "C", [anyType], [anyType, anyType],
+            bindMacro(vm, "C", [], [anyType, anyType],
                       {(vm, arguments, location) in
-                          try arguments.removeFirst().emit(vm, &arguments)
                           vm.emit(ops.Copy.make(1))
                       })
 
             bindMacro(vm, "L",
-                      [anyType, anyType, anyType],
+                      [],
                       [anyType, anyType, anyType],
                       {(vm, arguments, location) in
-                          for _ in 0..<3 {
-                              try arguments.removeFirst().emit(vm, &arguments)
-                          }
-                          
                           vm.emit(ops.ShiftLeft.make())
                       })
 
-            bindMacro(vm, "P", [anyType], [anyType, anyType],
+            bindMacro(vm, "P", [], [anyType, anyType],
                       {(vm, arguments, location) in
-                          try arguments.removeFirst().emit(vm, &arguments)
                           vm.emit(ops.Pop.make(1))
                       })
 
             bindMacro(vm, "R",
-                      [anyType, anyType, anyType],
+                      [],
                       [anyType, anyType, anyType],
                       {(vm, arguments, location) in
-                          for _ in 0..<3 {
-                              try arguments.removeFirst().emit(vm, &arguments)
-                          }
-
                           vm.emit(ops.ShiftRight.make())
                       })
 
-            bindMacro(vm, "S", [anyType, anyType], [anyType, anyType],
+            bindMacro(vm, "S", [], [anyType, anyType],
                       {(vm, arguments, location) in
-                          for _ in 0..<2 {
-                              try arguments.removeFirst().emit(vm, &arguments)
-                          }
-
                           vm.emit(ops.Swap.make())
                       })
 
-            bindMacro(vm, "U", [pairType], [anyType, anyType],
+            bindMacro(vm, "U", [], [anyType, anyType],
                       {(vm, arguments, location) in
-                          try arguments.removeFirst().emit(vm, &arguments)
                           vm.emit(ops.Unzip.make())
                       })
 
-            bindMacro(vm, "Z", [anyType, anyType], [pairType],
+            bindMacro(vm, "Z", [], [pairType],
                       {(vm, arguments, location) in
-                          for _ in 0..<2 {
-                              try arguments.removeFirst().emit(vm, &arguments)
-                          }
-
                           vm.emit(ops.Zip.make())
                       })
 
