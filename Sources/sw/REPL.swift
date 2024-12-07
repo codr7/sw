@@ -14,7 +14,7 @@ class REPL {
             
             if line == nil || line! == "\n" {
                 //do {     
-                    let fs = try vm.read(&input, &location)
+                    var fs = try vm.read(&input, &location)
                     let startPc = vm.emitPc
                     try fs.emit(vm)
                     vm.emit(ops.Stop.make())

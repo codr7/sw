@@ -61,10 +61,12 @@ extension packages {
             bindMacro(vm, "[", [], [],
                       {(vm, arguments, location) in
                           vm.emit(ops.BeginStack.make())
+                          vm.beginPackage()
                       })
 
             bindMacro(vm, "]", [], [stackType],
                       {(vm, arguments, location) in
+                          vm.endPackage()
                           vm.emit(ops.EndStack.make())
                       })
 
@@ -139,6 +141,11 @@ extension packages {
                           }
 
                           vm.emit(ops.Zip.make())
+                      })
+
+            bindMacro(vm, "check", [], [],
+                      {(vm, arguments, location) in
+                          vm.emit(ops.Check.make(vm, location))
                       })
 
             bindMethod(vm, "dump", [anyType], [],

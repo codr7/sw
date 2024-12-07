@@ -20,6 +20,18 @@ extension VM {
                     let l = tags[ops.CallTag.location(op)] as! Location
                     try t.call(self, l)
                 }
+            case .Check:
+                do {
+                    let expected = stack.pop()
+                    let actual = stack.pop()
+
+                    if actual != expected {
+                        let location = tags[ops.Check.location(op)] as! Location
+                        throw BaseError("Check failed, actual: \(actual.dump(self)), expected: \(expected.dump(self))", location)
+                    }
+
+                    pc += 1
+                }
             case .Copy:
                 stack.copy(ops.Copy.count(op))
                 pc += 1

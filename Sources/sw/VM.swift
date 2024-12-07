@@ -32,6 +32,14 @@ class VM {
         user.initBindings(self)
     }
 
+    func beginPackage() {
+        currentPackage = Package(currentPackage.id, currentPackage)
+    }
+
+    func endPackage() {
+        currentPackage = currentPackage.parent!
+    }
+    
     func doPackage<T>(_ bodyPackage: Package?, _ body: () throws -> T) throws -> T {
         let pp = currentPackage
         currentPackage = bodyPackage ?? Package(currentPackage.id, currentPackage)
@@ -60,7 +68,7 @@ class VM {
             defer { try! fh.close() }
             var input = Input(try fh.readAll())
             var location = Location("\(p)")
-            let fs = try read(&input, &location)
+            var fs = try read(&input, &location)
             emit(ops.SetLoadPath.make(self, loadPath))
             try fs.emit(self)
             emit(ops.SetLoadPath.make(self, prevLoadPath))

@@ -49,14 +49,9 @@ extension Forms {
         "\(map({$0.dump(vm)}).joined(separator: " "))"
     }
     
-    func emit(_ vm: VM) throws {
-        var arguments: [Form] = self
-
-        for i in stride(from: arguments.count-1, to: 0, by: -1) {
-            try arguments[i].compile(vm, &arguments, i)
-        }
-        
-        while !arguments.isEmpty { try arguments.removeFirst().emit(vm, &arguments) }
+    mutating func emit(_ vm: VM) throws {        
+        for i in 0..<count { try self[i].compile(vm, &self, i) }
+        while !isEmpty { try removeFirst().emit(vm, &self) }
     }
 }
 

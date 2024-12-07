@@ -3,6 +3,7 @@ typealias Op = UInt32;
 enum OpCode: UInt8 {
     case BeginStack
     case CallTag
+    case Check
     case Copy
     case EndStack
     case Goto
@@ -30,14 +31,14 @@ struct ops {
     static func decode(_ op: Op, _ offset: Int, _ width: Int) -> Op {
         (op >> offset) & ((Op(1) << width) - 1)
     }
-
-
-    static func encode(_ value: OpCode) -> Op { encode(value.rawValue, 0, opCodeWidth) }
+    
+    static func encode(_ value: OpCode) -> Op {
+        encode(value.rawValue, 0, opCodeWidth)
+    }
 
     static func decode(_ op: Op) -> OpCode {
         OpCode(rawValue: UInt8(decode(op, 0, opCodeWidth)))!
     }
-
     
     static func encodeFlag(_ value: Bool, _ offset: Int) -> Op {
         encode(value ? 1 : 0, offset, 1)
@@ -47,7 +48,6 @@ struct ops {
         decode(op, offset, 1) == 1
     }
 
-    
     static func encodePc(_ value: PC, _ offset: Int) -> Op {
         encode(value, offset, pcWidth)
     }
@@ -55,8 +55,7 @@ struct ops {
     static func decodePc(_ op: Op, _ offset: Int) -> PC {
         PC(decode(op, offset, pcWidth))
     }
-    
-    
+        
     static func encodeTag(_ value: Tag, _ offset: Int) -> Op {
         encode(value, offset, tagWidth)
     }
@@ -71,6 +70,8 @@ struct ops {
             BeginStack.dump(vm, op)
         case .CallTag:
             CallTag.dump(vm, op)
+        case .Check:
+            Check.dump(vm, op)
         case .Copy:
             Copy.dump(vm, op)
         case .EndStack:
@@ -104,6 +105,8 @@ struct ops {
             BeginStack.trace(vm, op)
         case .CallTag:
             CallTag.trace(vm, op)
+        case .Check:
+            Check.trace(vm, op)
         case .Copy:
             Copy.trace(vm, op)
         case .EndStack:
@@ -128,7 +131,6 @@ struct ops {
             Unzip.trace(vm, op)
         case .Zip:
             Zip.trace(vm, op)
-        }
-        
+        }    
     }
 }

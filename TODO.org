@@ -1,15 +1,10 @@
 C P S / L R
+* add sexpr macros
+** read up on forth word definitions/immediate words
+** begin/endPackage like []
 
-* add check macro
-
-* add load macro
-
-* add Sexpr reader/type
-** store pc
-** add form
-*** emit return
-** eval on emit
-*** generalize Call struct to allow Value targets
+(foo:42 foo)
+42 check
 
 * more macros
 ** LC
@@ -28,3 +23,5 @@ fib:
   else
     1 = if S;
   P;
+
+* add load macro
