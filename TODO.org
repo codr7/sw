@@ -1,6 +1,6 @@
 C P S / L R
 
-* add , to eval top of stack
+* compile found ids into literals
 
 * add do
 ** consume until ; or end
@@ -18,6 +18,10 @@ C P S / L R
 * add IdType/LiteralType
 ** derive formType
 ** add form.valuetype: ValueType
+
+* add permutations
+** aoc24/7
+** iter of iters
 
 * more macros
 ** LC

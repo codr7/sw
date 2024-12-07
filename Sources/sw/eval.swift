@@ -2,12 +2,14 @@ import SystemPackage
 
 extension VM {
     func eval(from: PC) throws {
+        let ppc = pc
+        defer { pc = ppc }        
         pc = from
         
         NEXT:
           do {
-            let op = code[Int(pc)]
-            print("\(pc) \(ops.decode(op)) \(ops.trace(self, op))")
+            let op = code[pc]
+            //print("\(pc) \(ops.decode(op)) \(ops.trace(self, op))")
             
             switch ops.decode(op) {
             case .BeginStack:

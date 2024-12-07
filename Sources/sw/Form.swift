@@ -1,4 +1,4 @@
-protocol Form {
+protocol Form {    
     var location: Location {get}
 
     func compile(_ vm: VM,
@@ -22,12 +22,10 @@ extension Form {
                  _ index: Int) throws { }
     
     func eval(_ vm: VM) throws {
-        let skipPc = vm.emit(ops.Stop.make())
+        let skipPc = vm.emit(ops.Fail.make(vm, location))
         let startPc = vm.emitPc
-        var arguments: Forms = []
-        _ = try emit(vm, &arguments)
-        
-        vm.emitStop()
+        try vm.emit(self)
+        vm.emit(ops.Stop.make())
         vm.code[skipPc] = ops.Goto.make(vm.emitPc)
         try vm.eval(from: startPc)
     }
@@ -50,8 +48,8 @@ extension Forms {
     func dump(_ vm: VM) -> String {
         "\(map({$0.dump(vm)}).joined(separator: " "))"
     }
-    
-    mutating func emit(_ vm: VM) throws {        
+
+    mutating func emit(_ vm: VM) throws {
         for i in 0..<count { try self[i].compile(vm, &self, i) }
         while !isEmpty { try removeFirst().emit(vm, &self) }
     }

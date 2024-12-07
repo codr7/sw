@@ -58,14 +58,12 @@ class VM {
         return result
     }
 
-    var emitPc: PC { code.count }
-
-    @discardableResult
-    func emitStop() -> PC {
-        if code.isEmpty || ops.decode(code.last!) != .Stop { emit(ops.Stop.make()) }
-        return code.count-1
+    func emit(_ form: Form) throws {
+        var arguments: Forms = [form]
+        try arguments.emit(self)
     }
-    
+
+    var emitPc: PC { code.count }
     func endCall() -> Call { calls.removeLast() }
 
     func eval(to: PC) throws {

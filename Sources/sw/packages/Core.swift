@@ -16,8 +16,8 @@ extension packages {
         let methodType: MethodType
         let swMethodType: SwMethodType
 
-        let T: Value
-        let F: Value
+        let t: Value
+        let f: Value
 
         init() {
             anyType = AnyType("Any", [])
@@ -35,8 +35,8 @@ extension packages {
             methodType = MethodType("Method", [anyType])
             swMethodType = SwMethodType("SwMethod", [methodType])
 
-            T = Value(bitType, true)
-            F = Value(bitType, false)
+            t = Value(bitType, true)
+            f = Value(bitType, false)
 
             super.init("core")
         }
@@ -57,8 +57,8 @@ extension packages {
             bind(vm, swMethodType)
             bind(vm, timeType)
             
-            self["#t"] = T
-            self["#f"] = F
+            self["#t"] = t
+            self["#f"] = f
 
 
             bindMacro(vm, "[", [],
@@ -91,44 +91,42 @@ extension packages {
                               if f.isEnd { break }
                               try f.emit(vm, &arguments)
                           }
-
+                          
                           vm.code[gotoPc] = ops.Goto.make(vm.emitPc)
                       })
 
+            bindMethod(vm, ",", [formType], [],
+                       {(vm, location) in
+                           try vm.stack.pop().cast(self.formType).eval(vm)
+                       })            
+
+            bindMethod(vm, "=", [anyType, anyType], [bitType],
+                       {(vm, location) in
+                           let r = vm.stack.pop()
+                           let i = vm.stack.count-1
+                           vm.stack[i] = Value(self.bitType, vm.stack[i] == r)
+                       })            
+
             bindMacro(vm, "C", [],
-                      {(vm, arguments, location) in
-                          vm.emit(ops.Copy.make(1))
-                      })
+                      {(vm, arguments, location) in vm.emit(ops.Copy.make(1)) })
 
             bindMacro(vm, "L", [],
-                      {(vm, arguments, location) in
-                          vm.emit(ops.ShiftLeft.make())
-                      })
+                      {(vm, arguments, location) in vm.emit(ops.ShiftLeft.make()) })
 
             bindMacro(vm, "P", [],
-                      {(vm, arguments, location) in
-                          vm.emit(ops.Pop.make(1))
-                      })
+                      {(vm, arguments, location) in vm.emit(ops.Pop.make(1)) })
 
             bindMacro(vm, "R", [],
-                      {(vm, arguments, location) in
-                          vm.emit(ops.ShiftRight.make())
-                      })
+                      {(vm, arguments, location) in vm.emit(ops.ShiftRight.make()) })
 
             bindMacro(vm, "S", [],
-                      {(vm, arguments, location) in
-                          vm.emit(ops.Swap.make())
-                      })
+                      {(vm, arguments, location) in vm.emit(ops.Swap.make()) })
 
             bindMacro(vm, "U", [],
-                      {(vm, arguments, location) in
-                          vm.emit(ops.Unzip.make())
-                      })
+                      {(vm, arguments, location) in vm.emit(ops.Unzip.make()) })
 
             bindMacro(vm, "Z", [],
-                      {(vm, arguments, location) in
-                          vm.emit(ops.Zip.make())
-                      })
+                      {(vm, arguments, location) in vm.emit(ops.Zip.make()) })
 
             bindMacro(vm, "check", [],
                       {(vm, arguments, location) in

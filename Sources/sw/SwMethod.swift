@@ -24,14 +24,13 @@ class SwMethod: BaseMethod, Method {
     }
 
     func emit(_ vm: VM, _ arguments: inout Forms, _ location: Location) throws {
-        vm.beginStack()
-        defer { vm.endStack(push: false) }
+        let stackOffset = vm.stack.count
         for f in arguments.reversed() { vm.stack.push(vm.core.formType, f) }
-        arguments = []
-        vm.emitStop()
+        vm.emit(ops.Stop.make())
         try vm.eval(from: emitPc)
+        arguments = []
 
-        for v in vm.stack {
+        for v in vm.stack[stackOffset...] {
             let f = v.tryCast(vm.core.formType) ?? forms.Literal(v, location)
             arguments.append(f)
         }

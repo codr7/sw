@@ -29,7 +29,7 @@ if CommandLine.arguments.count == 1 {
         }
     default:
         try load(vm, 1)
-        vm.emitStop()
+        vm.emit(ops.Stop.make())
         try vm.eval(from: startPc)
     }
 }
