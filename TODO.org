@@ -5,7 +5,14 @@ C P S / L R
 * add Sexpr form
 ** (...)
 ** begin/endPackage like []
-** emit items
+** emit Form iter
+*** add iter protocol
+*** add iter type
+
+* add splat method (*)
+** add to id reader
+** replace stack with items
+** add seq trait
 
 * split arguments into arguments1/2 for BaseMethod/Macro
 ** display as (a1;a2;r)
