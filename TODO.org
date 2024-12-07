@@ -2,15 +2,18 @@ C P S / L R
 
 * compile found ids into literals
 
+* add Sexpr form
+** (...)
+** begin/endPackage like []
+** emit items
+
+* split arguments into arguments1/2 for BaseMethod/Macro
+** display as (a1;a2;r)
+
 * add do
 ** consume until ; or end
 ** write body
 ** emit call
-
-* add Expr form
-** (...)
-** begin/endPackage like []
-** emit items
 
 (foo:42; foo)
 42 check

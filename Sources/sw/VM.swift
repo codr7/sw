@@ -41,9 +41,7 @@ class VM {
         stack = []
     }
     
-    func endPackage() {
-        currentPackage = currentPackage.parent!
-    }
+    func endPackage() { currentPackage = currentPackage.parent! }
 
     func endStack(push: Bool) {
         var ns = stacks.removeLast()
