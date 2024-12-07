@@ -22,7 +22,7 @@ C P S / L R
 ** begin/endPackage like []
 ** emit items
 
-(foo:42 foo)
+(foo:42; foo)
 42 check
 
 * more macros
