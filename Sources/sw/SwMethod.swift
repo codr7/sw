@@ -1,14 +1,16 @@
 class SwMethod: BaseMethod, Method {    
     let location: Location
-    let startPc: PC
+    let callPc = -1
+    let emitPc: PC
     
     init(_ vm: VM,
          _ id: String,
          _ arguments: [ValueType],
          _ results: [ValueType],
+         _ emitPc: PC,
          _ location: Location) {
+        self.emitPc = emitPc
         self.location = location
-        self.startPc = vm.emitPc
         super.init(id, arguments, results)
     }
 
@@ -18,6 +20,15 @@ class SwMethod: BaseMethod, Method {
         }
         
         vm.calls.append(Call(vm, self, vm.pc + 1, location))
-        vm.pc = startPc
+        vm.pc = callPc
+    }
+
+    func emit(_ vm: VM, _ arguments: inout Forms, _ location: Location) throws {
+        for f in arguments.reversed() { vm.stack.push(vm.core.formType, f) }
+        let returnPc = vm.emitPc
+        vm.emit(ops.Stop.make())
+        vm.calls.append(Call(vm, self, returnPc, location))
+        vm.pc = emitPc
+        try vm.eval(to: returnPc)
     }
 }

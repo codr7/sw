@@ -39,12 +39,20 @@ extension forms {
             return try v!.emitId(vm, &arguments, location)
         }
 
+        func equals(_ other: Form) -> Bool {
+            if let o = other.tryCast(Id.self) { self.value == o.value }
+            else {false}
+        }
+
         override func getType(_ vm: VM) -> ValueType? {
             if let v = getValue(vm) { v.type } else { nil }
         }
 
-        override func getValue(_ vm: VM) -> Value? { Id.find(vm, vm.currentPackage, value) }
+        override func getValue(_ vm: VM) -> Value? {
+            Id.find(vm, vm.currentPackage, value)
+        }
 
-        var isSeparator: Bool { value.isSeparator }
+        var isEnd: Bool { value.isEnd }
+        var isVoid: Bool { value.isVoid }
     }
 }

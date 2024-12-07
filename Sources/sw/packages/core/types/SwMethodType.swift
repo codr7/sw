@@ -17,6 +17,7 @@ extension packages.Core {
                     _ arguments: inout Forms,
                     _ location: Location) throws {
             let m = target.cast(self)
+            try m.emit(vm, &arguments, location)
 
             if vm.stack.count < m.arguments.count {
                 throw EmitError("Not enough arguments: \(m)", location)

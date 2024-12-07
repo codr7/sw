@@ -1,13 +1,13 @@
 import SystemPackage
 
 extension VM {
-    func eval(_ startPc: PC) throws {
-        pc = startPc
+    func eval(from: PC) throws {
+        pc = from
         
         NEXT:
           do {
             let op = code[Int(pc)]
-            //print("\(pc) \(ops.decode(op)) \(ops.trace(self, op))")
+            print("\(pc) \(ops.decode(op)) \(ops.trace(self, op))")
             
             switch ops.decode(op) {
             case .BeginStack:
@@ -50,6 +50,8 @@ extension VM {
             case .Push:
                 stack.push(tags[ops.Push.value(op)] as! Value)
                 pc += 1
+            case .Return:
+                pc = calls.removeLast().returnPc
             case .SetLoadPath:
                 loadPath = tags[ops.SetLoadPath.path(op)] as! FilePath
                 pc += 1

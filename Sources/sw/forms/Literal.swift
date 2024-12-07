@@ -13,6 +13,11 @@ extension forms {
             try value.emit(vm, &arguments, location)
         }
 
+        func equals(_ other: Form) -> Bool {
+            if let o = other.tryCast(Literal.self) { self.value == o.value }
+            else {false}
+        }
+
         override func getType(_ vm: VM) -> ValueType? { value.type }
         override func getValue(_ vm: VM) -> Value? { value }
     }

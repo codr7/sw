@@ -9,6 +9,7 @@ enum OpCode: UInt8 {
     case Goto
     case Pop
     case Push
+    case Return
     case Stop
     case SetLoadPath
     case ShiftLeft
@@ -82,6 +83,8 @@ struct ops {
             Pop.dump(vm, op)
         case .Push:
             Push.dump(vm, op)
+        case .Return:
+            Return.dump(vm, op)
         case .SetLoadPath:
             SetLoadPath.dump(vm, op)
         case .ShiftLeft:
@@ -117,6 +120,8 @@ struct ops {
             Pop.trace(vm, op)
         case .Push:
             Push.trace(vm, op)
+        case .Return:
+            Return.trace(vm, op)
         case .SetLoadPath:
             SetLoadPath.trace(vm, op)
         case .ShiftLeft:

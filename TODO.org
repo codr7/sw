@@ -1,22 +1,9 @@
 C P S / L R
 
-* add ; as end for :
-** or consume all arguments
-
-* change : to emit body
-
-* add SwMethod.rPc
-** rename startPc to cPc
-
-* override emitId for SwMethodType
-** call method with forms on stack
-
-* add do macro
+* add do
 ** consume until ; or end
 ** write body
 ** emit call
-
-* eval : body with forms on stack
 
 * , to eval top of stack
 

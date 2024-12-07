@@ -39,14 +39,7 @@ class VM {
     func endPackage() {
         currentPackage = currentPackage.parent!
     }
-    
-    func doPackage<T>(_ bodyPackage: Package?, _ body: () throws -> T) throws -> T {
-        let pp = currentPackage
-        currentPackage = bodyPackage ?? Package(currentPackage.id, currentPackage)
-        defer { currentPackage = pp }
-        return try body()
-    }
-    
+
     @discardableResult
     func emit(_ op: Op) -> PC {
         let result = emitPc
@@ -57,6 +50,14 @@ class VM {
     var emitPc: PC { code.count }
 
     func endCall() -> Call { calls.removeLast() }
+
+    func eval(to: PC) throws {
+        
+        let op = code[to]
+        code[to] = ops.Stop.make()
+        defer { code[to] = op }
+        try eval(from: pc)
+    }
 
     func load(_ path: FilePath, _ location: Location) throws {
         let prevLoadPath = loadPath

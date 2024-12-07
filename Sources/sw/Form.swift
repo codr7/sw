@@ -7,11 +7,12 @@ protocol Form {
 
     func dump(_ vm: VM) -> String
     func emit(_ vm: VM, _ arguments: inout Forms) throws
+    func equals(_ other: Form) -> Bool
     func eval(_ vm: VM) throws
     func getType(_ vm: VM) -> ValueType?
     func getValue(_ vm: VM) -> Value?
-    var isNone: Bool {get}
-    var isSeparator: Bool {get}
+    var isEnd: Bool {get}
+    var isVoid: Bool {get}
     func tryCast<T>(_ type: T.Type) -> T?
 }
 
@@ -27,11 +28,11 @@ extension Form {
         _ = try emit(vm, &arguments)
         vm.emit(ops.Stop.make())
         vm.code[skipPc] = ops.Goto.make(vm.emitPc)
-        try vm.eval(startPc)
+        try vm.eval(from: startPc)
     }
 
-    var isNone: Bool { false }
-    var isSeparator: Bool { false }
+    var isEnd: Bool { false }
+    var isVoid: Bool { false }
 }
 
 class BaseForm {

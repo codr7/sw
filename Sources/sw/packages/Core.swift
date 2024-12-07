@@ -2,6 +2,7 @@ extension packages {
     class Core: Package {
         let anyType: AnyType
         let bitType: BitType
+        let formType: FormType
         let intType: IntType
         let macroType: MacroType
         let metaType: MetaType
@@ -21,6 +22,7 @@ extension packages {
         init() {
             anyType = AnyType("Any", [])
             bitType = BitType("Bit", [anyType])
+            formType = FormType("Form", [anyType])
             intType = IntType("Int", [anyType])
             macroType = MacroType("Macro", [anyType])
             metaType = MetaType("Meta", [anyType])
@@ -42,6 +44,7 @@ extension packages {
         override func initBindings(_ vm: VM) {
             bind(vm, anyType)
             bind(vm, bitType)
+            bind(vm, formType)
             bind(vm, intType)
             bind(vm, macroType)
             bind(vm, metaType)
@@ -76,13 +79,21 @@ extension packages {
                             .removeFirst()
                             .tryCast(forms.Id.self)!
                             .value
-
-                          let v = arguments
-                            .removeFirst()
-                            .tryCast(forms.Literal.self)!
-                            .value
                           
-                          vm.currentPackage[id] = v
+                          let gotoPc = vm.emit(ops.Stop.make())
+                          let m = SwMethod(vm, id, [], [], vm.emitPc, location)
+                          vm.currentPackage[id] = Value(self.swMethodType, m)
+                          vm.beginPackage()
+                          defer { vm.endPackage() }
+                          
+                          while !arguments.isEmpty {
+                              let f = arguments.removeFirst()
+                              if f.isEnd { break }
+                              try f.emit(vm, &arguments)
+                          }
+
+                          vm.emit(ops.Return.make())
+                          vm.code[gotoPc] = ops.Goto.make(vm.emitPc)
                       })
 
             bindMacro(vm, "C", [],
