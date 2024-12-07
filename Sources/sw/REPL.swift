@@ -16,7 +16,7 @@ class REPL {
                 vm.stack = []
                 print("\(vm.stack.dump(vm))\n")
             } else if line == nil || line! == "\n" {
-                //do {     
+                do {     
                     var fs = try vm.read(&input, &location)
                     let startPc = vm.emitPc
                     try fs.emit(vm)
@@ -24,9 +24,9 @@ class REPL {
                     try vm.eval(from: startPc)
                     print("\(vm.stack.dump(vm))\n")
                     input.reset()
-                /*} catch {
-                    throw error
-                }*/
+                } catch {
+                    print(error)
+                }
                 
                 prompt = 1
             } else {
