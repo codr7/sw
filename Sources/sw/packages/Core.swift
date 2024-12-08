@@ -4,7 +4,6 @@ extension packages {
         let bitType: BitType
         let formType: FormType
         let intType: IntType
-        let macroType: MacroType
         let metaType: MetaType
         let packageType: PackageType
         let pairType: PairType
@@ -24,7 +23,6 @@ extension packages {
             bitType = BitType("Bit", [anyType])
             formType = FormType("Form", [anyType])
             intType = IntType("Int", [anyType])
-            macroType = MacroType("Macro", [anyType])
             metaType = MetaType("Meta", [anyType])
             packageType = PackageType("Package", [anyType])
             pairType = PairType("Pair", [anyType])
@@ -46,7 +44,6 @@ extension packages {
             bind(vm, bitType)
             bind(vm, formType)
             bind(vm, intType)
-            bind(vm, macroType)
             bind(vm, metaType)
             bind(vm, methodType)
             bind(vm, packageType)

@@ -13,14 +13,15 @@ extension packages.Core {
                               _ arguments: inout Forms,
                               _ index: Int,
                               _ location: Location) throws {
-            //TODO: swap arguments
+            let arity = target.cast(self).arguments2.count
+            if arity > 0 { arguments.swapAt(index, index - arity) }
         }
 
         func emitId(_ vm: VM,
                     _ target: Value,
                     _ arguments: inout Forms,
                     _ location: Location) throws {
-            vm.emit(ops.CallTag.make(vm, target, location))
+            try target.cast(self).emit(vm, &arguments, location)
         }
     }
 }
