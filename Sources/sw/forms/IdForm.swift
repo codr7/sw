@@ -35,7 +35,7 @@ extension forms {
         
         func emit(_ vm: VM, _ arguments: inout Forms) throws {
             let v = Id.find(vm, vm.currentPackage, value);
-            if v == nil { throw EmitError("Unknown id: \(value)", location) }
+            //if v == nil { throw EmitError("Unknown id: \(value)", location) }
             return try v!.emitId(vm, &arguments, location)
         }
 

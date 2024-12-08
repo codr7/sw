@@ -32,9 +32,14 @@ class SwMethod: BaseMethod, Method {
         try vm.eval(from: emitPc!)
         arguments = []
 
-        for v in vm.stack[stackOffset...] {
+        for i in stride(from: vm.stack.count-1,
+                        through: stackOffset,
+                        by: -1) {
+            let v = vm.stack[i]
             let f = v.tryCast(vm.core.formType) ?? forms.Literal(v, location)
             arguments.append(f)
         }
+
+        vm.stack = Array(vm.stack[0..<stackOffset])
     }
 }
