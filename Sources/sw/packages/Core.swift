@@ -81,7 +81,7 @@ extension packages {
                             .value
                           
                           let gotoPc = vm.emit(ops.Fail.make(vm, location))
-                          let m = SwMethod(vm, id, [], [], vm.emitPc, location)
+                          let m = SwMethod(vm, id, [], [], [], vm.emitPc, location)
                           vm.currentPackage[id] = Value(self.swMethodType, m)
                           vm.beginPackage()
                           defer { vm.endPackage() }
