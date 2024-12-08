@@ -2,6 +2,9 @@ C P S / L R
 
 * compile found ids into literals
 
+* add dump-stack method
+* add dump-call-stack
+
 * add Sexpr form
 ** (...)
 ** begin/endPackage like []
@@ -24,6 +27,12 @@ C P S / L R
 
 (foo:42; foo)
 42 check
+
+* add pair literals
+** form
+** reader
+** use as description
+1:2
 
 * add support for optional argument list in :
 *** implement compile
