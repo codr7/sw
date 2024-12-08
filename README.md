@@ -6,15 +6,15 @@
 ### Operations
 Stack manipulators have uppercase single letter names to be 1) convenient to type and 2) easy to identify visually when reading code.
 
-- `C`opy (a;;a a)
+- `C`opy (a;a a)
 - `P`op (a)
-- `S`wap (a b;;b a)
+- `S`wap (a b;b a)
 
-- `L`eft Shift (a b c;;c a b)
-- `R`ight Shift (a b c;;b c a)
+- `L`eft Shift (a b c;c a b)
+- `R`ight Shift (a b c;b c a)
 
-- `U`nzip (a;;b c)
-- `Z`ip (a b;;c)
+- `U`nzip (Pair;a b)
+- `Z`ip (a b;Pair)
 
 ### Literals
 `[` may be used to set up a new, empty stack; while `]` pushes the stack as a value.
@@ -38,21 +38,19 @@ foo: 42; foo
 The body is evaluated on compile time reference with the form stream pushed on the stack, `,` may be used to evaluate forms.
 
 ```
-foo: , 42 =;
+is-42: , 42 =;
 ```
 `[]`
 
 ```
-foo 7
+is-42 7
 ```
 `[#f]`
 
 ```
-foo 42
+is-42 42
 ```
 `[#t]`
-
-
 
 ## IO
 `say` may be used to print any value to standard output.

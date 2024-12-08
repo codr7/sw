@@ -3,29 +3,24 @@ C P S / L R
 * add Sexpr form
 ** (...)
 ** begin/endPackage like []
-** emit Form iter
-*** add iter protocol
-*** add iter type
+** emit stack of forms
 
 (foo:42; foo)
 42 check
+
+* add support for optional argument list in :
+** three sections (a1;a2;r)
+** middle section is optional
+
+is-42 (Int;Bit): , 42 =;
 
 * add do
 ** consume until ; or end
 ** write body
 ** emit call
 
-* add support for optional argument list in :
-*** implement compile
-** add support for ; in expr
-** move arguments suffixed with ! like for macros
-** three sections (a1;a2;r)
-** middle section is optional
-*** interpret two as (a1, r)
-** interpret trailing type as belonging to previous argument in section
-** simplify argument lists in readme
-
-is-42 (Int;Bit):
+* add iter protocol
+** add iter type
 
 * add dump-stack method
 * add dump-call-stack
