@@ -8,6 +8,14 @@ extension packages.Core {
             eq = {(value1, value2) in value1.cast(t).id == value2.cast(t).id}
         }
 
+        override func compile(_ vm: VM,
+                              _ target: Value,
+                              _ arguments: inout Forms,
+                              _ index: Int,
+                              _ location: Location) throws {
+            //TODO: swap arguments
+        }
+
         func emitId(_ vm: VM,
                     _ target: Value,
                     _ arguments: inout Forms,

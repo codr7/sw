@@ -7,10 +7,11 @@ extension packages.Core {
             eq = {(value1, value2) in value1.cast(t).id == value2.cast(t).id}
         }
 
-        func compile(_ vm: VM,
+        override func compile(_ vm: VM,
                      _ target: Value,
                      _ arguments: inout Forms,
-                     _ index: Int) {
+                     _ index: Int,
+                     _ location: Location) throws {
             let arity = target.cast(self).arguments.count
             arguments.swapAt(index, index - arity)
         }

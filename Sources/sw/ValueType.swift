@@ -12,7 +12,8 @@ protocol ValueType {
     func compile(_ vm: VM,
                  _ target: Value,
                  _ arguments: inout Forms,
-                 _ index: Int) throws
+                 _ index: Int,
+                 _ location: Location) throws
     
     func emit(_ vm: VM,
               _ target: Value,
@@ -51,11 +52,6 @@ extension ValueType {
     func call(_ vm: VM, _ target: Value, _ location: Location) {
         vm.stack.push(target)
     }
-
-    func compile(_ vm: VM,
-                 _ target: Value,
-                 _ arguments: inout Forms,
-                 _ index: Int) throws { }
     
     func emit(_ vm: VM,
               _ target: Value,

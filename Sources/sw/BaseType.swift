@@ -41,5 +41,13 @@ class BaseType<T>: CustomStringConvertible {
         }
     }
 
+    func compile(_ vm: VM,
+                 _ target: Value,
+                 _ arguments: inout Forms,
+                 _ index: Int,
+                 _ location: Location) throws {
+        arguments[index] = forms.Literal(target, location)
+    }
+
     func isDerived(from: ValueType) -> Bool { parents.contains(from.typeId) }
 }

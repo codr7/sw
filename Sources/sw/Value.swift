@@ -19,7 +19,10 @@ struct Value: Equatable {
 
     func compile(_ vm: VM,
                  _ arguments: inout Forms,
-                 _ index: Int) throws { try type.compile(vm, self, &arguments, index) }
+                 _ index: Int,
+                 _ location: Location) throws {
+        try type.compile(vm, self, &arguments, index, location)
+    }
 
     func dump(_ vm: VM) -> String { type.dump!(vm, self) }
 

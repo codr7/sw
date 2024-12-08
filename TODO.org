@@ -1,7 +1,5 @@
 C P S / L R
 
-* compile found ids into literals
-
 * add dump-stack method
 * add dump-call-stack
 

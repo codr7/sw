@@ -27,7 +27,7 @@ extension forms {
                      _ arguments: inout Forms,
                      _ index: Int) throws {
             if let v = Id.find(vm, vm.currentPackage, value) {
-                try v.compile(vm, &arguments, index)
+                try v.compile(vm, &arguments, index, location)
             }
         }
 
