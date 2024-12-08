@@ -12,8 +12,8 @@ extension packages.Core {
                      _ arguments: inout Forms,
                      _ index: Int,
                      _ location: Location) throws {
-            let arity = target.cast(self).arguments.count
-            arguments.swapAt(index, index - arity)
+            let arity = target.cast(self).arguments2.count
+            if arity > 0 { arguments.swapAt(index, index - arity) }
         }
 
         func emitId(_ vm: VM,

@@ -3,20 +3,26 @@ class Macro: CustomStringConvertible {
                       _ arguments: inout Forms,
                       _ location: Location) throws -> Void
     
-    let arguments: [ValueType]
-
+    let arguments1: [ValueType]
+    let arguments2: [ValueType]
+    let results: [ValueType]
+    
     var description: String {
-        "\(id):[\(arguments.map({"\($0.id)"}).joined(separator: " "))]"
+        "\(id) (\(arguments1.dump());\(arguments2.dump());\(results.dump())):"
     }
     
     let body: Body
     let id: String
     
     init(_ id: String,
-         _ arguments: [ValueType],
+         _ arguments1: [ValueType],
+         _ arguments2: [ValueType],
+         _ results: [ValueType],
          _ body: @escaping Body) {
         self.id = id
-        self.arguments = arguments
+        self.arguments1 = arguments1
+        self.arguments2 = arguments2
+        self.results = results
         self.body = body
     }
 

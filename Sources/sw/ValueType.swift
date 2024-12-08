@@ -71,3 +71,9 @@ extension ValueType {
 
 func ==(l: any ValueType, r: any ValueType) -> Bool { l.id == r.id }
 func !=(l: any ValueType, r: any ValueType) -> Bool { l.id != r.id }
+
+extension [ValueType] {
+    func dump() -> String {
+        map({"\($0.id)"}).joined(separator: " ")
+    }
+}

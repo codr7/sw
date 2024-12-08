@@ -1,8 +1,5 @@
 C P S / L R
 
-* add dump-stack method
-* add dump-call-stack
-
 * add Sexpr form
 ** (...)
 ** begin/endPackage like []
@@ -10,34 +7,40 @@ C P S / L R
 *** add iter protocol
 *** add iter type
 
-* add splat method (*)
-** add to id reader
-** replace stack with items
-** add seq trait
-
-* split arguments into arguments1/2 for BaseMethod/Macro
-** display as (a1;a2;r)
+(foo:42; foo)
+42 check
 
 * add do
 ** consume until ; or end
 ** write body
 ** emit call
 
-(foo:42; foo)
-42 check
+* add support for optional argument list in :
+*** implement compile
+** add support for ; in expr
+** move arguments suffixed with ! like for macros
+** three sections (a1;a2;r)
+** middle section is optional
+*** interpret two as (a1, r)
+** interpret trailing type as belonging to previous argument in section
+** simplify argument lists in readme
+
+is-42 (Int;Bit):
+
+* add dump-stack method
+* add dump-call-stack
+
+* add splat method (*)
+** add to id reader
+** replace stack with items
+** add seq trait
+*** add iter
 
 * add pair literals
 ** form
 ** reader
 ** use as description
 1:2
-
-* add support for optional argument list in :
-*** implement compile
-** add support for ; in expr
-** move arguments suffixed with ! like for macros
-
-foo (Int;Int):
 
 * add IdType/LiteralType
 ** derive formType

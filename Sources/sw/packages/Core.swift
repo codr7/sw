@@ -61,19 +61,19 @@ extension packages {
             self["#f"] = f
 
 
-            bindMacro(vm, "[", [],
+            bindMacro(vm, "[", [], [], [], 
                       {(vm, arguments, location) in
                           vm.emit(ops.BeginStack.make())
                           vm.beginPackage()
                       })
 
-            bindMacro(vm, "]", [],
+            bindMacro(vm, "]", [], [], [stackType],
                       {(vm, arguments, location) in
                           vm.endPackage()
                           vm.emit(ops.EndStack.make())
                       })
 
-            bindMacro(vm, ":", [anyType],
+            bindMacro(vm, ":", [], [anyType], [methodType],
                       {(vm, arguments, location) in
                           let id = arguments
                             .removeFirst()
@@ -107,28 +107,32 @@ extension packages {
                            vm.stack[i] = Value(self.bitType, vm.stack[i] == r)
                        })            
 
-            bindMacro(vm, "C", [],
+            bindMacro(vm, "C", [anyType], [], [anyType, anyType],
                       {(vm, arguments, location) in vm.emit(ops.Copy.make(1)) })
 
-            bindMacro(vm, "L", [],
+            bindMacro(vm, "L",
+                      [anyType, anyType, anyType], [],
+                      [anyType, anyType, anyType],
                       {(vm, arguments, location) in vm.emit(ops.ShiftLeft.make()) })
 
-            bindMacro(vm, "P", [],
+            bindMacro(vm, "P", [anyType], [], [],
                       {(vm, arguments, location) in vm.emit(ops.Pop.make(1)) })
 
-            bindMacro(vm, "R", [],
+            bindMacro(vm, "R",
+                      [anyType, anyType, anyType], [],
+                      [anyType, anyType, anyType],
                       {(vm, arguments, location) in vm.emit(ops.ShiftRight.make()) })
 
-            bindMacro(vm, "S", [],
+            bindMacro(vm, "S", [anyType, anyType], [], [anyType, anyType],
                       {(vm, arguments, location) in vm.emit(ops.Swap.make()) })
 
-            bindMacro(vm, "U", [],
+            bindMacro(vm, "U", [pairType], [], [anyType, anyType],
                       {(vm, arguments, location) in vm.emit(ops.Unzip.make()) })
 
-            bindMacro(vm, "Z", [],
+            bindMacro(vm, "Z", [anyType, anyType], [], [pairType],
                       {(vm, arguments, location) in vm.emit(ops.Zip.make()) })
 
-            bindMacro(vm, "check", [],
+            bindMacro(vm, "check", [anyType, anyType], [], [],
                       {(vm, arguments, location) in
                           vm.emit(ops.Check.make(vm, location))
                       })
