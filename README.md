@@ -99,12 +99,12 @@ foo
 `[]`
 
 ## Sexprs
-Sexprs are mostly used to pass forms literally at emit time. Evaluating a sexpr results in a stack containing its forms in reverse order.
+Sexprs are mostly used to pass forms literally at emit time. Evaluating a sexpr results in a stack containing its forms.
 
 ```
 (1 2 3)
 ```
-`[['3 '2 '1]]`
+`[['1 '2 '3]]`
 
 ## Debugging
 `dump` may be used to get a helpful string representation of any value.

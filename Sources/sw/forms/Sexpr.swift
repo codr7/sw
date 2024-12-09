@@ -22,7 +22,7 @@ extension forms {
 
         override func getValue(_ vm: VM) -> Value? {
             Value(vm.core.stackType,
-                  Stack(body.map({Value(vm.core.formType, $0)}).reversed()))
+                  Stack(body.map({Value(vm.core.formType, $0)})))
         }
     }
 }
