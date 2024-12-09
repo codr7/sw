@@ -11,8 +11,11 @@ is-42 (Int;Bit): , 42 =;
 ** write body
 ** emit call
 
-* add dump-stack method
-* add dump-call-stack
+* add pair literals
+** form
+** reader
+** use as description
+1:2
 
 * add splat method (*)
 ** add to id reader
@@ -21,11 +24,8 @@ is-42 (Int;Bit): , 42 =;
 *** add iter protocol
 *** add iter type
 
-* add pair literals
-** form
-** reader
-** use as description
-1:2
+* add dump-stack method
+* add dump-call-stack
 
 * add IdType/LiteralType
 ** derive formType
