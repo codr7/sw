@@ -99,7 +99,7 @@ foo
 `[]`
 
 ## Sexprs
-Sexprs are mostly used to pass forms literally at emit time. Evaluating a sexpr results in a stack containing its forms.
+Sexprs are mostly used to pass multiple forms as one argument to macros. Evaluating a sexpr results in a stack containing its forms.
 
 ```
 (1 2 3)
