@@ -31,7 +31,7 @@ hello
 ## Stacks
 
 ### Operations
-Stack manipulators have uppercase single letter names to be 1) convenient to type and 2) easy to identify visually when reading code.
+Stack operations have uppercase single letter names to be 1) convenient to type and 2) easy to identify visually when reading code.
 
 #### `C`opy (a; a a)
 #### `P`op (a)
@@ -90,7 +90,7 @@ is-42: (Int;Bit) , 42 =;
 Extending the argument list allows accepting arguments in postfix position. Note that arguments are shifted syntactically at read time, which is not always appropriate.
 
 ```
-is-42: (;Int;Bit) , 42 =;
+is-42: (Int;;Bit) , 42 =;
 42 is-42
 ```
 `[#t]`

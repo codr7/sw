@@ -1,11 +1,5 @@
 C P S / L R
 
-* add support for optional argument list in :
-** three sections (a1;a2;r)
-** middle section is optional
-
-is-42: (;Int;Bit) , 42 =;
-
 * add do
 ** consume until ; or end
 ** write body
@@ -24,6 +18,10 @@ is-42: (;Int;Bit) , 42 =;
 *** add iter protocol
 *** add iter type
 
+* add load macro
+
+* fib
+
 * add dump-stack method
 * add dump-call-stack
 
@@ -36,12 +34,8 @@ is-42: (;Int;Bit) , 42 =;
 ** iter of iters
 
 * more macros
-** LC
 ** RC
-** PC
-** PS
-** SC
-** SP
+** LCL
 
 * native json5
 ** to/from-js5
@@ -51,9 +45,7 @@ fib: do C 1 > if dec C fib S else dec fib +;
 
 fib: do
   RC 1 > if
-    dec LC L + fib return
+    dec LCL + fib return
   else
     1 = if S;
   P;
-
-* add load macro

@@ -116,8 +116,8 @@ extension packages {
                           try parseTypes(Forms(ss[0]), &as1)
                           try parseTypes(Forms(ss[1]), &rs) 
                       case 3:
-                          try parseTypes(Forms(ss[0]), &as1)
-                          try parseTypes(Forms(ss[1]), &as2)
+                          try parseTypes(Forms(ss[0]), &as2)
+                          try parseTypes(Forms(ss[1]), &as1)
                           try parseTypes(Forms(ss[2]), &rs)
                       default:
                           throw EmitError("Invalid argument list: \(argSpec.dump(vm))", argSpec.location)
