@@ -11,17 +11,15 @@ is-42 (Int;Bit): , 42 =;
 ** write body
 ** emit call
 
-* add iter protocol
-** add iter type
-
 * add dump-stack method
 * add dump-call-stack
 
 * add splat method (*)
 ** add to id reader
-** replace stack with items
+** push items in reverse order
 ** add seq trait
-*** add iter
+*** add iter protocol
+*** add iter type
 
 * add pair literals
 ** form
