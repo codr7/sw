@@ -62,7 +62,9 @@ hello
 
 `:` expects to be positioned between an identifier and a body, which is anything  up until `;`. The body is evaluated once for every reference to the name at emit time with trailing forms in reverse order on the stack. `,` may be used to evaluate a form.
 
-By default, definitions are macros. Also by default, macros expect to be called in prefix position, name before arguments. Since we're operating at emit time, run time values can't be evaluated.
+### Macros
+
+By default, definitions are macros. Also by default, macros expect to be called in prefix position, name before arguments. Since we're operating at emit time, run time values can't be evaluated. The argument list is optional.
 
 ```
 is-42: , 42 =;
@@ -79,7 +81,21 @@ is-42 42
 ```
 `[#t]`
 
+Argument lists are optional, this means exactly the same thing:
 
+```
+is-42: (Int;Bit) , 42 =;
+```
+
+Extending the argument list allows accepting arguments in postfix position. Note that arguments are shifted syntactically at read time, which is not always appropriate.
+
+```
+is-42: (;Int;Bit) , 42 =;
+42 is-42
+```
+`[#t]`
+
+### Constants
 This is a constant:
 
 ```
@@ -87,7 +103,6 @@ foo: 42;
 foo
 ```
 `[42]`
-
 
 ## IO
 `say` may be used to print any value to standard output followed by a newline.

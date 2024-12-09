@@ -17,17 +17,24 @@ class SwMethod: BaseMethod, Method {
     }
     
     func call(_ vm: VM, _ location: Location) throws {
+        print("HERE?")
         if vm.stack.count < arguments.count {
-            throw EvalError("Not enough arguments: \(self)", location)
+            throw EvalError("Not enough arguments: \(self)",
+                            location)
         }
         
         vm.calls.append(Call(vm, self, vm.pc + 1, location))
         vm.pc = callPc!
     }
 
-    func emit(_ vm: VM, _ arguments: inout Forms, _ location: Location) throws {
+    func emit(_ vm: VM,
+              _ arguments: inout Forms,
+              _ location: Location) throws {
         let stackOffset = vm.stack.count
-        for f in arguments.reversed() { vm.stack.push(vm.core.formType, f) }
+        for f in arguments.reversed() {
+            vm.stack.push(vm.core.formType, f)
+        }
+        
         vm.emit(ops.Stop.make())
         try vm.eval(from: emitPc!)
         arguments = []
@@ -36,10 +43,10 @@ class SwMethod: BaseMethod, Method {
                         through: stackOffset,
                         by: -1) {
             let v = vm.stack[i]
-            let f = v.tryCast(vm.core.formType) ?? forms.Literal(v, location)
+            let f = v.tryCast(vm.core.formType) ??
+              forms.Literal(v, location)
+
             arguments.append(f)
         }
-
-        vm.stack = Array(vm.stack[0..<stackOffset])
     }
 }

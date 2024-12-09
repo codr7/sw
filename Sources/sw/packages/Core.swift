@@ -70,27 +70,80 @@ extension packages {
                           vm.emit(ops.EndStack.make())
                       })
 
-            bindMacro(vm, ":", [], [anyType], [methodType],
-                      {(vm, arguments, location) in
-                          let id = arguments
-                            .removeFirst()
-                            .tryCast(forms.Id.self)!
-                            .value
-                          
-                          let gotoPc = vm.emit(ops.Fail.make(vm, location))
-                          let m = SwMethod(vm, id, [], [], [], vm.emitPc, location)
-                          vm.currentPackage[id] = Value(self.swMethodType, m)
-                          vm.beginPackage()
-                          defer { vm.endPackage() }
-                          
-                          while !arguments.isEmpty {
-                              let f = arguments.removeFirst()
-                              if f.isEnd { break }
-                              try f.emit(vm, &arguments)
-                          }
-                          
-                          vm.code[gotoPc] = ops.Goto.make(vm.emitPc)
-                      })
+            let parseTypes = {(_ body: Forms,
+                              _ result: inout [ValueType]) in
+                for f in body {
+                    if f.isEnd {
+                        result.append(self.anyType)
+                    } else if let t = f
+                         .getValue(vm)?
+                         .tryCast(self.metaType) {
+                        result.append(t)
+                    } else {
+                        throw EmitError("Missing value",
+                                        f.location)
+                    }
+                }
+            }
+            
+            bindMacro(
+              vm, ":", [], [anyType], [methodType],
+              {(vm, arguments, location) in
+                  let id = arguments
+                    .removeFirst()
+                    .tryCast(forms.Id.self)!
+                    .value
+
+                  var as1: [ValueType] = []
+                  var as2: [ValueType] = []
+                  var rs: [ValueType] = []
+                  
+                  if let argSpec =
+                       arguments.first?.tryCast(
+                         forms.Sexpr.self) {
+                      arguments.removeFirst()
+
+                      let ss = argSpec.body.split(
+                        omittingEmptySubsequences: false,
+                        whereSeparator: {$0.isEnd})
+
+                      switch ss.count {
+                      case 0:
+                          break
+                      case 1:
+                          try parseTypes(Forms(ss[0]), &as1)
+                      case 2:
+                          try parseTypes(Forms(ss[0]), &as1)
+                          try parseTypes(Forms(ss[1]), &rs) 
+                      case 3:
+                          try parseTypes(Forms(ss[0]), &as1)
+                          try parseTypes(Forms(ss[1]), &as2)
+                          try parseTypes(Forms(ss[2]), &rs)
+                      default:
+                          throw EmitError("Invalid argument list: \(argSpec.dump(vm))", argSpec.location)
+                      }
+                  }
+
+                  let gotoPc = vm.emit(ops.Fail.make(vm, location))
+
+                  let m = SwMethod(vm,
+                                   id,
+                                   as1, as2, rs,
+                                   vm.emitPc,
+                                   location)
+                  
+                  vm.currentPackage[id] = Value(self.swMethodType, m)
+                  vm.beginPackage()
+                  defer { vm.endPackage() }
+                  
+                  while !arguments.isEmpty {
+                      let f = arguments.removeFirst()
+                      if f.isEnd { break }
+                      try f.emit(vm, &arguments)
+                  }
+                  
+                  vm.code[gotoPc] = ops.Goto.make(vm.emitPc)
+              })
 
             bindMethod(vm, ",", [formType], [],
                        {(vm, location) in

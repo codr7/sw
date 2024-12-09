@@ -7,7 +7,7 @@ class BaseMethod: CustomStringConvertible {
     var arguments: [ValueType] {arguments2 + arguments1}
 
     var description: String {
-        "\(id) (\(arguments1.dump());\(arguments1.dump());\(results.dump())):"
+        "\(id) (\(arguments1.dump());\(arguments2.dump());\(results.dump())):"
     }
 
     var results: [ValueType]

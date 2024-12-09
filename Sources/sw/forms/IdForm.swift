@@ -1,6 +1,8 @@
 extension forms {
     class Id: BaseForm, Form {
-        static func find(_ vm: VM, _ source: Package, _ id: String) -> Value? {
+        static func find(_ vm: VM,
+                         _ source: Package,
+                         _ id: String) -> Value? {
             var s = Value(vm.core.packageType, source)
             var sid = id
             
@@ -35,13 +37,20 @@ extension forms {
         
         func emit(_ vm: VM, _ arguments: inout Forms) throws {
             let v = Id.find(vm, vm.currentPackage, value);
-            if v == nil { throw EmitError("Unknown id: \(value)", location) }
+
+            if v == nil { throw EmitError("Unknown id: \(value)",
+                                          location) }
+            
             return try v!.emitId(vm, &arguments, location)
         }
 
         func equals(_ other: Form) -> Bool {
-            if let o = other.tryCast(Id.self) { self.value == o.value }
-            else {false}
+            if let o = other.tryCast(Id.self) {
+                self.value == o.value
+            }
+            else {
+                false
+            }
         }
 
         override func getType(_ vm: VM) -> ValueType? {

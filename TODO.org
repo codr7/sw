@@ -4,7 +4,7 @@ C P S / L R
 ** three sections (a1;a2;r)
 ** middle section is optional
 
-is-42 (Int;Bit): , 42 =;
+is-42: (;Int;Bit) , 42 =;
 
 * add do
 ** consume until ; or end
