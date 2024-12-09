@@ -88,7 +88,7 @@ foo
 
 
 ## IO
-`say` may be used to print any value to standard output.
+`say` may be used to print any value to standard output followed by a newline.
 
 ```
 [1 2 3] say
