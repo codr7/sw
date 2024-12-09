@@ -60,15 +60,7 @@ hello
 
 `:` expects to be positioned between an identifier and a body, which is anything  up until `;`. The body is evaluated once for every reference to the name at emit time with trailing forms in reverse order on the stack. `,` may be used to evaluate a form.
 
-This is a constant:
-
-```
-foo: 42;
-foo
-```
-`[42]`
-
-And this is a macro (Observe that we're currently operating at emit time, which means that run time values can't be evaluated. We're also not declaring any arguments, which means they are expected in prefix position for macros, name before arguments.):
+By default, all definitions are macros. Observe that we're operating at emit time, which means that run time values can't be evaluated. We're also not declaring any arguments, which means they are expected in prefix position for macros, name before arguments.
 
 ```
 is-42: , 42 =;
@@ -84,6 +76,15 @@ is-42 7
 is-42 42
 ```
 `[#t]`
+
+
+This is a constant:
+
+```
+foo: 42;
+foo
+```
+`[42]`
 
 
 ## IO
