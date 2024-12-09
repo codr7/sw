@@ -35,8 +35,10 @@ Stack manipulators have uppercase single letter names to be 1) convenient to typ
 - `P`op (a)
 - `S`wap (a b; b a)
 
+
 - `L`eft Shift (a b c; c a b)
 - `R`ight Shift (a b c; b c a)
+
 
 - `U`nzip (Pair; a b)
 - `Z`ip (a b; Pair)
