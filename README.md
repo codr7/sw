@@ -60,7 +60,7 @@ hello
 
 `:` expects to be positioned between an identifier and a body, which is anything  up until `;`. The body is evaluated once for every reference to the name at emit time with trailing forms in reverse order on the stack. `,` may be used to evaluate a form.
 
-By default, all definitions are macros. Observe that we're operating at emit time, which means that run time values can't be evaluated. We're also not declaring any arguments, which means they are expected in prefix position for macros, name before arguments.
+By default, definitions are macros. Observe that since we're operating at emit time, run time values can't be evaluated. We're also not declaring any arguments, which means they are expected in prefix position for macros, name before arguments.
 
 ```
 is-42: , 42 =;
