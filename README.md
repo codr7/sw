@@ -42,7 +42,7 @@ Stack manipulators have uppercase single letter names to be 1) convenient to typ
 - `Z`ip (a b;Pair)
 
 ### Literals
-`[` may be used to set up a new, empty stack; while `]` pushes the stack as a value.
+`[` may be used to set up a new, empty stack; while `]` pushes the current stack as a value on the previous stack.
 
 ```
 [1 2 "hello" say [3 4] 5]
@@ -55,8 +55,6 @@ hello
 ## Definitions
 
 `sw` steals a line from Forth and uses a similarly flexible mechanism for definitions, which is different enough from most other languages to deserve a thorough explanation.
-
-One could claim the idea is more powerful than Lisp macros, definitely more flexible.
 
 `:` expects to be positioned between an identifier and a body, which is anything  up until `;`. The body is evaluated once for every reference to the name at emit time with trailing forms in reverse order on the stack. `,` may be used to evaluate a form.
 
