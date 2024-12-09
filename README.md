@@ -64,7 +64,7 @@ hello
 
 ### Macros
 
-By default, definitions are macros. Also by default, macros expect to be called in prefix position, name before arguments. Since we're operating at emit time, run time values can't be evaluated. The argument list is optional.
+By default, definitions are macros. Also by default, macros expect to be called in prefix position, name before arguments. Since we're operating at emit time, run time values can't be evaluated.
 
 ```
 is-42: , 42 =;
