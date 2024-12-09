@@ -3,6 +3,8 @@
 
 An attempt to simplify some of Forth's ideas, as well as combine them with other ideas; without losing the soul of the original language.
 
+`sw` is designed to be embedded in Swift, which is a different game compared to Forth's origin. To me, a good approach when writing interpreters is to spend less energy pretending to be hardware and more on making good use of whatever sits below.
+
 ## REPL
 Launching `sw` without arguments enters the REPL.
 

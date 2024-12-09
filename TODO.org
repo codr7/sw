@@ -43,6 +43,9 @@ is-42 (Int;Bit): , 42 =;
 ** SC
 ** SP
 
+* native json5
+** to/from-js5
+
 fib: do C 1 > if dec C fib S else dec fib +;
 1000 (20 fib P) benchmark say
 
