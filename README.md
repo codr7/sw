@@ -9,7 +9,7 @@ An attempt to simplify some of Forth's ideas, as well as combine them with other
 Launching `sw` without arguments enters the REPL.
 
 ```
-swift run
+$ swift run
 sw1
 
 1> "hello" say
