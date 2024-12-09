@@ -99,7 +99,7 @@ foo
 `[]`
 
 ## Sexprs
-Sexprs are mostly used to pass forms without boxing at emit time. Evaluating a sexpr results in a stack containing its forms in reverse order.
+Sexprs are mostly used to pass forms literally at emit time. Evaluating a sexpr results in a stack containing its forms in reverse order.
 
 ```
 (1 2 3)
