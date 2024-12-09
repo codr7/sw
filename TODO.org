@@ -1,13 +1,5 @@
 C P S / L R
 
-* add Sexpr form
-** (...)
-** begin/endPackage like []
-** emit stack of forms
-
-(foo:42; foo)
-42 check
-
 * add support for optional argument list in :
 ** three sections (a1;a2;r)
 ** middle section is optional

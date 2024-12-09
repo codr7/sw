@@ -46,12 +46,22 @@ typealias Forms = [Form]
 
 extension Forms {
     func dump(_ vm: VM) -> String {
-        "\(map({$0.dump(vm)}).joined(separator: " "))"
+        "(\(map({$0.dump(vm)}).joined(separator: " ")))"
     }
 
     mutating func emit(_ vm: VM) throws {
         for i in 0..<count { try self[i].compile(vm, &self, i) }
         while !isEmpty { try removeFirst().emit(vm, &self) }
+    }
+
+    func equals(_ other: Forms) -> Bool {
+        if count != other.count { return false }
+        
+        for i in 0..<count {
+            if !self[i].equals(other[i]) { return false }
+        }
+
+        return true
     }
 }
 
