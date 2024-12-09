@@ -1,7 +1,7 @@
 ## Intro
 `sw` is a pure stack language in the Forth tradition.
 
-An attempt to simplify some of Forth's ideas; as well as combine them with other, new ideas; without losing the soul of the original language.
+An attempt to simplify some of Forth's ideas; as well as combine them with other ideas; without losing the soul of the original language.
 
 ## REPL
 Launching `sw` without arguments enters the REPL.
