@@ -5,11 +5,11 @@ class REPL {
     func run() throws  {
         print("sw\(VERSION)\n")
         var input = Input()
-        var prompt = 1
         var location = Location("repl")
+        var lineNumber = 1
         
         while true {
-            print("\(prompt)> ", terminator: "")
+            print("\(lineNumber)> ", terminator: "")
             let line = readLine(strippingNewline: false)
 
             if line == ":clear\n" && input.data.isEmpty {
@@ -27,11 +27,9 @@ class REPL {
                 } catch {
                     print(error)
                 }
-                
-                prompt = 1
             } else {
                 input.append(line!)
-                prompt += 1
+                lineNumber += 1
             }
         }
     }
