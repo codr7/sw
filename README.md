@@ -28,14 +28,22 @@ hello
 `[[1 2 [3 4] 5]]`
 
 ## Definitions
-`:` may be used to bind names to values at compile time, the value needs to be terminated with `;`. 
+
+`sw` steals a line from Forth and uses a similarly flexible mechanism for definitions, which is different enough from most other languages to deserve a thorough explanation.
+
+One could claim the idea is more powerful than Lisp macros, definitely more flexible.
+
+`:` expects to be positioned between an identifier and a body, which is anything  up until `;`. The body is evaluated once for every reference to the name at emit time with trailing forms in reverse order on the stack. `,` may be used to evaluate a form.
+
+This is a constant:
 
 ```
-foo: 42; foo
+foo: 42;
+foo
 ```
-`42`
+`[42]`
 
-The body is evaluated on compile time reference with the form stream pushed on the stack, `,` may be used to evaluate forms.
+And this is a macro (Observe that we're currently operating at emit time, which means that run time values can't be evaluated. We're also not declaring any arguments, which means they are expected in prefix position for macros, name before arguments.):
 
 ```
 is-42: , 42 =;
@@ -51,6 +59,7 @@ is-42 7
 is-42 42
 ```
 `[#t]`
+
 
 ## IO
 `say` may be used to print any value to standard output.
