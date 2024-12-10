@@ -3,8 +3,29 @@ C P S / L R
 * switch bindMacro as1/as2 order
 ** update Core
 
+* add function call test
+** call foo/bar/baz witg arg and return res all the way
+** 7, *6
+
+* change check to match expected stack suffix
+
+* add CC macro
+** add test
+** use in recursion example
+
 * add else macro
 ** add test/readme
+
+* fib
+
+fib: do
+  RC 1 > if
+    dec LCL + recall
+  else
+    1 = if S;
+  P;
+
+10000 (50 fib P) benchmark sa
 
 * fix SwMethod.call
 
@@ -23,8 +44,6 @@ C P S / L R
 
 * add load macro
 
-* fib
-
 * add dump-stack method
 * add dump-call-stack
 
@@ -42,13 +61,3 @@ C P S / L R
 
 * native json5
 ** to/from-js5
-
-fib: do C 1 > if dec C fib S else dec fib +;
-1000 (20 fib P) benchmark say
-
-fib: do
-  RC 1 > if
-    dec LCL + fib return
-  else
-    1 = if S;
-  P;
