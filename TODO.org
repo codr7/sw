@@ -1,5 +1,8 @@
 C P S / L R
 
+* test recursive call
+** add tail call support with return
+
 * fix SwMethod.call
 
 * add pair literals
