@@ -68,7 +68,7 @@ hello
 
 ### Macros
 
-By default, definitions are macros. Also by default, macros expect to be called in prefix position, name before arguments. Since we're operating at emit time, run time values can't be evaluated.
+By default, definitions are macros.
 
 ```
 :is-42 , 42 =;
@@ -85,7 +85,7 @@ is-42 42
 ```
 `[#t]`
 
-Argument lists are optional, this means exactly the same thing:
+Argument lists are optional:
 
 ```
 :is-42 (Int;Bit) , 42 =;
