@@ -157,6 +157,21 @@ Sexprs are mostly used to pass multiple forms as one argument to macros. Evaluat
 ```
 `[['1 '2 '3]]`
 
+## Testing
+`check` may be used to validate the specified stack suffix.
+
+```
+1 2 3 [1 2 3] check
+```
+`[]`
+
+```
+1 2 3 [1 2] check
+```
+```
+Error in repl@1:13: Check failed, actual: [2 3], expected: [1 2]
+```
+
 ## Debugging
 `dump` may be used to get a helpful string representation of any value.
 
