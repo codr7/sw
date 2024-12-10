@@ -60,7 +60,7 @@ class VM {
         return result
     }
 
-    func emit(_ form: Form) throws {        
+    func emit(_ form: Form) throws {
         var arguments: Forms = [form]
         try arguments.emit(self)
     }
@@ -69,15 +69,12 @@ class VM {
     func endCall() -> Call { calls.removeLast() }
 
     func eval(from: PC) throws {
-        let prevPc = pc
-        defer { pc = prevPc }        
         pc = from
         try eval()
     }
     
     func eval(to: PC) throws {
         if code.count == to {
-            code.append(ops.Stop.make())
             try eval(from: pc)
         } else {
             let prevOp = code[to]
@@ -88,8 +85,6 @@ class VM {
     }
 
     func eval(from: PC, to: PC) throws {
-        let prevPc = pc
-        defer { pc = prevPc }        
         pc = from
         try eval(to: to)        
     }

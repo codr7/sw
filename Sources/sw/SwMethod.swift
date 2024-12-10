@@ -5,14 +5,13 @@ class SwMethod: BaseMethod, Method {
     
     init(_ vm: VM,
          _ id: String,
-         _ arguments1: [ValueType],
-         _ arguments2: [ValueType],
+         _ arguments: [ValueType],
          _ results: [ValueType],
          _ startPc: PC,
          _ location: Location) {
         self.startPc = startPc
         self.location = location
-        super.init(id, arguments1, arguments2, results)
+        super.init(id, arguments, results)
     }
 
     func call(_ vm: VM, _ location: Location) throws {
@@ -37,16 +36,13 @@ class SwMethod: BaseMethod, Method {
               _ location: Location) throws {
         let stackOffset = vm.stack.count
         for f in arguments.reversed() { vm.stack.push(vm.core.formType, f) }
-
         try vm.eval(from: startPc, to: endPc!)
-        arguments = []
 
-        for i in stride(from: vm.stack.count-1,
-                        through: stackOffset,
-                        by: -1) {
-            let v = vm.stack[i]
-            let f = v.tryCast(vm.core.formType) ?? forms.Literal(v, location)
-            arguments.append(f)
-        }
+        arguments = Forms(vm.stack
+          .suffix(vm.stack.count-stackOffset)
+          .map({$0.tryCast(vm.core.formType) ?? forms.Literal($0, location)})
+          .reversed())
+
+        vm.stack = Array(vm.stack.prefix(stackOffset))
     }
 }

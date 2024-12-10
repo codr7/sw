@@ -1,19 +1,16 @@
 C P S / L R
 
-* switch bindMacro as1/as2 order
-** update Core
-
-* add function call test
+* add nested function test
 ** call foo/bar/baz witg arg and return res all the way
 ** 7, *6
-
-* change check to match expected stack suffix
+*** add *
 
 * add CC macro
 ** add test
 ** use in recursion example
 
 * add else macro
+** add else P to recall test
 ** add test/readme
 
 * fib

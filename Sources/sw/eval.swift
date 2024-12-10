@@ -2,6 +2,9 @@ import SystemPackage
 
 extension VM {
     func eval() throws {
+        let stopPc = emit(ops.Stop.make())
+        defer { code[stopPc] = ops.Nop.make() }
+        
         NEXT:
           do {
             let op = code[pc]
@@ -25,9 +28,11 @@ extension VM {
                 }
             case .Check:
                 do {
-                    let expected = stack.pop()
-                    let actual = stack.pop()
-
+                    let expected = stack.pop().cast(core.stackType)
+                    let n = expected.count
+                    let actual = Stack(stack.suffix(n))
+                    stack = stack.dropLast(n)
+                    
                     if actual != expected {
                         let location = tags[ops.Check.location(op)]
                           as! Location
@@ -44,7 +49,7 @@ extension VM {
                 do {
                     doStack.append(emitPc)
                     var body = tags[ops.Do.body(op)] as! Forms
-                    try body.emit(self, compile: false)
+                    try body.emit(self)
                     doStack.removeLast()
                     pc += 1
                 }

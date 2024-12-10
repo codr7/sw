@@ -9,12 +9,6 @@ protocol ValueType {
     typealias Dump = (_ vm: VM, _ value: Value) -> String
     var dump: Dump? {get}
 
-    func compile(_ vm: VM,
-                 _ target: Value,
-                 _ arguments: inout Forms,
-                 _ index: Int,
-                 _ location: Location) throws
-    
     func emit(_ vm: VM,
               _ target: Value,
               _ arguments: inout Forms,
@@ -56,7 +50,9 @@ extension ValueType {
     func emit(_ vm: VM,
               _ target: Value,
               _ arguments: inout Forms,
-              _ location: Location) throws { vm.emit(ops.Push.make(vm, target)) }
+              _ location: Location) throws {
+        vm.emit(ops.Push.make(vm, target))
+    }
 
     func emitId(_ vm: VM,
                 _ target: Value,

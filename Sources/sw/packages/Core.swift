@@ -57,13 +57,13 @@ extension packages {
             self["#t"] = t
             self["#f"] = f
 
-            bindMacro(vm, "[", [], [], [], 
+            bindMacro(vm, "[", [], [], 
                       {(vm, arguments, location) in
                           vm.emit(ops.BeginStack.make())
                           vm.beginPackage()
                       })
 
-            bindMacro(vm, "]", [], [], [stackType],
+            bindMacro(vm, "]", [], [stackType],
                       {(vm, arguments, location) in
                           vm.endPackage()
                           vm.emit(ops.EndStack.make())
@@ -86,16 +86,15 @@ extension packages {
             }
             
             bindMacro(
-              vm, ":", [], [anyType], [methodType],
+              vm, ":", [anyType], [methodType],
               {(vm, arguments, location) in
                   let id = arguments
                     .removeFirst()
                     .tryCast(forms.Id.self)!
                     .value
 
-                  var as1: [ValueType] = []
-                  var as2: [ValueType] = []
-                  var rs: [ValueType] = []
+                  var ars: [ValueType] = []
+                  var res: [ValueType] = []
                   
                   if let argSpec =
                        arguments.first?.tryCast(
@@ -110,14 +109,10 @@ extension packages {
                       case 0:
                           break
                       case 1:
-                          try parseTypes(Forms(ss[0]), &as1)
+                          try parseTypes(Forms(ss[0]), &ars)
                       case 2:
-                          try parseTypes(Forms(ss[0]), &as1)
-                          try parseTypes(Forms(ss[1]), &rs) 
-                      case 3:
-                          try parseTypes(Forms(ss[0]), &as2)
-                          try parseTypes(Forms(ss[1]), &as1)
-                          try parseTypes(Forms(ss[2]), &rs)
+                          try parseTypes(Forms(ss[0]), &ars)
+                          try parseTypes(Forms(ss[1]), &res) 
                       default:
                           throw EmitError("Invalid argument list: \(argSpec.dump(vm))", argSpec.location)
                       }
@@ -127,7 +122,7 @@ extension packages {
 
                   let m = SwMethod(vm,
                                    id,
-                                   as1, as2, rs,
+                                   ars, res,
                                    vm.emitPc,
                                    location)
                   
@@ -159,46 +154,46 @@ extension packages {
                                                vm.stack[i] == r)
                        })            
 
-            bindMacro(vm, "C", [anyType], [], [anyType, anyType],
+            bindMacro(vm, "C", [anyType], [anyType, anyType],
                       {(vm, arguments, location) in
                           vm.emit(ops.Copy.make(1))
                       })
 
             bindMacro(vm, "L",
-                      [anyType, anyType, anyType], [],
+                      [anyType, anyType, anyType],
                       [anyType, anyType, anyType],
                       {(vm, arguments, location) in
                           vm.emit(ops.ShiftLeft.make())
                       })
 
-            bindMacro(vm, "P", [anyType], [], [],
+            bindMacro(vm, "P", [anyType], [],
                       {(vm, arguments, location) in
                           vm.emit(ops.Pop.make(1))
                       })
 
             bindMacro(vm, "R",
-                      [anyType, anyType, anyType], [],
+                      [anyType, anyType, anyType],
                       [anyType, anyType, anyType],
                       {(vm, arguments, location) in
                           vm.emit(ops.ShiftRight.make())
                       })
 
-            bindMacro(vm, "S", [anyType, anyType], [], [anyType, anyType],
+            bindMacro(vm, "S", [anyType, anyType], [anyType, anyType],
                       {(vm, arguments, location) in
                           vm.emit(ops.Swap.make())
                       })
 
-            bindMacro(vm, "U", [pairType], [], [anyType, anyType],
+            bindMacro(vm, "U", [pairType], [anyType, anyType],
                       {(vm, arguments, location) in
                           vm.emit(ops.Unzip.make())
                       })
 
-            bindMacro(vm, "Z", [anyType, anyType], [], [pairType],
+            bindMacro(vm, "Z", [anyType, anyType], [pairType],
                       {(vm, arguments, location) in
                           vm.emit(ops.Zip.make())
                       })
 
-            bindMacro(vm, "check", [anyType, anyType], [], [],
+            bindMacro(vm, "check", [anyType, anyType], [],
                       {(vm, arguments, location) in
                           vm.emit(ops.Check.make(vm, location))
                       })
@@ -210,7 +205,7 @@ extension packages {
                                    vm.stack.last!.cast(vm.core.intType) - 1)
                        })
 
-            bindMacro(vm, "do", [], [], [],
+            bindMacro(vm, "do", [], [],
                       {(vm, arguments, location) in
                           let das = arguments
                             .prefix(while: {
@@ -233,7 +228,7 @@ extension packages {
                        })
 
 
-            bindMacro(vm, "if", [], [], [],
+            bindMacro(vm, "if", [], [],
                       {(vm, arguments, location) in
                           let branchPc = vm.emit(ops.Fail.make(vm, location))
 
@@ -247,11 +242,11 @@ extension packages {
                                                          !arguments.first!.isEnd)
                                                         ? body.count
                                                         : body.count+1))
-                          try body.emit(vm, compile: false)
+                          try body.emit(vm)
                           vm.code[branchPc] = ops.Branch.make(vm.emitPc)
                       })
 
-            bindMacro(vm, "recall", [], [], [],
+            bindMacro(vm, "recall", [], [],
                       {(vm, arguments, location) in
                           vm.emit(ops.Goto.make(vm.doStack.last!))
                       })

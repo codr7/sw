@@ -20,7 +20,6 @@ class REPL {
                     var fs = try vm.read(&input, &location)
                     let startPc = vm.emitPc
                     try fs.emit(vm)
-                    vm.emit(ops.Stop.make())
                     try vm.eval(from: startPc)
                     print("\(vm.stack.dump(vm))\n")
                     input.reset()

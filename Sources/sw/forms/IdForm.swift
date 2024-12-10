@@ -25,14 +25,6 @@ extension forms {
             super.init(location)
         }
 
-        func compile(_ vm: VM,
-                     _ arguments: inout Forms,
-                     _ index: Int) throws {
-            if let v = Id.find(vm, vm.currentPackage, value) {
-                try v.compile(vm, &arguments, index, location)
-            }
-        }
-
         func dump(_ vm: VM) -> String { value }
         
         func emit(_ vm: VM, _ arguments: inout Forms) throws {

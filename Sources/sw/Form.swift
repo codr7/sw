@@ -1,10 +1,5 @@
 protocol Form {    
     var location: Location {get}
-
-    func compile(_ vm: VM,
-                 _ arguments: inout Forms,
-                 _ index: Int) throws
-
     func dump(_ vm: VM) -> String
     func emit(_ vm: VM, _ arguments: inout Forms) throws
     func equals(_ other: Form) -> Bool
@@ -17,21 +12,12 @@ protocol Form {
 }
 
 extension Form {
-    func compile(_ vm: VM,
-                 _ arguments: inout Forms,
-                 _ index: Int) throws { }
-    
     func eval(_ vm: VM) throws {
+        let prevPc = vm.pc
+        defer { vm.pc = prevPc }        
         let skipPc = vm.emit(ops.Fail.make(vm, location))
         let startPc = vm.emitPc
         try vm.emit(self)
-        let stopPc = vm.emit(ops.Stop.make())
-
-        defer {
-            if vm.emitPc == stopPc + 1 { vm.code.removeLast() }
-            else { vm.code[stopPc] = ops.Nop.make() }
-        }
-        
         vm.code[skipPc] = ops.Goto.make(vm.emitPc)
         try vm.eval(from: startPc)
     }
@@ -55,11 +41,7 @@ extension Forms {
         "(\(map({$0.dump(vm)}).joined(separator: " ")))"
     }
 
-    mutating func emit(_ vm: VM, compile: Bool = true) throws {
-        if compile {
-            for i in 0..<count { try self[i].compile(vm, &self, i) }
-        }
-        
+    mutating func emit(_ vm: VM) throws {
         while !isEmpty { try removeFirst().emit(vm, &self) }
     }
 

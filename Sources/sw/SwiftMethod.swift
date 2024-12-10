@@ -9,22 +9,20 @@ class SwiftMethod: BaseMethod, Method {
     var emitBody: EmitBody?
     
     init(_ id: String,
-         _ arguments1: [ValueType],
-         _ arguments2: [ValueType],
+         _ arguments: [ValueType],
          _ results: [ValueType],
          _ body: @escaping EmitBody) {
         self.emitBody = body
         self.callBody = nil
-        super.init(id, arguments1, arguments2, results)
+        super.init(id, arguments, results)
     }
 
     init(_ id: String,
-         _ arguments1: [ValueType],
-         _ arguments2: [ValueType],
+         _ arguments: [ValueType],
          _ results: [ValueType],
          _ body: @escaping CallBody) {
         self.callBody = body        
-        super.init(id, arguments1, arguments2, results)
+        super.init(id, arguments, results)
 
         self.emitBody = {(vm, arguments, location) in
             vm.emit(ops.CallTag.make(vm, Value(vm.core.methodType, self), location))

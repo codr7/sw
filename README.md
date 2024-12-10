@@ -6,7 +6,7 @@ An attempt to simplify some of Forth's ideas, as well as combine them with other
 `sw` is designed to be embedded in Swift, which is a different game compared to Forth's origin. To me, a good approach when writing interpreters is to spend less energy pretending to be hardware and more on making good use of whatever sits below.
 
 ## Status
-`sw` is still in a very explorative phase, pleae mind the gaps.
+`sw` is still in a very explorative phase, please mind the gaps, and please help explore.
 
 ## REPL
 Launching `sw` without arguments enters the REPL.
@@ -90,14 +90,6 @@ Argument lists are optional, this means exactly the same thing:
 is-42: (Int;Bit) , 42 =;
 ```
 
-Extending the argument list allows accepting arguments in postfix position. Note that arguments are shifted syntactically at read time, which is not always appropriate.
-
-```
-is-42: (Int;;Bit) , 42 =;
-42 is-42
-```
-`[#t]`
-
 ### Constants
 This is a constant:
 
@@ -108,7 +100,7 @@ foo
 `[42]`
 
 ### Functions
-`do` arranges for its body to be evaluated at run time in the context where `:` was called. 
+`do` arranges for its body to be evaluated at run time in the context where the definition was referenced. 
 
 ```
 is-42: (Int;Bit) do 42 =;
@@ -116,7 +108,7 @@ is-42: (Int;Bit) do 42 =;
 ```
 `[#t]`
 
-You may add as many `do`-blocks as you wish, each block needs to be terminated with `;`, the start of another `do`-block or `EOF`.
+There is no limit on the number of `do`-blocks, but each needs to be terminated with `;` or the start of another `do`-block.
 
 ```
 is-42: (Int;Bit) do 42 do =;
@@ -128,11 +120,10 @@ is-42: (Int;Bit) do 42 do =;
 `recall` may be used to trigger a tail recursive call to the currently evaluating `do`-block.
 
 ```
-repeat: (Int;Int) do C C say if dec recall;
+repeat: (Int;Int) do dec C C say if recall;
 3 repeat
 ```
 ```
-3
 2
 1
 0

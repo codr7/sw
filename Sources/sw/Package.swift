@@ -63,12 +63,11 @@ class Package: CustomStringConvertible, Sequence {
 
     func bindMacro(_ vm: VM,
                    _ id: String,
-                   _ arguments1: [ValueType],
-                   _ arguments2: [ValueType],
+                   _ arguments: [ValueType],
                    _ results: [ValueType],
                    _ body: @escaping SwiftMethod.EmitBody) {
         self[id] = Value(vm.core.methodType,
-                         SwiftMethod(id, arguments1, arguments2, results, body))
+                         SwiftMethod(id, arguments, results, body))
     }
 
     func bindMethod(_ vm: VM,
@@ -77,7 +76,7 @@ class Package: CustomStringConvertible, Sequence {
                     _ results: [ValueType],
                     _ body: @escaping SwiftMethod.CallBody) {
         self[id] = Value(vm.core.methodType,
-                         SwiftMethod(id, arguments, [], results, body))
+                         SwiftMethod(id, arguments, results, body))
     }
 
     var ids: [String] { Array(bindings.keys) }
