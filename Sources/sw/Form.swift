@@ -55,8 +55,11 @@ extension Forms {
         "(\(map({$0.dump(vm)}).joined(separator: " ")))"
     }
 
-    mutating func emit(_ vm: VM) throws {
-        for i in 0..<count { try self[i].compile(vm, &self, i) }
+    mutating func emit(_ vm: VM, compile: Bool = true) throws {
+        if compile {
+            for i in 0..<count { try self[i].compile(vm, &self, i) }
+        }
+        
         while !isEmpty { try removeFirst().emit(vm, &self) }
     }
 

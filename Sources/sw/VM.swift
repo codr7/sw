@@ -19,10 +19,12 @@ class VM {
     var pc: PC = 0
     var stack: Stack = []
     var stacks: [Stack] = []
+    var doStack: [PC] = []
     var tags: [Any] = []
 
     let core: packages.Core
     let user: Package
+    
     var currentMethod: SwMethod?
     var currentPackage: Package
     

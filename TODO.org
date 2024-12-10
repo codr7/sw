@@ -1,9 +1,18 @@
 C P S / L R
 
+* finish recur
+** add readme/test
+
+repeat: (Int;Int) do C say dec recall;
+3 repeat
+
 * test recursive call
 ** add tail call support with return
 
 * fix SwMethod.call
+
+* switch bindMacro as1/as2 order
+** update Core
 
 * add pair literals
 ** form

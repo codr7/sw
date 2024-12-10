@@ -188,6 +188,13 @@ extension packages {
                           vm.emit(ops.Check.make(vm, location))
                       })
 
+            bindMethod(vm, "dec", [intType], [intType],
+                       {(vm, location) in
+                           vm.stack[vm.stack.count-1] =
+                             Value(vm.core.intType,
+                                   vm.stack.last!.cast(vm.core.intType) - 1)
+                       })
+
             bindMacro(vm, "do", [], [], [],
                       {(vm, arguments, location) in
                           let das = arguments
@@ -209,6 +216,11 @@ extension packages {
                            vm.stack.push(self.stringType,
                                          vm.stack.pop().dump(vm))
                        })
+
+            bindMacro(vm, "recall", [], [], [],
+                      {(vm, arguments, location) in
+                          vm.emit(ops.Goto.make(vm.doStack.last!))
+                      })
 
             bindMethod(vm, "say", [anyType], [],
                        {(vm, location) in

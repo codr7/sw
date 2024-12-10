@@ -5,7 +5,7 @@ extension VM {
         NEXT:
           do {
             let op = code[pc]
-            //print("\(pc) \(ops.decode(op)) \(ops.trace(self, op))")
+            print("\(pc) \(ops.decode(op)) \(ops.trace(self, op))")
             
             switch ops.decode(op) {
             case .BeginStack:
@@ -36,8 +36,10 @@ extension VM {
                 pc += 1
             case .Do:
                 do {
+                    doStack.append(emitPc)
                     var body = tags[ops.Do.body(op)] as! Forms
-                    try body.emit(self)
+                    try body.emit(self, compile: false)
+                    doStack.removeLast()
                     pc += 1
                 }
             case .EndStack:
