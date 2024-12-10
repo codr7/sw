@@ -35,7 +35,7 @@ hello
 ## Stacks
 
 ### Operations
-Stack operations have uppercase single letter names to be 1) convenient to type and 2) easy to identify visually when reading code.
+Fundamental operations have uppercase single letter names to be 1) convenient to type and 2) easy to identify visually when reading code.
 
 #### `C`opy (a; a a)
 #### `P`op (a)
