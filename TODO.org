@@ -1,12 +1,12 @@
 C P S / L R
 
+* switch bindMacro as1/as2 order
+** update Core
+
 * add else macro
 ** add test/readme
 
 * fix SwMethod.call
-
-* switch bindMacro as1/as2 order
-** update Core
 
 * add pair literals
 ** form
