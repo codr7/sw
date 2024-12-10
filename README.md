@@ -111,7 +111,7 @@ foo
 ```
 `[#t]`
 
-There is no limit on the number of `do`-blocks, but each needs to be terminated with `;` or the start of another `do`-block.
+There is no limit on the number of `do`-blocks, but each needs to be terminated with `;` or followed by another `do`-block.
 
 ```
 :is-42 (Int;Bit)
