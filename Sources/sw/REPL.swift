@@ -12,10 +12,7 @@ class REPL {
             print("\(lineNumber)> ", terminator: "")
             let line = readLine(strippingNewline: false)
 
-            if line == ":clear\n" && input.data.isEmpty {
-                vm.stack = []
-                print("\(vm.stack.dump(vm))\n")
-            } else if line == nil || line! == "\n" {
+            if line == nil || line! == "\n" {
                 do {     
                     var fs = try vm.read(&input, &location)
                     let startPc = vm.emitPc

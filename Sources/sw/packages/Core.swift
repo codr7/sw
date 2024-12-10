@@ -198,6 +198,9 @@ extension packages {
                           vm.emit(ops.Check.make(vm, location))
                       })
 
+            bindMethod(vm, "clear", [anyType], [],
+                       {(vm, location) in vm.stack = [] })
+
             bindMethod(vm, "dec", [intType], [intType],
                        {(vm, location) in
                            vm.stack[vm.stack.count-1] =
@@ -226,7 +229,6 @@ extension packages {
                            vm.stack.push(self.stringType,
                                          vm.stack.pop().dump(vm))
                        })
-
 
             bindMacro(vm, "if", [], [],
                       {(vm, arguments, location) in

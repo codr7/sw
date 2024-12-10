@@ -20,14 +20,15 @@ sw2
 hello
 ```
 
-`:clear` may be used to clear the stack.
+`clear` may be used to clear the stack.
 
 ```
 1> 1 2 3
 2>
 [1 2 3]
 
-2> :clear
+2> clear
+3>
 []
 ```
 
@@ -63,14 +64,14 @@ hello
 
 `sw` steals a line from Forth and uses a similarly flexible mechanism for definitions, which is different enough from most other languages to deserve a thorough explanation.
 
-`:` expects to be positioned between an identifier and a body, which is anything  up until `;`. The body is evaluated once for every reference to the name at emit time with trailing forms in reverse order on the stack. `,` may be used to evaluate a form.
+`:` expects to be followed by an identifier and a body, which is anything up until `;`. The body is evaluated once for every reference to the name at emit time with trailing forms in reverse order on the stack. `,` may be used to evaluate a form.
 
 ### Macros
 
 By default, definitions are macros. Also by default, macros expect to be called in prefix position, name before arguments. Since we're operating at emit time, run time values can't be evaluated.
 
 ```
-is-42: , 42 =;
+:is-42 , 42 =;
 ```
 `[]`
 
@@ -87,14 +88,14 @@ is-42 42
 Argument lists are optional, this means exactly the same thing:
 
 ```
-is-42: (Int;Bit) , 42 =;
+:is-42 (Int;Bit) , 42 =;
 ```
 
 ### Constants
 This is a constant:
 
 ```
-foo: 42;
+:foo 42;
 foo
 ```
 `[42]`
@@ -103,7 +104,9 @@ foo
 `do` arranges for its body to be evaluated at run time in the context where the definition was referenced. 
 
 ```
-is-42: (Int;Bit) do 42 =;
+:is-42 (Int;Bit) do
+  42 =;
+  
 42 is-42
 ```
 `[#t]`
@@ -111,7 +114,10 @@ is-42: (Int;Bit) do 42 =;
 There is no limit on the number of `do`-blocks, but each needs to be terminated with `;` or the start of another `do`-block.
 
 ```
-is-42: (Int;Bit) do 42 do =;
+:is-42 (Int;Bit)
+do 42
+do =;
+
 42 is-42
 ```
 `[#t]`
@@ -120,7 +126,8 @@ is-42: (Int;Bit) do 42 do =;
 `recall` may be used to trigger a tail recursive call to the currently evaluating `do`-block.
 
 ```
-repeat: (Int;Int) do dec C C say if recall;
+:repeat (Int;Int) do
+  dec C C say if recall;
 3 repeat
 ```
 ```
