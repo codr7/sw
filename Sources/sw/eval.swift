@@ -5,12 +5,18 @@ extension VM {
         NEXT:
           do {
             let op = code[pc]
-            print("\(pc) \(ops.decode(op)) \(ops.trace(self, op))")
+            //print("\(pc) \(ops.decode(op)) \(ops.trace(self, op))")
             
             switch ops.decode(op) {
             case .BeginStack:
                 beginStack()
                 pc += 1
+            case .Branch:
+                if stack.pop().toBit() {
+                    pc += 1
+                } else {
+                    pc = ops.Branch.elsePc(op)
+                }
             case .CallTag:
                 do {
                     let t = tags[ops.CallTag.target(op)] as! Value

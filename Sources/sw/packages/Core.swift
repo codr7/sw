@@ -155,33 +155,48 @@ extension packages {
                        {(vm, location) in
                            let r = vm.stack.pop()
                            let i = vm.stack.count-1
-                           vm.stack[i] = Value(self.bitType, vm.stack[i] == r)
+                           vm.stack[i] = Value(self.bitType,
+                                               vm.stack[i] == r)
                        })            
 
             bindMacro(vm, "C", [anyType], [], [anyType, anyType],
-                      {(vm, arguments, location) in vm.emit(ops.Copy.make(1)) })
+                      {(vm, arguments, location) in
+                          vm.emit(ops.Copy.make(1))
+                      })
 
             bindMacro(vm, "L",
                       [anyType, anyType, anyType], [],
                       [anyType, anyType, anyType],
-                      {(vm, arguments, location) in vm.emit(ops.ShiftLeft.make()) })
+                      {(vm, arguments, location) in
+                          vm.emit(ops.ShiftLeft.make())
+                      })
 
             bindMacro(vm, "P", [anyType], [], [],
-                      {(vm, arguments, location) in vm.emit(ops.Pop.make(1)) })
+                      {(vm, arguments, location) in
+                          vm.emit(ops.Pop.make(1))
+                      })
 
             bindMacro(vm, "R",
                       [anyType, anyType, anyType], [],
                       [anyType, anyType, anyType],
-                      {(vm, arguments, location) in vm.emit(ops.ShiftRight.make()) })
+                      {(vm, arguments, location) in
+                          vm.emit(ops.ShiftRight.make())
+                      })
 
             bindMacro(vm, "S", [anyType, anyType], [], [anyType, anyType],
-                      {(vm, arguments, location) in vm.emit(ops.Swap.make()) })
+                      {(vm, arguments, location) in
+                          vm.emit(ops.Swap.make())
+                      })
 
             bindMacro(vm, "U", [pairType], [], [anyType, anyType],
-                      {(vm, arguments, location) in vm.emit(ops.Unzip.make()) })
+                      {(vm, arguments, location) in
+                          vm.emit(ops.Unzip.make())
+                      })
 
             bindMacro(vm, "Z", [anyType, anyType], [], [pairType],
-                      {(vm, arguments, location) in vm.emit(ops.Zip.make()) })
+                      {(vm, arguments, location) in
+                          vm.emit(ops.Zip.make())
+                      })
 
             bindMacro(vm, "check", [anyType, anyType], [], [],
                       {(vm, arguments, location) in
@@ -216,6 +231,25 @@ extension packages {
                            vm.stack.push(self.stringType,
                                          vm.stack.pop().dump(vm))
                        })
+
+
+            bindMacro(vm, "if", [], [], [],
+                      {(vm, arguments, location) in
+                          let branchPc = vm.emit(ops.Fail.make(vm, location))
+
+                          var body = Forms(arguments
+                            .prefix(while: {
+                              $0.tryCast(forms.Id.self)?.value != "else"
+                          }).prefix(while: {!$0.isEnd}))
+
+                          arguments =
+                            Forms(arguments.dropFirst((arguments.isEmpty ||
+                                                         !arguments.first!.isEnd)
+                                                        ? body.count
+                                                        : body.count+1))
+                          try body.emit(vm, compile: false)
+                          vm.code[branchPc] = ops.Branch.make(vm.emitPc)
+                      })
 
             bindMacro(vm, "recall", [], [], [],
                       {(vm, arguments, location) in

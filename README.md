@@ -5,6 +5,9 @@ An attempt to simplify some of Forth's ideas, as well as combine them with other
 
 `sw` is designed to be embedded in Swift, which is a different game compared to Forth's origin. To me, a good approach when writing interpreters is to spend less energy pretending to be hardware and more on making good use of whatever sits below.
 
+## Status
+`sw` is still in a very explorative phase, pleae mind the gaps.
+
 ## REPL
 Launching `sw` without arguments enters the REPL.
 
@@ -120,6 +123,22 @@ is-42: (Int;Bit) do 42 do =;
 42 is-42
 ```
 `[#t]`
+
+#### Recursion
+`recall` may be used to trigger a tail recursive call to the currently evaluating `do`-block.
+
+```
+repeat: (Int;Int) do C C say if dec recall;
+3 repeat
+```
+```
+3
+2
+1
+0
+```
+`[0]`
+
 
 ## IO
 `say` may be used to print any value to standard output followed by a newline.

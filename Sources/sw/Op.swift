@@ -2,6 +2,7 @@ typealias Op = UInt64;
 
 enum OpCode: UInt8 {
     case BeginStack
+    case Branch
     case CallTag
     case Check
     case Copy
@@ -72,6 +73,8 @@ struct ops {
         switch decode(op) {
         case .BeginStack:
             BeginStack.dump(vm, op)
+        case .Branch:
+            Branch.dump(vm, op)
         case .CallTag:
             CallTag.dump(vm, op)
         case .Check:
@@ -115,6 +118,8 @@ struct ops {
         switch decode(op) {
         case .BeginStack:
             BeginStack.trace(vm, op)
+        case .Branch:
+            Branch.trace(vm, op)
         case .CallTag:
             CallTag.trace(vm, op)
         case .Check:

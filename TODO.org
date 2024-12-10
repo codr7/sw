@@ -1,13 +1,7 @@
 C P S / L R
 
-* finish recur
-** add readme/test
-
-repeat: (Int;Int) do C say dec recall;
-3 repeat
-
-* test recursive call
-** add tail call support with return
+* add else macro
+** add test/readme
 
 * fix SwMethod.call
 
