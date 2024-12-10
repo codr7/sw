@@ -20,14 +20,14 @@ sw2
 hello
 ```
 
-`clear` may be used to clear the stack.
+`CLEAR` may be used to clear the stack.
 
 ```
 1> 1 2 3
 2>
 [1 2 3]
 
-2> clear
+2> CLEAR
 3>
 []
 ```

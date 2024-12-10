@@ -15,14 +15,13 @@ C P S / L R
 
 * fib
 
-fib: do
-  RC 1 > if
-    dec LCL + recall
-  else
-    1 = if S;
+:fib (Int Int Int;Int) do
+  RC 1 >
+  if dec LCL + recall
+  else 1 = if S;
   P;
 
-10000 (50 fib P) benchmark sa
+10000 benchmark 50 0 1 fib P; say
 
 * fix SwMethod.call
 
