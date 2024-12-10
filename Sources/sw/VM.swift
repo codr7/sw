@@ -1,7 +1,7 @@
 import Foundation
 import SystemPackage
 
-let VERSION = 1
+let VERSION = 2
 
 class VM {
     var calls: [Call] = []
@@ -23,6 +23,7 @@ class VM {
 
     let core: packages.Core
     let user: Package
+    var currentMethod: SwMethod?
     var currentPackage: Package
     
     init() {
@@ -57,7 +58,7 @@ class VM {
         return result
     }
 
-    func emit(_ form: Form) throws {
+    func emit(_ form: Form) throws {        
         var arguments: Forms = [form]
         try arguments.emit(self)
     }
@@ -65,13 +66,32 @@ class VM {
     var emitPc: PC { code.count }
     func endCall() -> Call { calls.removeLast() }
 
+    func eval(from: PC) throws {
+        let prevPc = pc
+        defer { pc = prevPc }        
+        pc = from
+        try eval()
+    }
+    
     func eval(to: PC) throws {
-        let op = code[to]
-        code[to] = ops.Stop.make()
-        defer { code[to] = op }
-        try eval(from: pc)
+        if code.count == to {
+            code.append(ops.Stop.make())
+            try eval(from: pc)
+        } else {
+            let prevOp = code[to]
+            code[to] = ops.Stop.make()
+            defer { code[to] = prevOp }
+            try eval(from: pc)
+        }
     }
 
+    func eval(from: PC, to: PC) throws {
+        let prevPc = pc
+        defer { pc = prevPc }        
+        pc = from
+        try eval(to: to)        
+    }
+    
     func load(_ path: FilePath, _ location: Location) throws {
         let prevLoadPath = loadPath
         let p = loadPath.appending("\(path)")

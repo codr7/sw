@@ -1,11 +1,7 @@
 import SystemPackage
 
 extension VM {
-    func eval(from: PC) throws {
-        let ppc = pc
-        defer { pc = ppc }        
-        pc = from
-        
+    func eval() throws {
         NEXT:
           do {
             let op = code[pc]
@@ -27,7 +23,9 @@ extension VM {
                     let actual = stack.pop()
 
                     if actual != expected {
-                        let location = tags[ops.Check.location(op)] as! Location
+                        let location = tags[ops.Check.location(op)]
+                          as! Location
+                        
                         throw BaseError("Check failed, actual: \(actual.dump(self)), expected: \(expected.dump(self))", location)
                     }
 
@@ -36,13 +34,23 @@ extension VM {
             case .Copy:
                 stack.copy(ops.Copy.count(op))
                 pc += 1
+            case .Do:
+                do {
+                    var body = tags[ops.Do.body(op)] as! Forms
+                    try body.emit(self)
+                    pc += 1
+                }
             case .EndStack:
                 endStack(push: true)
                 pc += 1
             case .Fail:
-                throw BaseError("Fail", tags[ops.Fail.location(op)] as! Location)
+                throw BaseError("Fail",
+                                tags[ops.Fail.location(op)]
+                                  as! Location)
             case .Goto:
                 pc = ops.Goto.pc(op)
+            case .Nop:
+                pc += 1
             case .Pop:
                 stack.drop(ops.Pop.count(op))
                 pc += 1
@@ -52,7 +60,9 @@ extension VM {
             case .Return:
                 pc = calls.removeLast().returnPc
             case .SetLoadPath:
-                loadPath = tags[ops.SetLoadPath.path(op)] as! FilePath
+                loadPath = tags[ops.SetLoadPath.path(op)]
+                  as! FilePath
+                
                 pc += 1
             case .ShiftLeft:
                 stack.shiftLeft()

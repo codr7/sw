@@ -25,7 +25,13 @@ extension Form {
         let skipPc = vm.emit(ops.Fail.make(vm, location))
         let startPc = vm.emitPc
         try vm.emit(self)
-        vm.emit(ops.Stop.make())
+        let stopPc = vm.emit(ops.Stop.make())
+
+        defer {
+            if vm.emitPc == stopPc + 1 { vm.code.removeLast() }
+            else { vm.code[stopPc] = ops.Nop.make() }
+        }
+        
         vm.code[skipPc] = ops.Goto.make(vm.emitPc)
         try vm.eval(from: startPc)
     }

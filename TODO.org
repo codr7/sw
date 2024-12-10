@@ -1,9 +1,6 @@
 C P S / L R
 
-* add do
-** consume until ; or end
-** write body
-** emit call
+* fix SwMethod.call
 
 * add pair literals
 ** form

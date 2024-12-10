@@ -10,7 +10,7 @@ Launching `sw` without arguments enters the REPL.
 
 ```
 $ swift run
-sw1
+sw2
 
 1> "hello" say
 2>
@@ -103,6 +103,23 @@ foo: 42;
 foo
 ```
 `[42]`
+
+### Functions
+`do` arranges for its body to be evaluated at run time in the context where `:` was called. 
+
+```
+is-42: (Int;Bit) do 42 =;
+42 is-42
+```
+`[#t]`
+
+You may add as many `do`-blocks as you wish, each block needs to be terminated with `;`, the start of another `do`-block or `EOF`.
+
+```
+is-42: (Int;Bit) do 42 do =;
+42 is-42
+```
+`[#t]`
 
 ## IO
 `say` may be used to print any value to standard output followed by a newline.

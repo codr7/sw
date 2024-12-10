@@ -1,13 +1,15 @@
-typealias Op = UInt32;
+typealias Op = UInt64;
 
 enum OpCode: UInt8 {
     case BeginStack
     case CallTag
     case Check
     case Copy
+    case Do
     case EndStack
     case Fail
     case Goto
+    case Nop
     case Pop
     case Push
     case Return
@@ -76,12 +78,16 @@ struct ops {
             Check.dump(vm, op)
         case .Copy:
             Copy.dump(vm, op)
+        case .Do:
+            Do.dump(vm, op)
         case .EndStack:
             EndStack.dump(vm, op)
         case .Fail:
             Fail.dump(vm, op)
         case .Goto:
             Goto.dump(vm, op)
+        case .Nop:
+            Nop.dump(vm, op)
         case .Pop:
             Pop.dump(vm, op)
         case .Push:
@@ -115,12 +121,16 @@ struct ops {
             Check.trace(vm, op)
         case .Copy:
             Copy.trace(vm, op)
+        case .Do:
+            Do.trace(vm, op)
         case .EndStack:
             EndStack.trace(vm, op)
         case .Fail:
             Fail.trace(vm, op)
         case .Goto:
             Goto.trace(vm, op)
+        case .Nop:
+            Nop.trace(vm, op)
         case .Pop:
             Pop.trace(vm, op)
         case .Push:

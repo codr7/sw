@@ -57,7 +57,6 @@ extension packages {
             self["#t"] = t
             self["#f"] = f
 
-
             bindMacro(vm, "[", [], [], [], 
                       {(vm, arguments, location) in
                           vm.emit(ops.BeginStack.make())
@@ -132,6 +131,7 @@ extension packages {
                                    vm.emitPc,
                                    location)
                   
+                  vm.currentMethod = m
                   vm.currentPackage[id] = Value(self.swMethodType, m)
                   vm.beginPackage()
                   defer { vm.endPackage() }
@@ -141,7 +141,8 @@ extension packages {
                       if f.isEnd { break }
                       try f.emit(vm, &arguments)
                   }
-                  
+
+                  m.endPc = vm.emitPc
                   vm.code[gotoPc] = ops.Goto.make(vm.emitPc)
               })
 
@@ -187,13 +188,32 @@ extension packages {
                           vm.emit(ops.Check.make(vm, location))
                       })
 
+            bindMacro(vm, "do", [], [], [],
+                      {(vm, arguments, location) in
+                          let das = arguments
+                            .prefix(while: {
+                              $0.tryCast(forms.Id.self)?.value != "do"
+                          }).prefix(while: {!$0.isEnd})
+
+                          arguments =
+                            Forms(arguments.dropFirst((arguments.isEmpty ||
+                                                         !arguments.first!.isEnd)
+                                                        ? das.count
+                                                        : das.count+1))
+
+                          vm.emit(ops.Do.make(vm, Forms(das)))
+                      })
+
             bindMethod(vm, "dump", [anyType], [],
                        {(vm, location) in
-                           vm.stack.push(self.stringType, vm.stack.pop().dump(vm))
+                           vm.stack.push(self.stringType,
+                                         vm.stack.pop().dump(vm))
                        })
 
             bindMethod(vm, "say", [anyType], [],
-                       {(vm, location) in print(vm.stack.pop().say(vm)) })
+                       {(vm, location) in
+                           print(vm.stack.pop().say(vm))
+                       })
         }
     }
 }

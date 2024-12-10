@@ -15,3 +15,11 @@ is-42 42 #t = check
 is-42: (Int;;Bit) , 42 =;
 7 is-42 #f = check
 42 is-42 #t = check
+
+is-42: (Int;Bit) do 42 =;
+7 is-42 #f = check
+42 is-42 #t = check
+
+is-42: (Int;Bit) do 42 do =;
+7 is-42 #f = check
+42 is-42 #t = check
