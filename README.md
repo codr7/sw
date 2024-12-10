@@ -6,7 +6,7 @@ An attempt to simplify some of Forth's ideas, as well as combine them with other
 `sw` is designed to be embedded in Swift, which is a different game compared to Forth's origin. To me, a good approach when writing interpreters is to spend less energy pretending to be hardware and more on making good use of whatever sits below.
 
 ## Status
-`sw` is still in a very explorative phase, please mind the gaps, and please help explore.
+`sw` is still in a very explorative phase, please mind the gaps.
 
 ## REPL
 Launching `sw` without arguments enters the REPL.
