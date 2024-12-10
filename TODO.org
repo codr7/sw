@@ -1,5 +1,9 @@
 C P S / L R
 
+* move creation/binding of methods in :
+** no need to know the name inside the body
+** set endPc?
+
 * add nested function test
 ** call foo/bar/baz witg arg and return res all the way
 ** 7, *6
