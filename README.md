@@ -127,7 +127,7 @@ do =;
 
 ```
 :repeat (Int;Int) do
-  dec C C say if recall;
+  dec CC say if recall;
 3 repeat
 ```
 ```

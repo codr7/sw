@@ -1,9 +1,5 @@
 C P S / L R
 
-* add CC macro
-** add test
-** use in recursion example
-
 * add else macro
 ** add else P to recall test
 ** add test/readme

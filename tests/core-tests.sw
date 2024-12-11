@@ -4,6 +4,9 @@
 42 dump
 ["42"] check
 
+7 42 CC
+[7 42 42 42] check
+
 :foo 42;
 foo
 [42] check
@@ -30,6 +33,6 @@ is-42 42
 42 is-42
 [#t] check
 
-:repeat (Int;Int) do dec C C if recall;
+:repeat (Int;Int) do dec CC if recall;
 3 repeat
 [2 1 0 0] check

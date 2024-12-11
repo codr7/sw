@@ -159,6 +159,11 @@ extension packages {
                           vm.emit(ops.Copy.make(1))
                       })
 
+            bindMacro(vm, "CC", [anyType], [anyType, anyType],
+                      {(vm, arguments, location) in
+                          vm.emit(ops.Copy.make(2))
+                      })
+
             bindMacro(vm, "L",
                       [anyType, anyType, anyType],
                       [anyType, anyType, anyType],
@@ -169,6 +174,11 @@ extension packages {
             bindMacro(vm, "P", [anyType], [],
                       {(vm, arguments, location) in
                           vm.emit(ops.Pop.make(1))
+                      })
+
+            bindMacro(vm, "PP", [anyType], [],
+                      {(vm, arguments, location) in
+                          vm.emit(ops.Pop.make(2))
                       })
 
             bindMacro(vm, "R",
