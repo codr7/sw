@@ -119,15 +119,7 @@ extension packages {
                   }
 
                   let gotoPc = vm.emit(ops.Fail.make(vm, location))
-
-                  let m = SwMethod(vm,
-                                   id,
-                                   ars, res,
-                                   vm.emitPc,
-                                   location)
-                  
-                  vm.currentMethod = m
-                  vm.currentPackage[id] = Value(self.swMethodType, m)
+                  let startPc = vm.emitPc
                   vm.beginPackage()
                   defer { vm.endPackage() }
                   
@@ -137,8 +129,16 @@ extension packages {
                       try f.emit(vm, &arguments)
                   }
 
-                  m.endPc = vm.emitPc
+                  let endPc = vm.emitPc
                   vm.code[gotoPc] = ops.Goto.make(vm.emitPc)
+
+                  let m = SwMethod(vm,
+                                   id,
+                                   ars, res,
+                                   (startPc, endPc),
+                                   location)
+
+                  vm.currentPackage.parent![id] = Value(self.swMethodType, m)
               })
 
             bindMethod(vm, ",", [formType], [],

@@ -24,7 +24,6 @@ class VM {
     let core: packages.Core
     let user: Package
     
-    var currentMethod: SwMethod?
     var currentPackage: Package
     
     init() {
