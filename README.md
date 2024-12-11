@@ -104,7 +104,7 @@ foo
 `do` arranges for its body to be evaluated at run time in the context where the definition was referenced. 
 
 ```
-define: is-42 (Int;Bit) do
+define: is-42 (Int;Bit) do:
   42 =;
   
 42 is-42
@@ -116,7 +116,7 @@ There is no limit on the number of `do`-blocks, but each needs to be terminated 
 ```
 define: is-42 (Int;Bit)
 do: 42
-do =;
+do: =;
 
 42 is-42
 ```
@@ -137,6 +137,20 @@ repeat: (Int;Int) do
 ```
 `[0]`
 
+## Branching
+`if:` may be used for conditional evaluation, it expends a condition on the stack and a body terminated with `;`:
+
+```
+1 #f if: 2; 3
+```
+`[1 3]`
+
+`else:` may be used to evaluate code when the condition is false.
+
+```
+1 #f if: 2 else: 3; 4
+```
+`[1 3 4]`
 
 ## IO
 `say` may be used to print any value to standard output followed by a newline.

@@ -7,16 +7,16 @@
 7 42 CC
 [7 42 42 42] check
 
-1 #t if 2 3; 4
+1 #t if: 2 3; 4
 [1 2 3 4] check
 
-1 #f if 2 3; 4
+1 #f if: 2 3; 4
 [1 4] check
 
-1 if #t 2 else 3 4; 5
+1 if: #t 2 else: 3 4; 5
 [1 2 5]
 
-1 if #f 2 else 3 4; 5
+1 if: #f 2 else: 3 4; 5
 [1 3 4 5]
 
 define: foo 42;
@@ -43,6 +43,6 @@ define: is-42 (Int;Bit) do: 42 do: =;
 42 is-42
 [#t] check
 
-define: repeat (Int;Int) do: dec CC if recall;
+define: repeat (Int;Int) do: dec CC if: recall;
 3 repeat
 [2 1 0 0] check

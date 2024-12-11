@@ -240,7 +240,7 @@ extension packages {
                                          vm.stack.pop().dump(vm))
                        })
 
-            bindMacro(vm, "if", [], [],
+            bindMacro(vm, "if:", [], [],
                       {(vm, arguments, location) in
                           let branchPc = vm.emit(ops.Fail.make(vm, location))
                           
@@ -256,7 +256,7 @@ extension packages {
                           
                           var ifBody = Forms(
                             body.prefix(while: {
-                              $0.tryCast(forms.Id.self)?.value != "else"
+                              $0.tryCast(forms.Id.self)?.value != "else:"
                           }))
                           
                           var elseBody = (ifBody.count == body.count)
