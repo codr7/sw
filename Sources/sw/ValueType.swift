@@ -3,9 +3,6 @@ protocol ValueType {
 
     var id: String {get}
 
-    typealias Call = (_ vm: VM, _ target: Value, _ location: Location) throws -> Void
-    var call: Call? {get}
-    
     typealias Dump = (_ vm: VM, _ value: Value) -> String
     var dump: Dump? {get}
 
@@ -43,10 +40,6 @@ protocol ValueType {
 }
 
 extension ValueType {
-    func call(_ vm: VM, _ target: Value, _ location: Location) {
-        vm.stack.push(target)
-    }
-    
     func emit(_ vm: VM,
               _ target: Value,
               _ arguments: inout Forms,

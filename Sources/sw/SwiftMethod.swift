@@ -25,7 +25,7 @@ class SwiftMethod: BaseMethod, Method {
         super.init(id, arguments, results)
 
         self.emitBody = {(vm, arguments, location) in
-            vm.emit(ops.CallTag.make(vm, Value(vm.core.methodType, self), location))
+            vm.emit(ops.CallTag.make(vm, self, location))
         }
     }
 

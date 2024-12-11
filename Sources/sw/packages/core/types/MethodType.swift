@@ -4,7 +4,6 @@ extension packages.Core {
             super.init(id, parents)
             typeLookup[typeId] = self
             let t = self
-            call = {(vm, target, location) in try target.cast(t).call(vm, location) }
             eq = {(value1, value2) in value1.cast(t).id == value2.cast(t).id}
         }
 

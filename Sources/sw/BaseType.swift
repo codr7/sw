@@ -12,7 +12,6 @@ class BaseType<T>: CustomStringConvertible {
     var parents: ValueType.Parents = []
     let typeId: TypeId
 
-    var call: ValueType.Call? = {(vm, target, location) in vm.stack.push(target) }
     var dump: ValueType.Dump? = {(vm, value) in "\(value.data)" }
     var eq: ValueType.Eq? = nil
     var eqv: ValueType.Eq?

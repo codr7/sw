@@ -1,5 +1,12 @@
 C P S / L R
 
+* drop call functionality
+** remove Method.call
+** remove SwMethod.call
+** change CallTag to cast directly to SwiftMethod
+** remove Call struct
+** remove Return op
+
 * move creation/binding of methods in :
 ** no need to know the name inside the body
 ** set endPc?
@@ -26,8 +33,6 @@ C P S / L R
   P;
 
 10000 benchmark 50 0 1 fib P; say
-
-* fix SwMethod.call
 
 * add pair literals
 ** form

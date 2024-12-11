@@ -9,10 +9,6 @@ struct Value: Equatable {
         self.data = data
     }
 
-    func call(_ vm: VM, _ location: Location) throws {
-        try type.call!(vm, self, location)
-    }
- 
     func cast<T, TT>(_ _: TT) -> T where TT: BaseType<T> { data as! T }
 
     func tryCast<T, TT>(_ _: TT) -> T? where TT: BaseType<T> { data as? T }

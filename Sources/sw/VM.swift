@@ -4,7 +4,6 @@ import SystemPackage
 let VERSION = 2
 
 class VM {
-    var calls: [Call] = []
     var code: [Op] = []
     var loadPath: FilePath = ""
     
@@ -66,7 +65,6 @@ class VM {
     }
 
     var emitPc: PC { code.count }
-    func endCall() -> Call { calls.removeLast() }
 
     func eval(from: PC) throws {
         pc = from

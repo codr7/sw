@@ -5,10 +5,6 @@ extension packages.Core {
             typeLookup[typeId] = self
             let t = self
 
-            call = {(vm, target, location) throws in
-                try target.cast(t).call(vm, location)
-            }
-            
             eq = {(value1, value2) in
                 value1.cast(t) === value2.cast(t)
             }

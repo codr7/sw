@@ -22,7 +22,7 @@ extension VM {
                 }
             case .CallTag:
                 do {
-                    let t = tags[ops.CallTag.target(op)] as! Value
+                    let t = tags[ops.CallTag.target(op)] as! SwiftMethod
                     let l = tags[ops.CallTag.location(op)] as! Location
                     try t.call(self, l)
                 }
@@ -70,8 +70,6 @@ extension VM {
             case .Push:
                 stack.push(tags[ops.Push.value(op)] as! Value)
                 pc += 1
-            case .Return:
-                pc = calls.removeLast().returnPc
             case .SetLoadPath:
                 loadPath = tags[ops.SetLoadPath.path(op)]
                   as! FilePath
