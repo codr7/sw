@@ -13,11 +13,14 @@
 1 #f if: 2 3; 4
 [1 4] check
 
-1 if: #t 2 else: 3 4; 5
-[1 2 5]
+1 #t if: 2 else: 3 4; 5
+[1 2 5] check
 
-1 if: #f 2 else: 3 4; 5
-[1 3 4 5]
+1 #f if: 2 else: 3 4; 5
+[1 3 4 5] check
+
+1 #t if: #f if: 2 else: 3; 4
+[1 3 4] check
 
 define: foo 42;
 foo

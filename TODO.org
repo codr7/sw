@@ -1,9 +1,5 @@
 C P S / L R
 
-* support nested if/else
-** add test
-if #t if #f 1 else 2;
-
 * fib
 ** RC
 ** LCL

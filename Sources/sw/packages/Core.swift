@@ -250,22 +250,32 @@ extension packages {
                           arguments = Forms(
                             arguments.suffix(arguments.count - body.count))
 
-                          if !arguments.isEmpty && arguments.first!.isEnd {
+                          if !arguments.isEmpty {
                               arguments.removeFirst()
                           }
+
+                          var ifBody: Forms = body
+                          var elseBody: Forms = []
+                          var depth = 0
                           
-                          var ifBody = Forms(
-                            body.prefix(while: {
-                              $0.tryCast(forms.Id.self)?.value != "else:"
-                          }))
-                          
-                          var elseBody = (ifBody.count == body.count)
-                            ? []
-                            : Forms(body.suffix(body.count-ifBody.count-1))
+                          for i in 0..<body.count {
+                              let f = body[i]
+                              if f.isEnd { depth -= 1 }
+                              else if f.tryCast(forms.Id.self)?.value ==
+                                        "if:" {
+                                  depth += 1
+                              } else if f.tryCast(forms.Id.self)?.value ==
+                                          "else:" && depth == 0 {
+                                  ifBody = Forms(body.prefix(i))
+                                  elseBody = body.suffix(body.count-i-1)
+                              }
+                          }
                           
                           try ifBody.emit(vm)
                           var elsePc = vm.emitPc
-                          
+
+                          print(arguments.dump(vm), body.dump(vm), ifBody.dump(vm), elseBody.dump(vm))
+
                           if !elseBody.isEmpty {
                               let skipElsePc =
                                 vm.emit(ops.Fail.make(vm, location))
