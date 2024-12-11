@@ -64,14 +64,14 @@ hello
 
 `sw` steals a line from Forth and uses a similarly flexible mechanism for definitions, which is different enough from most other languages to deserve a thorough explanation.
 
-`:` expects to be followed by an identifier and a body, which is anything up until `;`. The body is evaluated once for every reference to the name at emit time with trailing forms in reverse order on the stack. `,` may be used to evaluate a form.
+`define:` expects an identifier and a body, which is anything up until `;`. The body is evaluated once for every reference to the name at emit time with trailing forms in reverse order on the stack. `,` may be used to evaluate a form.
 
 ### Macros
 
 By default, definitions are macros.
 
 ```
-:is-42 , 42 =;
+define: is-42 , 42 =;
 ```
 `[]`
 
@@ -88,14 +88,14 @@ is-42 42
 Argument lists are optional:
 
 ```
-:is-42 (Int;Bit) , 42 =;
+define: is-42 (Int;Bit) , 42 =;
 ```
 
 ### Constants
 This is a constant:
 
 ```
-:foo 42;
+define: foo 42;
 foo
 ```
 `[42]`
@@ -104,7 +104,7 @@ foo
 `do` arranges for its body to be evaluated at run time in the context where the definition was referenced. 
 
 ```
-:is-42 (Int;Bit) do
+define: is-42 (Int;Bit) do
   42 =;
   
 42 is-42
@@ -114,8 +114,8 @@ foo
 There is no limit on the number of `do`-blocks, but each needs to be terminated with `;` or followed by another `do`-block.
 
 ```
-:is-42 (Int;Bit)
-do 42
+define: is-42 (Int;Bit)
+do: 42
 do =;
 
 42 is-42
@@ -126,7 +126,7 @@ do =;
 `recall` may be used to trigger a tail recursive call to the currently evaluating `do`-block.
 
 ```
-:repeat (Int;Int) do
+repeat: (Int;Int) do
   dec CC say if recall;
 3 repeat
 ```

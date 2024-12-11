@@ -83,63 +83,7 @@ extension packages {
                                         f.location)
                     }
                 }
-            }
-            
-            bindMacro(
-              vm, ":", [anyType], [methodType],
-              {(vm, arguments, location) in
-                  let id = arguments
-                    .removeFirst()
-                    .tryCast(forms.Id.self)!
-                    .value
-
-                  var ars: [ValueType] = []
-                  var res: [ValueType] = []
-                  
-                  if let argSpec =
-                       arguments.first?.tryCast(
-                         forms.Sexpr.self) {
-                      arguments.removeFirst()
-
-                      let ss = argSpec.body.split(
-                        omittingEmptySubsequences: false,
-                        whereSeparator: {$0.isEnd})
-
-                      switch ss.count {
-                      case 0:
-                          break
-                      case 1:
-                          try parseTypes(Forms(ss[0]), &ars)
-                      case 2:
-                          try parseTypes(Forms(ss[0]), &ars)
-                          try parseTypes(Forms(ss[1]), &res) 
-                      default:
-                          throw EmitError("Invalid argument list: \(argSpec.dump(vm))", argSpec.location)
-                      }
-                  }
-
-                  let gotoPc = vm.emit(ops.Fail.make(vm, location))
-                  let startPc = vm.emitPc
-                  vm.beginPackage()
-                  defer { vm.endPackage() }
-                  
-                  while !arguments.isEmpty {
-                      let f = arguments.removeFirst()
-                      if f.isEnd { break }
-                      try f.emit(vm, &arguments)
-                  }
-
-                  let endPc = vm.emitPc
-                  vm.code[gotoPc] = ops.Goto.make(vm.emitPc)
-
-                  let m = SwMethod(vm,
-                                   id,
-                                   ars, res,
-                                   (startPc, endPc),
-                                   location)
-
-                  vm.currentPackage.parent![id] = Value(self.swMethodType, m)
-              })
+            }            
 
             bindMethod(vm, ",", [formType], [],
                        {(vm, location) in
@@ -218,11 +162,67 @@ extension packages {
                                    vm.stack.last!.cast(vm.core.intType) - 1)
                        })
 
-            bindMacro(vm, "do", [], [],
+            bindMacro(
+              vm, "define:", [anyType], [methodType],
+              {(vm, arguments, location) in
+                  let id = arguments
+                    .removeFirst()
+                    .tryCast(forms.Id.self)!
+                    .value
+
+                  var ars: [ValueType] = []
+                  var res: [ValueType] = []
+                  
+                  if let argSpec =
+                       arguments.first?.tryCast(
+                         forms.Sexpr.self) {
+                      arguments.removeFirst()
+
+                      let ss = argSpec.body.split(
+                        omittingEmptySubsequences: false,
+                        whereSeparator: {$0.isEnd})
+
+                      switch ss.count {
+                      case 0:
+                          break
+                      case 1:
+                          try parseTypes(Forms(ss[0]), &ars)
+                      case 2:
+                          try parseTypes(Forms(ss[0]), &ars)
+                          try parseTypes(Forms(ss[1]), &res) 
+                      default:
+                          throw EmitError("Invalid argument list: \(argSpec.dump(vm))", argSpec.location)
+                      }
+                  }
+
+                  let gotoPc = vm.emit(ops.Fail.make(vm, location))
+                  let startPc = vm.emitPc
+                  vm.beginPackage()
+                  defer { vm.endPackage() }
+                  
+                  while !arguments.isEmpty {
+                      let f = arguments.removeFirst()
+                      if f.isEnd { break }
+                      try f.emit(vm, &arguments)
+                  }
+
+                  let endPc = vm.emitPc
+                  vm.code[gotoPc] = ops.Goto.make(vm.emitPc)
+
+                  let m = SwMethod(vm,
+                                   id,
+                                   ars, res,
+                                   (startPc, endPc),
+                                   location)
+
+                  vm.currentPackage.parent![id] = Value(self.swMethodType, m)
+              })
+            
+            bindMacro(vm, "do:", [], [],
                       {(vm, arguments, location) in
                           let das = arguments
                             .prefix(while: {
-                              $0.tryCast(forms.Id.self)?.value != "do"
+                              $0.tryCast(forms.Id.self)?.value != "do:"
                           }).prefix(while: {!$0.isEnd})
 
                           arguments =
@@ -243,19 +243,38 @@ extension packages {
             bindMacro(vm, "if", [], [],
                       {(vm, arguments, location) in
                           let branchPc = vm.emit(ops.Fail.make(vm, location))
+                          
+                          let body = Forms(
+                            arguments.prefix(while: {!$0.isEnd}))
 
-                          var body = Forms(arguments
-                            .prefix(while: {
+                          arguments = Forms(
+                            arguments.suffix(arguments.count - body.count))
+
+                          if !arguments.isEmpty && arguments.first!.isEnd {
+                              arguments.removeFirst()
+                          }
+                          
+                          var ifBody = Forms(
+                            body.prefix(while: {
                               $0.tryCast(forms.Id.self)?.value != "else"
-                          }).prefix(while: {!$0.isEnd}))
+                          }))
+                          
+                          var elseBody = (ifBody.count == body.count)
+                            ? []
+                            : Forms(body.suffix(body.count-ifBody.count-1))
+                          
+                          try ifBody.emit(vm)
+                          var elsePc = vm.emitPc
+                          
+                          if !elseBody.isEmpty {
+                              let skipElsePc =
+                                vm.emit(ops.Fail.make(vm, location))
+                              elsePc = vm.emitPc
+                              try elseBody.emit(vm)
+                              vm.code[skipElsePc] = ops.Goto.make(vm.emitPc)
+                          }                          
 
-                          arguments =
-                            Forms(arguments.dropFirst((arguments.isEmpty ||
-                                                         !arguments.first!.isEnd)
-                                                        ? body.count
-                                                        : body.count+1))
-                          try body.emit(vm)
-                          vm.code[branchPc] = ops.Branch.make(vm.emitPc)
+                          vm.code[branchPc] = ops.Branch.make(elsePc)
                       })
 
             bindMacro(vm, "recall", [], [],

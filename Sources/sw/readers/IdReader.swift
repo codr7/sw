@@ -12,8 +12,7 @@ extension readers {
             while let c = input.popChar() {
                 if c.isWhitespace || c == "\"" || c == "(" || c == ")" ||
                      (!result.isEmpty &&
-                        (c == ":" || c == ";" || c == ","
-                           || c == "[" || c == "]")) {
+                        (c == ";" || c == "," || c == "[" || c == "]")) {
                     input.pushChar(c)
                     break
                 }
@@ -21,7 +20,7 @@ extension readers {
                 result.append(c)
                 location.column += 1
                 
-                if c == ":" || c == ";" || c == ","
+                if c == ";" || c == ","
                      || c == "[" || c == "]" {break}
             }
             

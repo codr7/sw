@@ -1,10 +1,14 @@
 C P S / L R
 
-* add else macro
-** add else P to recall test
-** add test/readme
+* support nested if/else
+** add test
+if #t if #f 1 else 2;
 
 * fib
+** RC
+** LCL
+** +
+** >
 
 :fib (Int Int Int;Int) do
   RC 1 >
@@ -26,6 +30,9 @@ C P S / L R
 ** add seq trait
 *** add iter protocol
 *** add iter type
+
+* add stack macro
+* push copy of current stack
 
 * add load macro
 
