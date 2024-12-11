@@ -13,7 +13,7 @@ Launching `sw` without arguments enters the REPL.
 
 ```
 $ swift run
-sw2
+sw3
 
 1> "hello" say
 2>
