@@ -1,8 +1,6 @@
 C P S / L R
 
 * fib
-** RC
-** LCL
 ** +
 ** >
 
@@ -13,6 +11,26 @@ C P S / L R
   P;
 
 10000 benchmark 50 0 1 fib P; say
+
+* RC
+1 2 3
+2 3 1 1
+2 swapAt + push
+
+* LCL
+1 2 3
+3 2 1 2
+swapAt + push
+
+* LC
+1 2 3
+3 1 2 2
+
+* CL
+1 2 3
+3 1 2 3
+insert
+
 
 * move ValueType.findId to LookupTrait
 

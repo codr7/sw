@@ -1,16 +1,16 @@
 typealias Stack = [Value]
 
 extension Stack {
+    var top: Value {last!}
+
     mutating func copy(_ n: Int) {
         for _ in 0..<n { push(top) } 
     }
 
-    mutating func drop(_ n: Int) {
-        for _ in 0..<n { removeLast() }
-    }
+    mutating func drop(_ n: Int) { self = dropLast(n) }
 
     func dump(_ vm: VM) -> String {
-        "[\(self.map({ $0.dump(vm) }).joined(separator: " "))]"
+        "[\(self.map({$0.dump(vm)}).joined(separator: " "))]"
     }
     
     mutating func pop() -> Value { removeLast() }
@@ -19,24 +19,13 @@ extension Stack {
     mutating func push<TT, T>(_ type: TT, _ data: T)
       where TT: BaseType<T>, TT: ValueType { push(Value(type, data)) }
 
-    func say(_ vm: VM) -> String { "\(map({$0.say(vm)}).joined(separator: " "))" }
-    
-    mutating func shiftLeft() {
-        insert(pop(), at: count-2)
+    func say(_ vm: VM) -> String {
+        "\(map({$0.say(vm)}).joined(separator: " "))"
     }
     
-    mutating func shiftRight() {
-        push(remove(at: count-3))
-    }
-
-    mutating func swap() {
-        let i = count-1
-        let v = self[i]
-        self[i] = self[i-1]
-        self[i-1] = v
-    }
-
-    var top: Value {last!}
+    mutating func shiftLeft() { insert(pop(), at: count-2) }
+    mutating func shiftRight() { push(remove(at: count-3)) }
+    mutating func swap() { swapAt(count-1, count-2) }
 
     mutating func zip(_ vm: VM) {
         let r = pop()
