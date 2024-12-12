@@ -1,17 +1,21 @@
 extension packages.Core {
     final class StringType: BaseType<String>, CountTrait, ValueType {
-        var count: CountTrait.Count?
-
         override init(_ id: String, _ parents: [any ValueType]) {
             super.init(id, parents)
-            typeLookup[typeId] = self
-            let t = self
-            
-            count = {(target) in target.cast(t).count}
-            dump = {(vm, value) in "\"\(value.cast(t))\""}
-            eq = {(value1, value2) in value1.cast(t) == value2.cast(t)}
-            say = {(vm, value) in value.cast(t)}
-            toBit = {(value) in !value.cast(t).isEmpty}
+            typeLookup[typeId] = self            
         }
+
+        func count(_ target: Value) -> Int { target.cast(self).count }
+
+        override func dump(_ vm: VM, _ value: Value) -> String {
+            "\"\(value.cast(self))\""
+        }
+
+        func eq(_ value1: Value, _ value2: Value) -> Bool {
+            value1.cast(self) == value2.cast(self)
+        }
+        
+        func say(_ vm: VM, _ value: Value) -> String { value.cast(self) }
+        func toBit(_ value: Value) -> Bool { !value.cast(self).isEmpty }
     }
 }

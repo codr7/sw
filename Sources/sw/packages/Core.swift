@@ -274,8 +274,6 @@ extension packages {
                           try ifBody.emit(vm)
                           var elsePc = vm.emitPc
 
-                          print(arguments.dump(vm), body.dump(vm), ifBody.dump(vm), elseBody.dump(vm))
-
                           if !elseBody.isEmpty {
                               let skipElsePc =
                                 vm.emit(ops.Fail.make(vm, location))

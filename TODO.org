@@ -14,6 +14,8 @@ C P S / L R
 
 10000 benchmark 50 0 1 fib P; say
 
+* move ValueType.findId to LookupTrait
+
 * add pair literals
 ** form
 ** reader
@@ -28,7 +30,13 @@ C P S / L R
 *** add iter type
 
 * add stack macro
-* push copy of current stack
+** push copy of current stack
+
+* add with: macro
+** use _ to move values
+4 [1 2} with: S 3 _ 5;
+`[2 1 3 4 5]`
+
 
 * add load macro
 

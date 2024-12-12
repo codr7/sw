@@ -3,9 +3,14 @@ extension packages.Core {
         override init(_ id: String, _ parents: [any ValueType]) {
             super.init(id, parents)
             typeLookup[typeId] = self
-            let t = self
-            eq = {(value1, value2) in value1.cast(t) == value2.cast(t)}
-            findId = {(source, id) in source.cast(t)[id]} 
+        }
+
+        func eq(_ value1: Value, _ value2: Value) -> Bool {
+            value1.cast(self) == value2.cast(self)
+        }
+        
+        func findId(_ source: Value, _ id: String) -> Value? {
+            source.cast(self)[id]
         }
     }
 }

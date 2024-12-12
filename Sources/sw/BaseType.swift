@@ -12,32 +12,16 @@ class BaseType<T>: CustomStringConvertible {
     var parents: ValueType.Parents = []
     let typeId: TypeId
 
-    var dump: ValueType.Dump? = {(vm, value) in "\(value.data)" }
-    var eq: ValueType.Eq? = nil
-    var eqv: ValueType.Eq?
-    var findId: ValueType.FindId? = nil
-    var say: ValueType.Say? = {(vm, target) in target.dump(vm)}
-    var toBit: ValueType.ToBit? = {(value) in true }
-
     init(_ id: String, _ parents: [any ValueType] = []) {
         self.id = id
         typeId = nextTypeId
         nextTypeId += 1
-
-        eqv = {[self] in eq!($0, $1)}
-        
         self.parents.insert(typeId)
         for p in parents { addParent(p) }
     }
 
     func addParent(_ parent: any ValueType) {
-        for pid in parent.parents {
-            parents.insert(pid)
-            let p = typeLookup[pid]!
-            dump = dump ?? p.dump
-            eq = eq ?? p.eq
-            toBit = toBit ?? p.toBit
-        }
+        for pid in parent.parents { parents.insert(pid) }
     }
 
     func compile(_ vm: VM,
@@ -46,6 +30,10 @@ class BaseType<T>: CustomStringConvertible {
                  _ index: Int,
                  _ location: Location) throws {
         arguments[index] = forms.Literal(target, location)
+    }
+
+    func dump(_ vm: VM, _ value: Value) -> String {
+        "\(value.cast(self))"
     }
 
     func isDerived(from: ValueType) -> Bool { parents.contains(from.typeId) }

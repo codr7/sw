@@ -3,11 +3,6 @@ extension packages.Core {
         override init(_ id: String, _ parents: [any ValueType]) {
             super.init(id, parents)
             typeLookup[typeId] = self
-            let t = self
-
-            eq = {(value1, value2) in
-                value1.cast(t) === value2.cast(t)
-            }
         }
 
         func emitId(_ vm: VM,
@@ -15,6 +10,10 @@ extension packages.Core {
                     _ arguments: inout Forms,
                     _ location: Location) throws {
             try target.cast(self).emit(vm, &arguments, location)
+        }
+
+        func eq(_ value1: Value, _ value2: Value) -> Bool {
+            value1.cast(self) === value2.cast(self)
         }
     }
 }

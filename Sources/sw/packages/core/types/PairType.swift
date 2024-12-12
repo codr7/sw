@@ -1,26 +1,28 @@
 extension packages.Core {
     class PairType: BaseType<Pair>, CountTrait, ValueType {
-        var count: CountTrait.Count?
-
         override init(_ id: String, _ parents: [any ValueType]) {
             super.init(id, parents)
-            typeLookup[typeId] = self
-            let t = self
-            
-            count = {(target) in
-                var p = target
-                var n = 1
+            typeLookup[typeId] = self            
+        }
 
-                while p.type == t {
-                    p = p.cast(t).1
-                    n += 1
-                }
+        func count(_ target: Value) -> Int {
+            var p = target
+            var n = 1
 
-                return n
+            while let np = p.tryCast(self) {
+                p = np.1
+                n += 1
             }
-            
-            dump = {(vm, value) in sw.dump(vm, value.cast(t))}
-            eq = {(value1, value2) in value1.cast(t) == value2.cast(t)}
+
+            return n
+        }
+        
+        override func dump(_ vm: VM, _ value: Value) -> String {
+            sw.dump(vm, value.cast(self))
+        }
+
+        func eq(_ value1: Value, _ value2: Value) -> Bool {
+            value1.cast(self) == value2.cast(self)
         }
     }
 }
