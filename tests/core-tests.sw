@@ -13,13 +13,13 @@
 1 #f if: 2 3; 4
 [1 4] check
 
-1 #t if: 2 else: 3 4; 5
+1 #t if: 2 else: 3 4;; 5
 [1 2 5] check
 
-1 #f if: 2 else: 3 4; 5
+1 #f if: 2 else: 3 4;; 5
 [1 3 4 5] check
 
-1 #t if: #f if: 2 else: 3; 4
+1 #t if: #f if: 2 else: 3;;; 4
 [1 3 4] check
 
 define: foo 42;
@@ -32,20 +32,20 @@ define: is-42 (Int;Bit) , 42 =; is-42 7
 is-42 42
 [#t] check
 
-define: is-42 (Int;Bit) do: 42 =;
+define: is-42 (Int;Bit) do: 42 =;;
 7 is-42
 [#f] check
 
 42 is-42
 [#t] check
 
-define: is-42 (Int;Bit) do: 42 do: =;
+define: is-42 (Int;Bit) do: 42 do: =;;
 7 is-42
 [#f] check
 
 42 is-42
 [#t] check
 
-define: repeat (Int;Int) do: dec CC if: recall;
+define: repeat (Int;Int) do: dec CC if: recall;;;
 3 repeat
 [2 1 0 0] check

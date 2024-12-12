@@ -1,7 +1,6 @@
 C P S / L R
 
-* fib
-** debug
+* add benchmark macro
 
 * CL
 1 2 3
