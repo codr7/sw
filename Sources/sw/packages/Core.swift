@@ -3,7 +3,7 @@ extension packages {
         let anyType: AnyType
         let bitType: BitType
         let formType: FormType
-        let intType: IntType
+        let i64Type: I64Type
         let metaType: MetaType
         let packageType: PackageType
         let pairType: PairType
@@ -22,7 +22,7 @@ extension packages {
             anyType = AnyType("Any", [])
             bitType = BitType("Bit", [anyType])
             formType = FormType("Form", [anyType])
-            intType = IntType("Int", [anyType])
+            i64Type = I64Type("I64", [anyType])
             metaType = MetaType("Meta", [anyType])
             packageType = PackageType("Package", [anyType])
             pairType = PairType("Pair", [anyType])
@@ -43,7 +43,7 @@ extension packages {
             bind(vm, anyType)
             bind(vm, bitType)
             bind(vm, formType)
-            bind(vm, intType)
+            bind(vm, i64Type)
             bind(vm, metaType)
             bind(vm, methodType)
             bind(vm, packageType)
@@ -101,22 +101,22 @@ extension packages {
 
             bindMethod(vm, ">", [anyType, anyType], [bitType],
                        {(vm, location) in
-                           let r = vm.stack.pop().cast(self.intType)
+                           let r = vm.stack.pop().cast(self.i64Type)
                            let i = vm.stack.count-1
 
                            vm.stack[i] =
                              Value(self.bitType,
-                                   vm.stack[i].cast(self.intType) > r)
+                                   vm.stack[i].cast(self.i64Type) > r)
                        })            
             
             bindMethod(vm, "+", [anyType, anyType], [bitType],
                        {(vm, location) in
-                           let r = vm.stack.pop().cast(self.intType)
+                           let r = vm.stack.pop().cast(self.i64Type)
                            let i = vm.stack.count-1
 
                            vm.stack[i] =
-                             Value(self.intType,
-                                   vm.stack[i].cast(self.intType) + r)
+                             Value(self.i64Type,
+                                   vm.stack[i].cast(self.i64Type) + r)
                        })
             
             bindMacro(vm, "C", [anyType], [anyType, anyType],
@@ -187,11 +187,11 @@ extension packages {
                           vm.emit(ops.Check.make(vm, location))
                       })
 
-            bindMethod(vm, "dec", [intType], [intType],
+            bindMethod(vm, "dec", [i64Type], [i64Type],
                        {(vm, location) in
                            vm.stack[vm.stack.count-1] =
-                             Value(vm.core.intType,
-                                   vm.stack.last!.cast(vm.core.intType) - 1)
+                             Value(vm.core.i64Type,
+                                   vm.stack.last!.cast(vm.core.i64Type) - 1)
                        })
 
             bindMacro(

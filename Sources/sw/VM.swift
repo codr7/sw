@@ -9,7 +9,7 @@ class VM {
     
     let reader = readers.AnyReader(
       readers.Whitespace.instance,
-      readers.IntReader.instance,
+      readers.I64Reader.instance,
       readers.IdReader.instance,
       readers.SexprReader.instance,
       readers.StringReader.instance

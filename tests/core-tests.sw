@@ -26,26 +26,26 @@ define: foo 42;
 foo
 [42] check
 
-define: is-42 (Int;Bit) , 42 =; is-42 7
+define: is-42 (I64;Bit) , 42 =; is-42 7
 [#f] check
 
 is-42 42
 [#t] check
 
-define: is-42 (Int;Bit) do: 42 =;;
+define: is-42 (I64;Bit) do: 42 =;;
 7 is-42
 [#f] check
 
 42 is-42
 [#t] check
 
-define: is-42 (Int;Bit) do: 42 do: =;;
+define: is-42 (I64;Bit) do: 42 do: =;;
 7 is-42
 [#f] check
 
 42 is-42
 [#t] check
 
-define: repeat (Int;Int) do: dec CC if: recall;;;
+define: repeat (I64;I64) do: dec CC if: recall;;;
 3 repeat
 [2 1 0 0] check

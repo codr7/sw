@@ -1,5 +1,5 @@
 extension packages.Core {
-    class IntType: BaseType<Int>, ValueType {
+    class I64Type: BaseType<I64>, ValueType {
         override init(_ id: String, _ parents: [any ValueType]) {
             super.init(id, parents)
             typeLookup[typeId] = self

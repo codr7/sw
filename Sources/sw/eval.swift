@@ -16,7 +16,7 @@ extension VM {
                 pc += 1
             case .Benchmark:
                 do {
-                    let n = stack.pop().cast(core.intType)
+                    let n = stack.pop().cast(core.i64Type)
                     let startPc = pc + 1
                     let endPc = tags[ops.Benchmark.endPc(op)] as! PC
                     var t: Duration = Duration.milliseconds(0)
