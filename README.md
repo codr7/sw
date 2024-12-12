@@ -130,7 +130,7 @@ There is no limit on the number of `do`-blocks, but each needs to be terminated 
 
 ```
 define: is-42 (Int;Bit)
-do: 42
+do: 42;
 do: =;
 
 42 is-42
@@ -163,7 +163,7 @@ repeat: (Int;Int) do
 `else:` may be used to evaluate code when the condition is false.
 
 ```
-1 #f if: 2 else: 3; 4
+1 #f if: 2 else: 3;; 4
 ```
 `[1 3 4]`
 
