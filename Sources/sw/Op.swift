@@ -14,6 +14,7 @@ enum OpCode: UInt8 {
     case Nop
     case Pop
     case Push
+    case PushI64
     case Stop
     case SetLoadPath
     case ShiftLeft
@@ -24,6 +25,7 @@ enum OpCode: UInt8 {
 }
 
 struct ops {
+    static let opWidth = 64
     static let opCodeWidth = 6
     static let pcWidth = 20
     static let tagWidth = 20
@@ -97,6 +99,8 @@ struct ops {
             Pop.dump(vm, op)
         case .Push:
             Push.dump(vm, op)
+        case .PushI64:
+            PushI64.dump(vm, op)
         case .SetLoadPath:
             SetLoadPath.dump(vm, op)
         case .ShiftLeft:
@@ -142,6 +146,8 @@ struct ops {
             Pop.trace(vm, op)
         case .Push:
             Push.trace(vm, op)
+        case .PushI64:
+            PushI64.trace(vm, op)
         case .SetLoadPath:
             SetLoadPath.trace(vm, op)
         case .ShiftLeft:

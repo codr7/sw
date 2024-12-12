@@ -86,6 +86,9 @@ extension VM {
             case .Push:
                 stack.push(tags[ops.Push.value(op)] as! Value)
                 pc += 1
+            case .PushI64:
+                stack.push(core.i64Type, ops.PushI64.value(op))
+                pc += 1
             case .SetLoadPath:
                 loadPath = tags[ops.SetLoadPath.path(op)]
                   as! FilePath
