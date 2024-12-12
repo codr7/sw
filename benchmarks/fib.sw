@@ -1,6 +1,6 @@
 define: fib (Int Int Int;Int) do:
   R C 1 >
-  if: dec L CL + recall
+  if: dec L C L + recall
   else: 1 = if: S;;;
   P;;
 

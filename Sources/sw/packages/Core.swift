@@ -129,11 +129,6 @@ extension packages {
                           vm.emit(ops.Copy.make(2))
                       })
 
-            bindMacro(vm, "CL", [anyType], [anyType, anyType],
-                      {(vm, arguments, location) in
-                          vm.emit(ops.CopyLeft.make())
-                      })
-
             bindMacro(vm, "L",
                       [anyType, anyType, anyType],
                       [anyType, anyType, anyType],
