@@ -168,6 +168,20 @@ extension packages {
                           vm.emit(ops.Zip.make())
                       })
 
+            bindMacro(vm, "benchmark:", [], [],
+                      {(vm, arguments, location) in
+                          var body = arguments.getBody()
+
+                          let benchmarkPc =
+                            vm.emit(ops.Fail.make(vm, location))
+
+                          try body.emit(vm)
+                          
+                          vm.code[benchmarkPc] =
+                            ops.Benchmark.make(vm, vm.emitPc)
+                      })
+
+            
             bindMacro(vm, "check", [anyType, anyType], [],
                       {(vm, arguments, location) in
                           vm.emit(ops.Check.make(vm, location))
@@ -269,7 +283,7 @@ extension packages {
 
             bindMacro(vm, "recall", [], [],
                       {(vm, arguments, location) in
-                          vm.emit(ops.Goto.make(vm.doStack.last!))
+                          vm.emit(ops.Goto.make(vm.dos.last!))
                       })
 
             bindMethod(vm, "say", [anyType], [],

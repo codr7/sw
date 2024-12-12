@@ -18,7 +18,7 @@ class VM {
     var pc: PC = 0
     var stack: Stack = []
     var stacks: [Stack] = []
-    var doStack: [PC] = []
+    var dos: [PC] = []
     var tags: [Any] = []
 
     let core: packages.Core
@@ -41,6 +41,12 @@ class VM {
     func beginStack() {
         stacks.append(stack)
         stack = []
+    }
+
+    func doStack(push: Bool, _ body: () throws -> Void) throws {
+        beginStack()
+        defer { endStack(push: push) }
+        try body()
     }
     
     func endPackage() { currentPackage = currentPackage.parent! }

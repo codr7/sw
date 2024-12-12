@@ -14,6 +14,25 @@ extension VM {
             case .BeginStack:
                 beginStack()
                 pc += 1
+            case .Benchmark:
+                do {
+                    let n = stack.pop().cast(core.intType)
+                    let startPc = pc + 1
+                    let endPc = tags[ops.Benchmark.endPc(op)] as! PC
+                    var t: Duration = Duration.milliseconds(0)
+                    
+                    try doStack(push: false) {
+                        t = try ContinuousClock().measure {
+                            for _ in 0..<n {
+                                try eval(from: startPc, to: endPc)
+                                stack = []
+                            }
+                        }
+                    }
+                    
+                    stack.push(core.timeType, t)
+                    pc = endPc
+                }
             case .Branch:
                 if stack.pop().toBit() {
                     pc += 1
@@ -47,10 +66,10 @@ extension VM {
                 pc += 1
             case .Do:
                 do {
-                    doStack.append(emitPc)
+                    dos.append(emitPc)
                     var body = tags[ops.Do.body(op)] as! Forms
                     try body.emit(self)
-                    doStack.removeLast()
+                    dos.removeLast()
                     pc += 1
                 }
             case .EndStack:

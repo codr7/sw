@@ -1,6 +1,7 @@
 C P S / L R
 
-* add benchmark macro
+swift run -Xswiftc -cross-module-optimization -c=release sw fib.sw
+0.392072036 seconds
 
 * CL
 1 2 3
