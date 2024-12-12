@@ -7,6 +7,7 @@ enum OpCode: UInt8 {
     case CallTag
     case Check
     case Copy
+    case CopyShiftLeft
     case Do
     case EndStack
     case Fail
@@ -83,6 +84,8 @@ struct ops {
             Check.dump(vm, op)
         case .Copy:
             Copy.dump(vm, op)
+        case .CopyShiftLeft:
+            CopyShiftLeft.dump(vm, op)
         case .Do:
             Do.dump(vm, op)
         case .EndStack:
@@ -128,6 +131,8 @@ struct ops {
             Check.trace(vm, op)
         case .Copy:
             Copy.trace(vm, op)
+        case .CopyShiftLeft:
+            CopyShiftLeft.trace(vm, op)
         case .Do:
             Do.trace(vm, op)
         case .EndStack:

@@ -24,6 +24,7 @@ extension Stack {
     }
     
     mutating func shiftLeft() { insert(pop(), at: count-2) }
+    mutating func copyShiftLeft() { insert(top, at: count-3) }
     mutating func shiftRight() { push(remove(at: count-3)) }
     mutating func swap() { swapAt(count-1, count-2) }
 
