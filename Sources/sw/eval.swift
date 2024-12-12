@@ -61,8 +61,8 @@ extension VM {
             case .Copy:
                 stack.copy(ops.Copy.count(op))
                 pc += 1
-            case .CopyShiftLeft:
-                stack.copyShiftLeft()
+            case .CopyLeft:
+                stack.copyLeft()
                 pc += 1
             case .Do:
                 do {

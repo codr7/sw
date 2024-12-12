@@ -12,6 +12,12 @@ extension Stack {
     func dump(_ vm: VM) -> String {
         "[\(self.map({$0.dump(vm)}).joined(separator: " "))]"
     }
+
+
+    mutating func leftCopyLeft() {
+        swapAt(count-1, count-3)
+        push(self[count-2])
+    }
     
     mutating func pop() -> Value { removeLast() }
     mutating func push(_ value: Value) { append(value) }
@@ -24,7 +30,7 @@ extension Stack {
     }
     
     mutating func shiftLeft() { insert(pop(), at: count-2) }
-    mutating func copyShiftLeft() { insert(top, at: count-3) }
+    mutating func copyLeft() { insert(top, at: count-2) }
     mutating func shiftRight() { push(remove(at: count-3)) }
     mutating func swap() { swapAt(count-1, count-2) }
 

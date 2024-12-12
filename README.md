@@ -9,12 +9,11 @@ An attempt to simplify some of Forth's ideas, as well as combine them with other
 `sw` is still in a very explorative phase, please mind the gaps.
 
 ### Performance
-The core evaluation loop is currently around twice as fast as Pyton 3.
 
 ```
 swift run -Xswiftc -cross-module-optimization -c=release sw benchmarks/fib.sw
 
-0.027878638 seconds
+0.358810439 seconds
 ```
 
 ```
