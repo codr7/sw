@@ -23,6 +23,8 @@ class REPL {
                 } catch {
                     print(error)
                 }
+            } else if line! == "clear!\n" {
+                vm.stack = []
             } else {
                 input.append(line!)
                 lineNumber += 1

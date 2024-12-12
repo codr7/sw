@@ -192,9 +192,6 @@ extension packages {
                           vm.emit(ops.Check.make(vm, location))
                       })
 
-            bindMethod(vm, "CLEAR", [anyType], [],
-                       {(vm, location) in vm.stack = [] })
-
             bindMethod(vm, "dec", [intType], [intType],
                        {(vm, location) in
                            vm.stack[vm.stack.count-1] =

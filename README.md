@@ -13,15 +13,13 @@ The core evaluation loop is currently around twice as fast as Pyton 3.
 
 ```
 swift run -Xswiftc -cross-module-optimization -c=release sw benchmarks/fib.sw
-```
-```
+
 0.027878638 seconds
 ```
 
 ```
 python3 benchmarks/python/fib.py
-```
-```
+
 0.05241723099607043
 ```
 
@@ -37,14 +35,14 @@ sw3
 hello
 ```
 
-`CLEAR` may be used to clear the stack.
+`clear!` may be used to clear the REPL stack.
 
 ```
 1> 1 2 3
 2>
 [1 2 3]
 
-2> CLEAR
+2> clear!
 3>
 []
 ```
