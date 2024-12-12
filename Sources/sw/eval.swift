@@ -21,12 +21,9 @@ extension VM {
                     let endPc = tags[ops.Benchmark.endPc(op)] as! PC
                     var t: Duration = Duration.milliseconds(0)
                     
-                    try doStack(push: false) {
-                        t = try ContinuousClock().measure {
-                            for _ in 0..<n {
-                                try eval(from: startPc, to: endPc)
-                                stack = []
-                            }
+                    t = try ContinuousClock().measure {
+                        for _ in 0..<n {
+                            try eval(from: startPc, to: endPc)
                         }
                     }
                     
