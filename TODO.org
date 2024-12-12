@@ -3,7 +3,17 @@ C P S / L R
 swift run -Xswiftc -cross-module-optimization -c=release sw fib.sw
 0.392072036 seconds
 
+* test LC L/C
+
+* rename Int to I64
+** add typealias
+
+* add PushI64 op
+** trigger from Push.make
+
 * move ValueType.findId to LookupTrait
+
+* --
 
 * add pair literals
 ** form
@@ -32,9 +42,6 @@ swift run -Xswiftc -cross-module-optimization -c=release sw fib.sw
 ** benchmark
 
 * add load macro
-
-* add dump-stack method
-* add dump-call-stack
 
 * add IdType/LiteralType
 ** derive formType

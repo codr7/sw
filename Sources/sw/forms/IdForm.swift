@@ -30,10 +30,12 @@ extension forms {
         func emit(_ vm: VM, _ arguments: inout Forms) throws {
             let v = Id.find(vm, vm.currentPackage, value);
 
-            if v == nil { throw EmitError("Unknown id: \(value) \(arguments.dump(vm))",
-                                          location) }
+            if v == nil {
+                throw EmitError("Unknown id: \(value) \(arguments.dump(vm))",
+                                location)
+            }
             
-            return try v!.emitId(vm, &arguments, location)
+            try v!.emitId(vm, &arguments, location)
         }
 
         func equals(_ other: Form) -> Bool {
