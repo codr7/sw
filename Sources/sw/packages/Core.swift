@@ -94,10 +94,31 @@ extension packages {
                        {(vm, location) in
                            let r = vm.stack.pop()
                            let i = vm.stack.count-1
+
                            vm.stack[i] = Value(self.bitType,
                                                vm.stack[i] == r)
                        })            
 
+            bindMethod(vm, ">", [anyType, anyType], [bitType],
+                       {(vm, location) in
+                           let r = vm.stack.pop().cast(self.intType)
+                           let i = vm.stack.count-1
+
+                           vm.stack[i] =
+                             Value(self.bitType,
+                                   vm.stack[i].cast(self.intType) > r)
+                       })            
+            
+            bindMethod(vm, "+", [anyType, anyType], [bitType],
+                       {(vm, location) in
+                           let r = vm.stack.pop().cast(self.intType)
+                           let i = vm.stack.count-1
+
+                           vm.stack[i] =
+                             Value(self.intType,
+                                   vm.stack[i].cast(self.intType) + r)
+                       })
+            
             bindMacro(vm, "C", [anyType], [anyType, anyType],
                       {(vm, arguments, location) in
                           vm.emit(ops.Copy.make(1))
