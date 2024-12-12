@@ -4,33 +4,33 @@ C P S / L R
 ** +
 ** >
 
-:fib (Int Int Int;Int) do
+define: fib (Int Int Int;Int) do:
   RC 1 >
-  if dec LCL + recall
-  else 1 = if S;
+  if: dec LCL + recall
+  else: 1 = if S;
   P;
 
-10000 benchmark 50 0 1 fib P; say
-
-* RC
-1 2 3
-2 3 1 1
-2 swapAt + push
-
-* LCL
-1 2 3
-3 2 1 2
-swapAt + push
-
-* LC
-1 2 3
-3 1 2 2
+10000 benchmark: 50 0 1 fib P; say
 
 * CL
 1 2 3
 3 1 2 3
 insert
 
+* LCL
+1 2 3
+3 2 1 2
+swap push
+
+* RC
+1 2 3
+2 3 1 1
+remove push push
+
+* LC
+1 2 3
+3 1 2 2
+swap insert push
 
 * move ValueType.findId to LookupTrait
 
