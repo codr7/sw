@@ -218,15 +218,10 @@ extension packages {
 
                   let gotoPc = vm.emit(ops.Fail.make(vm, location))
                   let startPc = vm.emitPc
+                  var body = arguments.getBody()
                   vm.beginPackage()
                   defer { vm.endPackage() }
-                  
-                  while !arguments.isEmpty {
-                      let f = arguments.removeFirst()
-                      if f.isEnd { break }
-                      try f.emit(vm, &arguments)
-                  }
-
+                  try body.emit(vm)
                   let endPc = vm.emitPc
                   vm.code[gotoPc] = ops.Goto.make(vm.emitPc)
 
@@ -241,18 +236,8 @@ extension packages {
             
             bindMacro(vm, "do:", [], [],
                       {(vm, arguments, location) in
-                          let das = arguments
-                            .prefix(while: {
-                              $0.tryCast(forms.Id.self)?.value != "do:"
-                          }).prefix(while: {!$0.isEnd})
-
-                          arguments =
-                            Forms(arguments.dropFirst((arguments.isEmpty ||
-                                                         !arguments.first!.isEnd)
-                                                        ? das.count
-                                                        : das.count+1))
-
-                          vm.emit(ops.Do.make(vm, Forms(das)))
+                          let body = arguments.getBody("do:")
+                          vm.emit(ops.Do.make(vm, body))
                       })
 
             bindMethod(vm, "dump", [anyType], [],
@@ -264,38 +249,14 @@ extension packages {
             bindMacro(vm, "if:", [], [],
                       {(vm, arguments, location) in
                           let branchPc = vm.emit(ops.Fail.make(vm, location))
-                          
-                          let body = Forms(
-                            arguments.prefix(while: {!$0.isEnd}))
-
-                          arguments = Forms(
-                            arguments.suffix(arguments.count - body.count))
-
-                          if !arguments.isEmpty {
-                              arguments.removeFirst()
-                          }
-
-                          var ifBody: Forms = body
-                          var elseBody: Forms = []
-                          var depth = 0
-                          
-                          for i in 0..<body.count {
-                              let f = body[i]
-                              if f.isEnd { depth -= 1 }
-                              else if f.tryCast(forms.Id.self)?.value ==
-                                        "if:" {
-                                  depth += 1
-                              } else if f.tryCast(forms.Id.self)?.value ==
-                                          "else:" && depth == 0 {
-                                  ifBody = Forms(body.prefix(i))
-                                  elseBody = body.suffix(body.count-i-1)
-                              }
-                          }
-                          
+                          var elseBody = arguments.getBody()
+                          var ifBody = elseBody.getBody("else:")
                           try ifBody.emit(vm)
                           var elsePc = vm.emitPc
 
                           if !elseBody.isEmpty {
+                              elseBody.removeFirst()
+                              elseBody = elseBody.getBody()
                               let skipElsePc =
                                 vm.emit(ops.Fail.make(vm, location))
                               elsePc = vm.emitPc

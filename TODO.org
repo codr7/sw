@@ -1,15 +1,7 @@
 C P S / L R
 
 * fib
-** solve nested ;
-
-define: fib (Int Int Int;Int) do:
-  RC 1 >
-  if: dec LCL + recall
-  else: 1 = if S;
-  P;
-
-10000 benchmark: 50 0 1 fib P; say
+** debug
 
 * CL
 1 2 3

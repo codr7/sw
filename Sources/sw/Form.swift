@@ -54,6 +54,30 @@ extension Forms {
 
         return true
     }
+
+    mutating func getBody(_ stop: String? = nil) -> Forms {
+        var i = 0
+        var depth = 1
+        
+        while i < self.count {
+            let f = self[i]
+
+            if f.isEnd {
+                depth -= 1
+                if depth == 0 { break }
+            } else if let idf = f.tryCast(forms.Id.self) {
+                if depth == 1 && idf.value == stop { break }
+                if idf.value.last! == ":" { depth += 1 }
+            }
+
+            i += 1
+        }
+
+        let body = prefix(i)
+        while i < count && self[i].isEnd { i += 1 }
+        self = suffix(count - i)
+        return Forms(body)
+    }
 }
 
 final class EmitError: BaseError, @unchecked Sendable {}
