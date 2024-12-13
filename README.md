@@ -125,7 +125,7 @@ define: is-42 (Int;Bit) do:
 ```
 `[#t]`
 
-There is no limit on the number of `do`-blocks, but each needs to be terminated with `;` or followed by another `do`-block.
+There is no limit on the number of `do`-blocks, but each needs to be terminated with `;`.
 
 ```
 define: is-42 (Int;Bit)
