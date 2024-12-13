@@ -3,7 +3,7 @@
 
 An attempt to simplify some of Forth's ideas, as well as combine them with other ideas; without losing the soul of the original language.
 
-`sw` is designed to be embedded in Swift, which is a different game compared to Forth's origin. To me, a good approach when writing interpreters is to spend less energy pretending to be hardware and more on making good use of whatever sits below.
+`sw` is designed to be embedded in Swift, which is a different game compared to Forth's origin.
 
 ## Status
 `sw` is still in a very explorative phase, please mind the gaps.
@@ -13,13 +13,13 @@ An attempt to simplify some of Forth's ideas, as well as combine them with other
 ```
 swift run -Xswiftc -cross-module-optimization -c=release sw benchmarks/fib.sw
 
-0.358810439 seconds
+0.4904674 seconds
 ```
 
 ```
 python3 benchmarks/python/fib.py
 
-0.05241723099607043
+0.0685899
 ```
 
 ## REPL
@@ -119,7 +119,7 @@ foo
 
 ```
 define: is-42 (Int;Bit) do:
-  42 =;
+  42 =;;
   
 42 is-42
 ```
@@ -130,7 +130,7 @@ There is no limit on the number of `do`-blocks, but each needs to be terminated 
 ```
 define: is-42 (Int;Bit)
 do: 42;
-do: =;
+do: =;;
 
 42 is-42
 ```
@@ -140,8 +140,8 @@ do: =;
 `recall` may be used to trigger a tail recursive call to the currently evaluating `do`-block.
 
 ```
-repeat: (Int;Int) do
-  dec CC say if recall;
+repeat: (Int;Int) do:
+  dec CC say if recall;;
 3 repeat
 ```
 ```
@@ -201,7 +201,7 @@ Error in repl@1:13: Check failed, actual: [2 3], expected: [1 2]
 ```
 
 ## Debugging
-`dump` may be used to get a helpful string representation of any value.
+`dump` may be used to get a string representation of any value.
 
 ```
 [1 2 3] dump
