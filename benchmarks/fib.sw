@@ -1,4 +1,4 @@
-define: fib (I64 I64 I64;I64) do:
+define: fib do:
   R C 1 >
   if: dec L C L + recall
   else: 1 = if: S;;;
