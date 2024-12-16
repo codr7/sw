@@ -9,14 +9,15 @@ func load(_ vm: VM, _ offset: Int) throws {
 let vm = VM()
 
 vm.user.bind(vm, vm.core)
+vm.user.bind(vm, vm.char)
 vm.user.bind(vm, vm.user)
 
+vm.user.importFrom(vm.core, vm.core.ids)
+
 if CommandLine.arguments.count == 1 {
-    vm.user.importFrom(vm.core, vm.core.ids)
     try REPL(vm).run()
 } else {
     //vm.user.importFrom(vm.core, ["import"])
-    vm.user.importFrom(vm.core, vm.core.ids)
     let startPc = vm.emitPc
 
     switch CommandLine.arguments[1] {

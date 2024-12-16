@@ -5,6 +5,7 @@ extension packages {
         
         let anyType: AnyType
         let bitType: BitType
+        let charType: CharType
         let formType: FormType
         let i64Type: I64Type
         let iterType: IterType
@@ -28,6 +29,7 @@ extension packages {
         init() {
             anyType = AnyType("Any", [])
             bitType = BitType("Bit", [anyType])
+            charType = CharType("Char", [anyType])
             formType = FormType("Form", [anyType])
             i64Type = I64Type("I64", [anyType])
             iterType = IterType("Iter", [anyType])

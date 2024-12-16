@@ -17,7 +17,7 @@ extension packages.Core {
         }
 
         func makeIter(_ target: Value) -> Iter {
-            iters.Default(target.cast(self).makeIterator())
+            iters.Items(target.cast(self).makeIterator())
         }
 
         func say(_ vm: VM, _ value: Value) -> String {

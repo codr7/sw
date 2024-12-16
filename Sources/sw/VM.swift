@@ -10,6 +10,7 @@ class VM {
     let reader = readers.AnyReader(
       readers.Whitespace.instance,
       readers.I64Reader.instance,
+      readers.Char.instance,
       readers.IdReader.instance,
       readers.Ref.instance,
       readers.SexprReader.instance,
@@ -23,15 +24,18 @@ class VM {
     var tags: [Any] = []
 
     let core: packages.Core
+    let char: packages.Char
     let user: Package
     
     var currentPackage: Package
     
     init() {
         core = packages.Core()
+        char = packages.Char()
         user = Package("user")
         currentPackage = user
         core.initBindings(self)
+        char.initBindings(self)
         user.initBindings(self)
     }
 
