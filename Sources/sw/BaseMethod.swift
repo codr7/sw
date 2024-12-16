@@ -17,4 +17,6 @@ class BaseMethod: CustomStringConvertible {
         self.arguments = arguments
         self.results = results
     }
+
+    func dump(_ vm: VM) -> String { "\(self)" }
 }

@@ -1,5 +1,5 @@
 extension packages.Core {
-    class PairType: BaseType<Pair>, CountTrait, ValueType {
+    class PairType: BaseType<Pair>, ValueType, traits.Count {
         override init(_ id: String, _ parents: [any ValueType]) {
             super.init(id, parents)
             typeLookup[typeId] = self            

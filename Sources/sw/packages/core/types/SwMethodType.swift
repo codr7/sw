@@ -15,6 +15,8 @@ extension packages.Core {
         func eq(_ value1: Value, _ value2: Value) -> Bool {
             value1.cast(self) === value2.cast(self)
         }
+
+        func makeRef(_ target: Value) -> Ref { target.cast(self) }
     }
 }
 

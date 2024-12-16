@@ -1,19 +1,26 @@
 extension packages {
     class Core: Package {
+        struct iters {}
+        struct traits {}
+        
         let anyType: AnyType
         let bitType: BitType
         let formType: FormType
         let i64Type: I64Type
+        let iterType: IterType
         let metaType: MetaType
         let packageType: PackageType
         let pairType: PairType
         let pathType: PathType
+        let refType: RefType
+        let seqType: SeqType
         let stackType: StackType
         let stringType: StringType
         let timeType: TimeType
 
         let methodType: MethodType
         let swMethodType: SwMethodType
+        let swiftMethodType: SwiftMethodType
 
         let t: Value
         let f: Value
@@ -23,15 +30,21 @@ extension packages {
             bitType = BitType("Bit", [anyType])
             formType = FormType("Form", [anyType])
             i64Type = I64Type("I64", [anyType])
+            iterType = IterType("Iter", [anyType])
             metaType = MetaType("Meta", [anyType])
             packageType = PackageType("Package", [anyType])
             pairType = PairType("Pair", [anyType])
             pathType = PathType("Path", [anyType])
-            stackType = StackType("Stack", [anyType])
-            stringType = StringType("String", [anyType])
+            refType = RefType("Ref", [anyType])
+            seqType = SeqType("Seq", [anyType])
+            stackType = StackType("Stack", [seqType])
+            stringType = StringType("String", [seqType])
             timeType = TimeType("Time", [anyType])
             methodType = MethodType("Method", [anyType])
-            swMethodType = SwMethodType("SwMethod", [methodType])
+            swMethodType = SwMethodType("SwMethod", [methodType, refType])
+
+            swiftMethodType =
+              SwiftMethodType("SwiftMethod", [methodType, refType])
 
             t = Value(bitType, true)
             f = Value(bitType, false)
@@ -44,11 +57,14 @@ extension packages {
             bind(vm, bitType)
             bind(vm, formType)
             bind(vm, i64Type)
+            bind(vm, iterType)
             bind(vm, metaType)
             bind(vm, methodType)
             bind(vm, packageType)
             bind(vm, pairType)
             bind(vm, pathType)
+            bind(vm, refType)
+            bind(vm, seqType)
             bind(vm, stackType)
             bind(vm, stringType)
             bind(vm, swMethodType)
@@ -276,6 +292,15 @@ extension packages {
                           }                          
 
                           vm.code[branchPc] = ops.Branch.make(elsePc)
+                      })
+
+            bindMethod(vm, "map", [refType, seqType], [iterType],
+                       {(vm, location) in
+                           let input = vm.stack.pop()
+                           let st = input.type as! traits.Seq
+                           let it = st.makeIter(input)
+                           let fn = vm.stack.pop().cast(self.refType)
+                           vm.stack.push(self.iterType, iters.Map(fn, it))
                       })
 
             bindMacro(vm, "recall", [], [],

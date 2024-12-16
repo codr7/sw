@@ -4,7 +4,20 @@ swift run -Xswiftc -cross-module-optimization -c=release sw fib.sw
 
 0.749635932 seconds
 
-* move ValueType.findId to LookupTrait
+* add ref support
+** add reader
+** add form
+** try map macro
+
+* add lambda support?
+** ref of sexpr
+
+* store methods separately from tags
+** avoid casts / limit size
+** register SwiftMethods on creation
+** benchmark
+
+* Move ValueType.findId to LookupTrait
 
 * add pair literals
 ** form
@@ -12,12 +25,12 @@ swift run -Xswiftc -cross-module-optimization -c=release sw fib.sw
 ** use as description
 1:2
 
+* implement traits.Seq for pairs
+
 * add splat method (*)
 ** add to id reader
 ** push items in reverse order
 ** add seq trait
-*** add iter protocol
-*** add iter type
 
 * add stack macro
 ** push copy of current stack
@@ -26,11 +39,6 @@ swift run -Xswiftc -cross-module-optimization -c=release sw fib.sw
 ** use _ to move values
 4 [1 2} with: S 3 _ 5;
 `[2 1 3 4 5]`
-
-* store methods separately from tags
-** avoid casts / limit size
-** register SwiftMethods on creation
-** benchmark
 
 * add load macro
 

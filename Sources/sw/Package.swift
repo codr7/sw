@@ -75,7 +75,7 @@ class Package: CustomStringConvertible, Sequence {
                     _ arguments: [ValueType],
                     _ results: [ValueType],
                     _ body: @escaping SwiftMethod.CallBody) {
-        self[id] = Value(vm.core.methodType,
+        self[id] = Value(vm.core.swiftMethodType,
                          SwiftMethod(id, arguments, results, body))
     }
 

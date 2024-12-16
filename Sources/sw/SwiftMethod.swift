@@ -1,4 +1,4 @@
-class SwiftMethod: BaseMethod, Method {
+class SwiftMethod: BaseMethod, Method, Ref {
     typealias CallBody = (_ vm: VM, _ location: Location) throws -> Void
 
     typealias EmitBody = (_ vm: VM,
@@ -38,7 +38,14 @@ class SwiftMethod: BaseMethod, Method {
         try callBody!(vm, location)
     }
 
-    func emit(_ vm: VM, _ arguments: inout Forms, _ location: Location) throws {
+    func emit(_ vm: VM,
+              _ arguments: inout Forms,
+              _ location: Location) throws {
         try emitBody!(vm, &arguments, location)
+    }
+
+    func equals(_ other: Ref) -> Bool {
+        if let o = other as? SwiftMethod {self.equals(o)}
+        else {false}
     }
 }

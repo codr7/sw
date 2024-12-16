@@ -1,6 +1,6 @@
 
 extension packages.Core {
-    class StackType: BaseType<Stack>, CountTrait, ValueType {
+    class StackType: BaseType<Stack>, ValueType, traits.Count, traits.Seq {
         override init(_ id: String, _ parents: [any ValueType]) {
             super.init(id, parents)
             typeLookup[typeId] = self
@@ -14,6 +14,10 @@ extension packages.Core {
 
         func eq(_ value1: Value, _ value2: Value) -> Bool {
             value1.cast(self) == value2.cast(self)
+        }
+
+        func makeIter(_ target: Value) -> Iter {
+            iters.Default(target.cast(self).makeIterator())
         }
 
         func say(_ vm: VM, _ value: Value) -> String {

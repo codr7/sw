@@ -1,7 +1,7 @@
-class SwMethod: BaseMethod, Method {    
+class SwMethod: BaseMethod, Method, Ref {    
     let location: Location
     let body: (PC, PC)
-    
+
     init(_ vm: VM,
          _ id: String,
          _ arguments: [ValueType],
@@ -11,6 +11,10 @@ class SwMethod: BaseMethod, Method {
         self.body = body
         self.location = location
         super.init(id, arguments, results)
+    }
+
+    func call(_ vm: VM, _ location: Location) throws {
+        try vm.eval(from: body.0, to: body.1)
     }
 
     func emit(_ vm: VM,
@@ -26,5 +30,10 @@ class SwMethod: BaseMethod, Method {
           .reversed())
 
         vm.stack = Array(vm.stack.prefix(stackOffset))
+    }
+
+    func equals(_ other: Ref) -> Bool {
+        if let o = other as? SwMethod, self.equals(o) {true}
+        else {false}
     }
 }
