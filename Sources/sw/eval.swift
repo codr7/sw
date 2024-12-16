@@ -40,6 +40,7 @@ extension VM {
                 do {
                     let t = tags[ops.CallTag.target(op)] as! SwiftMethod
                     let l = tags[ops.CallTag.location(op)] as! Location
+                    pc += 1
                     try t.call(self, l)
                 }
             case .Check:

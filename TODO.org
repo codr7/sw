@@ -4,19 +4,13 @@ swift run -Xswiftc -cross-module-optimization -c=release sw fib.sw
 
 0.749635932 seconds
 
-* test map macro
-** add char/up/down methods
+* add string constructor from iter
 
 * add map: macro?
 ** create ref from body
 
 * add lambda support?
 ** ref of sexpr
-
-* store methods separately from tags
-** avoid casts / limit size
-** register SwiftMethods on creation
-** benchmark
 
 * Move ValueType.findId to LookupTrait
 

@@ -49,3 +49,7 @@ define: is-42 (I64;Bit) do: 42 do: =;;
 define: repeat (I64;I64) do: dec CC if: recall;;;
 3 repeat
 [2 1 0 0] check
+
+&char/up "ab" map
+next S next S next
+[\A \B #_] check

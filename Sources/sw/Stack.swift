@@ -15,9 +15,16 @@ extension Stack {
 
     mutating func pop() -> Value { removeLast() }
     mutating func push(_ value: Value) { append(value) }
-
+    
     mutating func push<TT, T>(_ type: TT, _ data: T)
       where TT: BaseType<T>, TT: ValueType { push(Value(type, data)) }
+
+    mutating func put(_ value: Value, _ i: Int = 0) {
+        self[count-i-1] = value
+    }
+    
+    mutating func put<TT, T>(_ type: TT, _ data: T, _ i: Int = 0)
+      where TT: BaseType<T>, TT: ValueType { put(Value(type, data), i) }
 
     func say(_ vm: VM) -> String {
         "\(map({$0.say(vm)}).joined(separator: " "))"

@@ -1,7 +1,7 @@
 import Foundation
 import SystemPackage
 
-let VERSION = 3
+let VERSION = 4
 
 class VM {
     var code: [Op] = []

@@ -9,7 +9,9 @@ extension packages {
         let formType: FormType
         let i64Type: I64Type
         let iterType: IterType
+        let maybeType: MaybeType
         let metaType: MetaType
+        let nilType: NilType
         let packageType: PackageType
         let pairType: PairType
         let pathType: PathType
@@ -23,11 +25,16 @@ extension packages {
         let swMethodType: SwMethodType
         let swiftMethodType: SwiftMethodType
 
-        let t: Value
-        let f: Value
+        let NIL: Value
 
+        let TRUE: Value
+        let FALSE: Value
+        
         init() {
+            nilType = NilType("Nil", [])
             anyType = AnyType("Any", [])
+            maybeType = MaybeType("Maybe", [anyType, nilType])
+
             bitType = BitType("Bit", [anyType])
             charType = CharType("Char", [anyType])
             formType = FormType("Form", [anyType])
@@ -48,8 +55,9 @@ extension packages {
             swiftMethodType =
               SwiftMethodType("SwiftMethod", [methodType, refType])
 
-            t = Value(bitType, true)
-            f = Value(bitType, false)
+            NIL = Value(nilType, Nil())
+            TRUE = Value(bitType, true)
+            FALSE = Value(bitType, false)
 
             super.init("core")
         }
@@ -60,8 +68,10 @@ extension packages {
             bind(vm, formType)
             bind(vm, i64Type)
             bind(vm, iterType)
+            bind(vm, maybeType)
             bind(vm, metaType)
             bind(vm, methodType)
+            bind(vm, nilType)
             bind(vm, packageType)
             bind(vm, pairType)
             bind(vm, pathType)
@@ -71,9 +81,10 @@ extension packages {
             bind(vm, stringType)
             bind(vm, swMethodType)
             bind(vm, timeType)
-            
-            self["#t"] = t
-            self["#f"] = f
+
+            self["#_"] = NIL;
+            self["#t"] = TRUE
+            self["#f"] = FALSE
 
             bindMacro(vm, "[", [], [], 
                       {(vm, arguments, location) in
@@ -111,30 +122,23 @@ extension packages {
             bindMethod(vm, "=", [anyType, anyType], [bitType],
                        {(vm, location) in
                            let r = vm.stack.pop()
-                           let i = vm.stack.count-1
-
-                           vm.stack[i] = Value(self.bitType,
-                                               vm.stack[i] == r)
+                           vm.stack.put(self.bitType, vm.stack.top == r)
                        })            
 
             bindMethod(vm, ">", [anyType, anyType], [bitType],
                        {(vm, location) in
                            let r = vm.stack.pop().cast(self.i64Type)
-                           let i = vm.stack.count-1
 
-                           vm.stack[i] =
-                             Value(self.bitType,
-                                   vm.stack[i].cast(self.i64Type) > r)
+                           vm.stack.put(self.bitType,
+                                        vm.stack.top.cast(self.i64Type) > r)
                        })            
             
             bindMethod(vm, "+", [anyType, anyType], [bitType],
                        {(vm, location) in
                            let r = vm.stack.pop().cast(self.i64Type)
-                           let i = vm.stack.count-1
 
-                           vm.stack[i] =
-                             Value(self.i64Type,
-                                   vm.stack[i].cast(self.i64Type) + r)
+                           vm.stack.put(self.i64Type,
+                                        vm.stack.top.cast(self.i64Type) + r)
                        })
             
             bindMacro(vm, "C", [anyType], [anyType, anyType],
@@ -207,9 +211,9 @@ extension packages {
 
             bindMethod(vm, "dec", [i64Type], [i64Type],
                        {(vm, location) in
-                           vm.stack[vm.stack.count-1] =
-                             Value(vm.core.i64Type,
-                                   vm.stack.last!.cast(vm.core.i64Type) - 1)
+                           vm.stack.put(
+                             vm.core.i64Type,
+                             vm.stack.top.cast(vm.core.i64Type) - 1)
                        })
 
             bindMacro(
@@ -305,6 +309,17 @@ extension packages {
                            vm.stack.push(self.iterType, iters.Map(fn, it))
                       })
 
+            bindMethod(vm, "next", [iterType], [iterType, maybeType],
+                       {(vm, location) in
+                           var it = vm.stack.top.cast(vm.core.iterType)
+                           
+                           if (try it.next(vm, location)) {
+                               vm.stack.put(vm.core.iterType, it, 1)
+                           } else {
+                               vm.stack.put(vm.core.NIL)
+                           }
+                       })
+            
             bindMacro(vm, "recall", [], [],
                       {(vm, arguments, location) in
                           vm.emit(ops.Goto.make(vm.dos.last!))

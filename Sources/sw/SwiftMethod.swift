@@ -34,7 +34,6 @@ class SwiftMethod: BaseMethod, Method, Ref {
             throw EvalError("Not enough arguments: \(self)", location)
         }
         
-        vm.pc += 1
         try callBody!(vm, location)
     }
 
