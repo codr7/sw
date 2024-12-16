@@ -1,5 +1,5 @@
 extension packages.Core {
-    class SwiftMethodType: BaseType<SwiftMethod>, ValueType {
+    class SwiftMethodType: BaseType<SwiftMethod>, ValueType, traits.Ref {
         override init(_ id: String, _ parents: [any ValueType]) {
             super.init(id, parents)
             typeLookup[typeId] = self

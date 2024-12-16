@@ -5,7 +5,7 @@ class BaseMethod: CustomStringConvertible {
     let arguments: [ValueType]
 
     var description: String {
-        "\(id) (\(arguments.dump());\(results.dump())):"
+        "\(id): (\(arguments.dump());\(results.dump()))"
     }
 
     var results: [ValueType]

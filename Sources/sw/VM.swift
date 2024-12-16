@@ -11,6 +11,7 @@ class VM {
       readers.Whitespace.instance,
       readers.I64Reader.instance,
       readers.IdReader.instance,
+      readers.Ref.instance,
       readers.SexprReader.instance,
       readers.StringReader.instance
     )

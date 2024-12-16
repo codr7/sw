@@ -4,10 +4,7 @@ swift run -Xswiftc -cross-module-optimization -c=release sw fib.sw
 
 0.749635932 seconds
 
-* add ref support
-** add reader
-** add form
-** try map macro
+* test map macro
 
 * add lambda support?
 ** ref of sexpr
@@ -26,6 +23,11 @@ swift run -Xswiftc -cross-module-optimization -c=release sw fib.sw
 1:2
 
 * implement traits.Seq for pairs
+
+* strip Reader from reader type names
+
+* strip Type from type names
+** add Core.types struct / extensions
 
 * add splat method (*)
 ** add to id reader
