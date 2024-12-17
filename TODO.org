@@ -4,9 +4,9 @@ swift run -Xswiftc -cross-module-optimization -c=release sw fib.sw
 
 0.749635932 seconds
 
-* test map with sw method
+* add to-string/to-stack methods from seq
 
-* add string constructor from iter
+* test map with sw method
 
 * add map: macro?
 ** create ref from body
@@ -22,7 +22,7 @@ swift run -Xswiftc -cross-module-optimization -c=release sw fib.sw
 ** form
 ** reader
 ** use as description
-1:2
+1|2
 
 * implement traits.Seq for pairs
 

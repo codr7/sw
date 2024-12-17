@@ -300,12 +300,12 @@ extension packages {
                           vm.code[branchPc] = ops.Branch.make(elsePc)
                       })
 
-            bindMethod(vm, "map", [refType, seqType], [iterType],
+            bindMethod(vm, "map", [seqType, refType], [iterType],
                        {(vm, location) in
+                           let fn = vm.stack.pop().cast(self.refType)
                            let input = vm.stack.pop()
                            let st = input.type as! traits.Seq
                            let it = st.makeIter(input)
-                           let fn = vm.stack.pop().cast(self.refType)
                            vm.stack.push(self.iterType, iters.Map(fn, it))
                       })
 

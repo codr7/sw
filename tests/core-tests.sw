@@ -50,6 +50,6 @@ define: repeat (I64;I64) do: dec CC if: recall;;;
 3 repeat
 [2 1 0 0] check
 
-&char/up "ab" map
+"ab" &char/up map
 next S next S next
 [\A \B #_] check
