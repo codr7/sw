@@ -50,6 +50,12 @@ define: repeat (I64;I64) do: dec CC if: recall;;;
 3 repeat
 [2 1 0 0] check
 
+"foo" count
+[3] check
+
+[1 2 3] count
+[3] check
+
 \a char/up
 [\A] check
 

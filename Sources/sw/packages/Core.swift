@@ -214,13 +214,24 @@ extension packages {
                           vm.code[benchmarkPc] =
                             .Benchmark(endPc: vm.emitPc)
                       })
-
             
             bindMacro(vm, "check", [anyType, anyType], [],
                       {(vm, arguments, location) in
                           vm.emit(.Check(location: location))
                       })
 
+            bindMethod(vm, "count", [anyType], [i64Type],
+                       {(vm, location) in
+                           let v = vm.stack.top
+
+                           if let ct = v.type as? traits.Count {
+                               vm.stack.put(self.i64Type, Int64(ct.count(v)))
+                           } else {
+                               throw EvalError("Not supported: \(v.dump(vm))",
+                                               location)
+                           }
+                       })
+            
             bindMethod(vm, "dec", [i64Type], [i64Type],
                        {(vm, location) in
                            vm.stack.put(
@@ -312,6 +323,11 @@ extension packages {
                           vm.code[branchPc] = .Branch(elsePc: elsePc)
                       })
 
+            bindMethod(vm, "lhs", [pairType], [anyType],
+                       {(vm, location) in
+                           vm.stack.put(vm.stack.top.cast(self.pairType).0)
+                       })
+
             bindMethod(vm, "map", [seqType, refType], [iterType],
                        {(vm, location) in
                            let fn = vm.stack.pop().cast(self.refType)
@@ -336,6 +352,11 @@ extension packages {
                       {(vm, arguments, location) in
                           vm.emit(.Goto(targetPc: vm.dos.last!))
                       })
+
+            bindMethod(vm, "rhs", [pairType], [anyType],
+                       {(vm, location) in
+                           vm.stack.put(vm.stack.top.cast(self.pairType).1)
+                       })
 
             bindMethod(vm, "say", [anyType], [],
                        {(vm, location) in
