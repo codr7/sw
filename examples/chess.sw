@@ -5,8 +5,8 @@ define: bishop \B;
 define: knight \K;
 define: pawn   \P;
 
-define: columns ["a" "b" "c" "d" "e" "f" "g" "h"];
-define: rows ["8" "7" "6" "5" "4" "3" "2" "1"];
+define: columns [\a \b \c \d \e \f \g \h];
+define: rows [8 7 6 5 4 3 2 1];
 
 define: make-board [
   rook   #f Z
