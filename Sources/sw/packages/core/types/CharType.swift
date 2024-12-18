@@ -23,9 +23,7 @@ extension packages.Core {
         func toString(_ vm: VM,
                       _ value: Value,
                       _ location: Location) throws -> String {
-            var result = ""
-            result.append(value.cast(self))
-            return result
+            "\(value.cast(self))"
         }
     }
 }
