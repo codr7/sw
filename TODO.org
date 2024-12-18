@@ -4,6 +4,10 @@ swift run -Xswiftc -cross-module-optimization -c=release sw benchmarks/fib.sw
 
 0.529172287
 
+* add Core.one? method
+** use instead of = 1 in fib
+** benchmark
+
 * add to-string/to-stack methods from seq
 
 * test map with sw method
@@ -12,9 +16,9 @@ swift run -Xswiftc -cross-module-optimization -c=release sw benchmarks/fib.sw
 ** register do around body
 ** create ref
 
-* add references to readme
-
 * add filter/reduce
+
+* add references to readme
 
 * --
 
