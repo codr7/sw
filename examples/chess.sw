@@ -46,4 +46,14 @@ define: make-board [
   rook   #t Z
 ];
 
+1 1 term/move-to
+columns for: term/print;
+term/next-line
+
+1 2 term/move-to
+
+0 rows count 1 range for:
+  C rows at term/print
+  term/next-line;
+
 make-board say

@@ -71,3 +71,6 @@ next S next S next
 
 "foo" to-stack C to-string
 [[\f \o \o] "foo"] check
+
+0 #_ 1 range next S next S next S P
+[0 1 2] check

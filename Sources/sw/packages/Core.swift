@@ -348,6 +348,20 @@ extension packages {
                            }
                        })
             
+            bindMethod(vm, "range", [i64Type, maybeType, i64Type], [iterType],
+                       {(vm, location) in
+                           let stride = vm.stack.pop().cast(self.i64Type)
+                           let end = vm.stack.pop()
+                           let start = vm.stack.pop().cast(self.i64Type)
+                           
+                           let ev = (end == self.NIL)
+                             ? nil
+                             : end.cast(self.i64Type)
+                           
+                           vm.stack.push(self.iterType,
+                                         iters.Range(start, ev, stride))
+                       })
+
             bindMacro(vm, "recall", [], [],
                       {(vm, arguments, location) in
                           vm.emit(.Goto(targetPc: vm.dos.last!))
