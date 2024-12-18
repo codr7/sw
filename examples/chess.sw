@@ -53,7 +53,7 @@ term/line-break
 1 2 term/move-to
 
 0 rows count 1 range for:
-  rows at term/print
+  rows S @ term/print
   term/line-break;
 
-make-board say
+term/flush
