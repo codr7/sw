@@ -339,7 +339,27 @@ extension packages {
 
             bindMethod(vm, "say", [anyType], [],
                        {(vm, location) in
-                           print(vm.stack.pop().say(vm))
+                           print(try vm.stack.pop().toString(vm, location))
+                       })
+
+            bindMethod(vm, "to-stack", [anyType], [stackType],
+                       {(vm, location) in
+                           let input = vm.stack.pop()
+                           vm.beginStack()
+                           defer { vm.endStack(push: true) }
+                           
+                           if let st = input.type as? traits.Seq {
+                               var it = st.makeIter(input)
+                               while try it.next(vm, location) {}
+                           } else {
+                               vm.stack.push(input)
+                           }
+                       })
+
+            bindMethod(vm, "to-string", [anyType], [stringType],
+                       {(vm, location) in
+                           vm.stack.put(self.stringType,
+                                        try vm.stack.top.toString(vm, location))
                        })
         }
     }

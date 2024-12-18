@@ -26,8 +26,8 @@ extension Stack {
     mutating func put<TT, T>(_ type: TT, _ data: T, _ i: Int = 0)
       where TT: BaseType<T>, TT: ValueType { put(Value(type, data), i) }
 
-    func say(_ vm: VM) -> String {
-        "\(map({$0.say(vm)}).joined(separator: " "))"
+    func toString(_ vm: VM, _ location: Location) throws -> String {
+        "\(try map({try $0.toString(vm, location)}).joined(separator: ""))"
     }
     
     mutating func shiftLeft() { insert(pop(), at: count-2) }

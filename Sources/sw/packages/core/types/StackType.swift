@@ -20,8 +20,10 @@ extension packages.Core {
             iters.Items(target.cast(self).makeIterator())
         }
 
-        func say(_ vm: VM, _ value: Value) -> String {
-            value.cast(self).say(vm)
+        func toString(_ vm: VM,
+                      _ value: Value,
+                      _ location: Location) throws -> String {
+            try value.cast(self).toString(vm, location)
         }
         
         func toBit(_ value: Value) -> Bool { !value.cast(self).isEmpty }

@@ -19,5 +19,13 @@ extension packages.Core {
         }
         
         func toBit(_ value: Value) -> Bool { value.cast(self) != "\0" }
+
+        func toString(_ vm: VM,
+                      _ value: Value,
+                      _ location: Location) throws -> String {
+            var result = ""
+            result.append(value.cast(self))
+            return result
+        }
     }
 }

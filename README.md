@@ -74,6 +74,38 @@ hello
 ```
 `[[1 2 [3 4] 5]]`
 
+## Conversions
+`to-stack` may be used to turn any value into a stack.
+
+```
+"foo" to-stack
+```
+`[[\f \o \o]]`
+
+## Strings
+Double quoted values are interpreted as strings.
+
+```
+"foo"
+```
+`["foo"]`
+
+### Characters
+Character literals are prefixed with `\`.
+
+```
+  \a char/up
+```
+``
+
+### Conversions
+`to-string` may be used to turn any value into a string.
+
+```
+[\f \o \o] to-stack
+```
+`["foo"]`
+
 ## Definitions
 
 `sw` steals a line from Forth and uses a similarly flexible mechanism for definitions, which is different enough from most other languages to deserve a thorough explanation.

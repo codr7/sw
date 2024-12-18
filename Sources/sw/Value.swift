@@ -30,6 +30,9 @@ struct Value: Equatable {
     }
     
     func findId(_ id: String) -> Value? { type.findId(self, id) }
-    func say(_ vm: VM) -> String { type.say(vm, self) }
     func toBit() -> Bit { type.toBit(self) }
+
+    func toString(_ vm: VM, _ location: Location) throws -> String {
+        try type.toString(vm, self, location)
+    }
 }

@@ -22,7 +22,11 @@ protocol ValueType {
     func eq (_ value1: Value, _ value2: Value) -> Bool
     func equals(_ other: any ValueType) -> Bool 
     func findId(_ source: Value, _ id: String) -> Value?
-    func say(_ vm: VM, _ target: Value) -> String
+
+    func toString(_ vm: VM,
+                  _ target: Value,
+                  _ location: Location) throws -> String
+    
     func toBit(_ value: Value) -> Bit
 }
 
@@ -49,7 +53,9 @@ extension ValueType {
 
     func getType(_ vm: VM) -> ValueType? { nil }
 
-    func say(_ vm: VM, _ target: Value) -> String { dump(vm, target) }
+    func toString(_ vm: VM,
+                  _ target: Value,
+                  _ location: Location) throws -> String { dump(vm, target) }
 
     func toBit(_ value: Value) -> Bit { true }
 }

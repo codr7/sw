@@ -14,5 +14,18 @@ extension packages.Core {
         }
 
         func makeIter(_ target: Value) -> Iter {target.cast(self)}
+
+        func toString(_ vm: VM,
+                      _ value: Value,
+                      _ location: Location) throws -> String {
+            var it = value.cast(self)
+            var result = ""
+
+            while try it.next(vm, location) {
+                result += try vm.stack.pop().toString(vm, location)
+            }
+            
+            return result
+        }
     }
 }

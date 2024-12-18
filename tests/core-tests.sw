@@ -39,7 +39,7 @@ define: is-42 (I64;Bit) do: 42 =;;
 42 is-42
 [#t] check
 
-define: is-42 (I64;Bit) do: 42 do: =;;
+define: is-42 (I64;Bit) do: 42 do: =;;;
 7 is-42
 [#f] check
 
@@ -50,6 +50,18 @@ define: repeat (I64;I64) do: dec CC if: recall;;;
 3 repeat
 [2 1 0 0] check
 
+\a char/up
+[\A] check
+
 "ab" &char/up map
 next S next S next
 [\A \B #_] check
+
+42 to-string
+["42"] check
+
+42 to-stack
+[[42]] check 
+
+"foo" to-stack C to-string
+[[\f \o \o] "foo"] check

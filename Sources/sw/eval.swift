@@ -12,7 +12,7 @@ extension VM {
         NEXT:
           do {
             let op = code[pc]
-            //print("\(pc) \(ops.decode(op)) \(ops.trace(self, op))")
+            //print("\(pc) \(op)")
             
             switch op {
             case .BeginStack:
