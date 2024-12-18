@@ -7,10 +7,6 @@ extension packages.Core {
             typeLookup[typeId] = self
         }
 
-        func at(_ vm: VM, _ target: Value, _ i: Value) -> Value {
-            target.cast(self)[Int(i.cast(vm.core.i64Type))]
-        }
-
         func count(_ target: Value) -> Int { target.cast(self).count }
 
         override func dump(_ vm: VM, _ value: Value) -> String {
@@ -19,6 +15,10 @@ extension packages.Core {
 
         func eq(_ value1: Value, _ value2: Value) -> Bool {
             value1.cast(self) == value2.cast(self)
+        }
+
+        func getItem(_ vm: VM, _ target: Value, _ i: Value) -> Value {
+            target.cast(self)[Int(i.cast(vm.core.i64Type))]
         }
 
         func makeIter(_ target: Value) -> Iter {

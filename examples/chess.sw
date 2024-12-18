@@ -53,7 +53,7 @@ term/line-break
 1 2 term/move-to
 
 0 rows count 1 range for:
-  rows S @ term/print
+  rows S get term/print
   term/line-break;
 
 term/flush

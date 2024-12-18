@@ -122,19 +122,6 @@ extension packages {
                            try vm.stack.pop().cast(self.formType).eval(vm)
                        })            
 
-            bindMethod(vm, "@", [indexType, anyType], [anyType],
-                       {(vm, location) in
-                           let i = vm.stack.pop()
-                           let s = vm.stack.top
-                           
-                           if let it = s.type as? traits.Index {
-                               vm.stack.put(it.at(vm, s, i))
-                           } else {
-                               throw EvalError("Not supported: \(i.dump(vm))",
-                                               location)
-                           }
-                       })
-
             bindMethod(vm, "=", [anyType, anyType], [bitType],
                        {(vm, location) in
                            let r = vm.stack.pop()
@@ -316,6 +303,19 @@ extension packages {
                        {(vm, location) in
                            vm.stack.push(self.stringType,
                                          vm.stack.pop().dump(vm))
+                       })
+
+            bindMethod(vm, "get", [indexType, anyType], [anyType],
+                       {(vm, location) in
+                           let i = vm.stack.pop()
+                           let s = vm.stack.top
+                           
+                           if let it = s.type as? traits.Index {
+                               vm.stack.put(it.getItem(vm, s, i))
+                           } else {
+                               throw EvalError("Not supported: \(i.dump(vm))",
+                                               location)
+                           }
                        })
 
             bindMacro(vm, "if:", [], [],

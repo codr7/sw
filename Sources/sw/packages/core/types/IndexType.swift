@@ -9,7 +9,7 @@ extension packages.Core {
             fatalError("Not supported")
         }
 
-        func at(_ vm: VM, _ target: Value, _ i: Value) -> Value {
+        func getItem(_ vm: VM, _ target: Value, _ i: Value) -> Value {
             fatalError("Not supported")
         }
     }
