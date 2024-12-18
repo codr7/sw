@@ -13,7 +13,7 @@ An attempt to simplify some of Forth's ideas, as well as combine them with other
 ```
 swift run -Xswiftc -cross-module-optimization -c=release sw benchmarks/fib.sw
 
-0.4904674 seconds
+0.474359397
 ```
 
 ```

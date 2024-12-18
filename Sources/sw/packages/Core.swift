@@ -125,6 +125,12 @@ extension packages {
                            vm.stack.put(self.bitType, vm.stack.top == r)
                        })            
 
+            bindMethod(vm, "=1", [iterType], [iterType, maybeType],
+                       {(vm, location) in
+                           vm.stack.put(self.bitType,
+                                        vm.stack.top.cast(self.i64Type) == 1)
+                       })
+
             bindMethod(vm, ">", [anyType, anyType], [bitType],
                        {(vm, location) in
                            let r = vm.stack.pop().cast(self.i64Type)
@@ -132,7 +138,13 @@ extension packages {
                            vm.stack.put(self.bitType,
                                         vm.stack.top.cast(self.i64Type) > r)
                        })            
-            
+
+            bindMethod(vm, ">1", [iterType], [iterType, maybeType],
+                       {(vm, location) in
+                           vm.stack.put(self.bitType,
+                                        vm.stack.top.cast(self.i64Type) > 1)
+                       })
+
             bindMethod(vm, "+", [anyType, anyType], [bitType],
                        {(vm, location) in
                            let r = vm.stack.pop().cast(self.i64Type)

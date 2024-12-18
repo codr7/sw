@@ -1,7 +1,7 @@
 define: fib do:
-  R C 1 >
+  R C >1
   if: dec L C L + recall
-  else: 1 = if: S;;;
+  else: =1 if: S;;;
   P;;
 
 10 0 1 fib say

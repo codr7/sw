@@ -2,11 +2,7 @@ C P S / L R
 
 swift run -Xswiftc -cross-module-optimization -c=release sw benchmarks/fib.sw
 
-0.529172287
-
-* add Core.one? method
-** use instead of = 1 in fib
-** benchmark
+0.472090641
 
 * add to-string/to-stack methods from seq
 
