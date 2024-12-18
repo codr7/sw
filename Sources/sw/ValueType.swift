@@ -31,7 +31,7 @@ extension ValueType {
               _ target: Value,
               _ arguments: inout Forms,
               _ location: Location) throws {
-        vm.emit(ops.Push.make(vm, target))
+        vm.emit(.Push(value: target))
     }
 
     func emitId(_ vm: VM,

@@ -21,7 +21,6 @@ class VM {
     var stack: Stack = []
     var stacks: [Stack] = []
     var dos: [PC] = []
-    var tags: [Any] = []
 
     let core: packages.Core
     let char: packages.Char
@@ -86,7 +85,7 @@ class VM {
             try eval(from: pc)
         } else {
             let prevOp = code[to]
-            code[to] = ops.Stop.make()
+            code[to] = .Stop
             defer { code[to] = prevOp }
             try eval(from: pc)
         }
@@ -108,9 +107,9 @@ class VM {
             var input = Input(try fh.readAll())
             var location = Location("\(p)")
             var fs = try read(&input, &location)
-            emit(ops.SetLoadPath.make(self, loadPath))
+            emit(.SetLoadPath(path: loadPath))
             try fs.emit(self)
-            emit(ops.SetLoadPath.make(self, prevLoadPath))
+            emit(.SetLoadPath(path: prevLoadPath))
         } else {
             throw EmitError("File not found: \(p)", location)
         }
@@ -125,12 +124,6 @@ class VM {
     func read(_ input: inout Input, _ location: inout Location) throws -> [Form] {
         var result: [Form] = []
         while try read(&input, &result, &location) {}
-        return result
-    }
-
-    func tag(_ value: Any) -> Tag {
-        let result = tags.count
-        tags.append(value)
         return result
     }
 }

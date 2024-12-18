@@ -88,14 +88,14 @@ extension packages {
 
             bindMacro(vm, "[", [], [], 
                       {(vm, arguments, location) in
-                          vm.emit(ops.BeginStack.make())
+                          vm.emit(.BeginStack)
                           vm.beginPackage()
                       })
 
             bindMacro(vm, "]", [], [stackType],
                       {(vm, arguments, location) in
                           vm.endPackage()
-                          vm.emit(ops.EndStack.make())
+                          vm.emit(.EndStack)
                       })
 
             let parseTypes = {(_ body: Forms,
@@ -143,51 +143,51 @@ extension packages {
             
             bindMacro(vm, "C", [anyType], [anyType, anyType],
                       {(vm, arguments, location) in
-                          vm.emit(ops.Copy.make(1))
+                          vm.emit(.Copy(count: 1))
                       })
 
             bindMacro(vm, "CC", [anyType], [anyType, anyType],
                       {(vm, arguments, location) in
-                          vm.emit(ops.Copy.make(2))
+                          vm.emit(.Copy(count: 2))
                       })
 
             bindMacro(vm, "L",
                       [anyType, anyType, anyType],
                       [anyType, anyType, anyType],
                       {(vm, arguments, location) in
-                          vm.emit(ops.ShiftLeft.make())
+                          vm.emit(.ShiftLeft)
                       })
 
             bindMacro(vm, "P", [anyType], [],
                       {(vm, arguments, location) in
-                          vm.emit(ops.Pop.make(1))
+                          vm.emit(.Pop(count: 1))
                       })
 
             bindMacro(vm, "PP", [anyType], [],
                       {(vm, arguments, location) in
-                          vm.emit(ops.Pop.make(2))
+                          vm.emit(.Pop(count: 2))
                       })
 
             bindMacro(vm, "R",
                       [anyType, anyType, anyType],
                       [anyType, anyType, anyType],
                       {(vm, arguments, location) in
-                          vm.emit(ops.ShiftRight.make())
+                          vm.emit(.ShiftRight)
                       })
 
             bindMacro(vm, "S", [anyType, anyType], [anyType, anyType],
                       {(vm, arguments, location) in
-                          vm.emit(ops.Swap.make())
+                          vm.emit(.Swap)
                       })
 
             bindMacro(vm, "U", [pairType], [anyType, anyType],
                       {(vm, arguments, location) in
-                          vm.emit(ops.Unzip.make())
+                          vm.emit(.Unzip)
                       })
 
             bindMacro(vm, "Z", [anyType, anyType], [pairType],
                       {(vm, arguments, location) in
-                          vm.emit(ops.Zip.make())
+                          vm.emit(.Zip)
                       })
 
             bindMacro(vm, "benchmark:", [], [],
@@ -195,18 +195,18 @@ extension packages {
                           var body = arguments.getBody()
 
                           let benchmarkPc =
-                            vm.emit(ops.Fail.make(vm, location))
+                            vm.emit(.Fail(location: location))
 
                           try body.emit(vm)
                           
                           vm.code[benchmarkPc] =
-                            ops.Benchmark.make(vm, vm.emitPc)
+                            .Benchmark(endPc: vm.emitPc)
                       })
 
             
             bindMacro(vm, "check", [anyType, anyType], [],
                       {(vm, arguments, location) in
-                          vm.emit(ops.Check.make(vm, location))
+                          vm.emit(.Check(location: location))
                       })
 
             bindMethod(vm, "dec", [i64Type], [i64Type],
@@ -249,14 +249,14 @@ extension packages {
                       }
                   }
 
-                  let gotoPc = vm.emit(ops.Fail.make(vm, location))
+                  let gotoPc = vm.emit(.Fail(location: location))
                   let startPc = vm.emitPc
                   var body = arguments.getBody()
                   vm.beginPackage()
                   defer { vm.endPackage() }
                   try body.emit(vm)
                   let endPc = vm.emitPc
-                  vm.code[gotoPc] = ops.Goto.make(vm.emitPc)
+                  vm.code[gotoPc] = .Goto(targetPc: vm.emitPc)
 
                   let m = SwMethod(vm,
                                    id,
@@ -270,7 +270,7 @@ extension packages {
             bindMacro(vm, "do:", [], [],
                       {(vm, arguments, location) in
                           let body = arguments.getBody("do:")
-                          vm.emit(ops.Do.make(vm, body))
+                          vm.emit(.Do(body: body))
                       })
 
             bindMethod(vm, "dump", [anyType], [],
@@ -281,7 +281,7 @@ extension packages {
 
             bindMacro(vm, "if:", [], [],
                       {(vm, arguments, location) in
-                          let branchPc = vm.emit(ops.Fail.make(vm, location))
+                          let branchPc = vm.emit(.Fail(location: location))
                           var elseBody = arguments.getBody()
                           var ifBody = elseBody.getBody("else:")
                           try ifBody.emit(vm)
@@ -291,13 +291,13 @@ extension packages {
                               elseBody.removeFirst()
                               elseBody = elseBody.getBody()
                               let skipElsePc =
-                                vm.emit(ops.Fail.make(vm, location))
+                                vm.emit(.Fail(location: location))
                               elsePc = vm.emitPc
                               try elseBody.emit(vm)
-                              vm.code[skipElsePc] = ops.Goto.make(vm.emitPc)
+                              vm.code[skipElsePc] = .Goto(targetPc: vm.emitPc)
                           }                          
 
-                          vm.code[branchPc] = ops.Branch.make(elsePc)
+                          vm.code[branchPc] = .Branch(elsePc: elsePc)
                       })
 
             bindMethod(vm, "map", [seqType, refType], [iterType],
@@ -322,7 +322,7 @@ extension packages {
             
             bindMacro(vm, "recall", [], [],
                       {(vm, arguments, location) in
-                          vm.emit(ops.Goto.make(vm.dos.last!))
+                          vm.emit(.Goto(targetPc: vm.dos.last!))
                       })
 
             bindMethod(vm, "say", [anyType], [],

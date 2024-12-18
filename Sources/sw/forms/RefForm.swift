@@ -12,8 +12,7 @@ extension forms {
         func emit(_ vm: VM, _ arguments: inout Forms) throws {
             if let v = target.getValue(vm),
                let rt = v.type as? packages.Core.traits.Ref {
-                vm.emit(ops.Push.make(vm, Value(vm.core.refType,
-                                                rt.makeRef(v))))
+                vm.emit(.Push(value: Value(vm.core.refType, rt.makeRef(v))))
             } else {
                 throw EmitError("Missing ref target", location)
             }

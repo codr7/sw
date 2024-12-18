@@ -25,8 +25,7 @@ if CommandLine.arguments.count == 1 {
         try load(vm, 2)
         
         for i in startPc..<vm.emitPc {
-            let op = vm.code[i]
-            print("\(i) \(ops.decode(op)) \(ops.dump(vm, op))")
+            print("\(i) \(vm.code[i])")
         }
     default:
         try load(vm, 1)

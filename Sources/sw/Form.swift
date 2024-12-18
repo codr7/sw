@@ -15,10 +15,10 @@ extension Form {
     func eval(_ vm: VM) throws {
         let prevPc = vm.pc
         defer { vm.pc = prevPc }        
-        let skipPc = vm.emit(ops.Fail.make(vm, location))
+        let skipPc = vm.emit(.Fail(location: location))
         let startPc = vm.emitPc
         try vm.emit(self)
-        vm.code[skipPc] = ops.Goto.make(vm.emitPc)
+        vm.code[skipPc] = .Goto(targetPc: vm.emitPc)
         try vm.eval(from: startPc)
     }
 

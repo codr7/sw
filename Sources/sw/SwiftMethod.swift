@@ -25,7 +25,7 @@ class SwiftMethod: BaseMethod, Method, Ref {
         super.init(id, arguments, results)
 
         self.emitBody = {(vm, arguments, location) in
-            vm.emit(ops.CallTag.make(vm, self, location))
+            vm.emit(.Call(target: self, location: location))
         }
     }
 
