@@ -1,9 +1,14 @@
 
 extension packages.Core {
-    class StackType: BaseType<Stack>, ValueType, traits.Count, traits.Seq {
+    class StackType: BaseType<Stack>, ValueType,
+                     traits.Count, traits.Index, traits.Seq {
         override init(_ id: String, _ parents: [any ValueType]) {
             super.init(id, parents)
             typeLookup[typeId] = self
+        }
+
+        func at(_ vm: VM, _ target: Value, _ i: Value) -> Value {
+            target.cast(self)[Int(i.cast(vm.core.i64Type))]
         }
 
         func count(_ target: Value) -> Int { target.cast(self).count }

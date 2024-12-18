@@ -74,3 +74,9 @@ next S next S next
 
 0 #_ 1 range next S next S next S P
 [0 1 2] check
+
+"abc" 1 @
+[\b] check
+
+[1 2 3] 2 @
+[3] check

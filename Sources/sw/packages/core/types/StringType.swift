@@ -1,9 +1,17 @@
 extension packages.Core {
     final class StringType: BaseType<String>, ValueType,
-                            traits.Count, traits.Seq {
+                            traits.Count, traits.Index, traits.Seq {
         override init(_ id: String, _ parents: [any ValueType]) {
             super.init(id, parents)
             typeLookup[typeId] = self            
+        }
+
+        func at(_ vm: VM, _ target: Value, _ i: Value) -> Value {
+            let s = target.cast(self)
+            
+            return Value(vm.core.charType,
+                         s[s.index(s.startIndex,
+                                   offsetBy: Int(i.cast(vm.core.i64Type)))])
         }
 
         func count(_ target: Value) -> Int { target.cast(self).count }

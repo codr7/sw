@@ -11,6 +11,7 @@ extension packages {
         let iterType: IterType
         let maybeType: MaybeType
         let metaType: MetaType
+        let indexType: IndexType
         let nilType: NilType
         let packageType: PackageType
         let pairType: PairType
@@ -39,6 +40,7 @@ extension packages {
             charType = CharType("Char", [anyType])
             formType = FormType("Form", [anyType])
             i64Type = I64Type("I64", [anyType])
+            indexType = IndexType("Index", [anyType])
             iterType = IterType("Iter", [anyType])
             metaType = MetaType("Meta", [anyType])
             packageType = PackageType("Package", [anyType])
@@ -67,6 +69,7 @@ extension packages {
             bind(vm, bitType)
             bind(vm, formType)
             bind(vm, i64Type)
+            bind(vm, indexType)
             bind(vm, iterType)
             bind(vm, maybeType)
             bind(vm, metaType)
@@ -118,6 +121,19 @@ extension packages {
                        {(vm, location) in
                            try vm.stack.pop().cast(self.formType).eval(vm)
                        })            
+
+            bindMethod(vm, "@", [indexType, anyType], [anyType],
+                       {(vm, location) in
+                           let i = vm.stack.pop()
+                           let s = vm.stack.top
+                           
+                           if let it = s.type as? traits.Index {
+                               vm.stack.put(it.at(vm, s, i))
+                           } else {
+                               throw EvalError("Not supported: \(i.dump(vm))",
+                                               location)
+                           }
+                       })
 
             bindMethod(vm, "=", [anyType, anyType], [bitType],
                        {(vm, location) in
