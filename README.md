@@ -74,7 +74,7 @@ hello
 ```
 `[[1 2 [3 4] 5]]`
 
-## Conversions
+### Conversions
 `to-stack` may be used to turn any value into a stack.
 
 ```
@@ -96,7 +96,7 @@ Character literals are prefixed with `\`.
 ```
   \a char/up
 ```
-``
+`[\A]`
 
 ### Conversions
 `to-string` may be used to turn any value into a string.
