@@ -7,7 +7,7 @@ extension packages.Core {
         
         override func dump(_ vm: VM, _ value: Value) -> String {
             let v = value.cast(self)
-            return "\((v == nil) ? "#_" : "\(v!.dump(vm))?")"
+            return "\((v == nil) ? "_" : "\(v!.dump(vm))?")"
         }
         
         func eq(_ value1: Value, _ value2: Value) -> Bool {

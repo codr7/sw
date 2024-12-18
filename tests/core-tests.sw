@@ -61,7 +61,7 @@ define: repeat (I64;I64) do: dec CC if: recall;;;
 
 "ab" &char/up map
 next S next S next
-[\A \B #_] check
+[\A \B _] check
 
 42 to-string
 ["42"] check
@@ -72,7 +72,7 @@ next S next S next
 "foo" to-stack C to-string
 [[\f \o \o] "foo"] check
 
-0 #_ 1 range next S next S next S P
+0 _ 1 range next S next S next S P
 [0 1 2] check
 
 "abc" 1 @

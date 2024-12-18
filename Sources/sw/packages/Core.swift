@@ -85,7 +85,7 @@ extension packages {
             bind(vm, swMethodType)
             bind(vm, timeType)
 
-            self["#_"] = NIL;
+            self["_"] = NIL
             self["#t"] = TRUE
             self["#f"] = FALSE
 

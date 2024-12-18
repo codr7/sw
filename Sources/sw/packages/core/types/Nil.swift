@@ -7,7 +7,7 @@ extension packages.Core {
             typeLookup[typeId] = self
         }
         
-        override func dump(_ _: VM, _ value: Value) -> String { "#_" }
+        override func dump(_ _: VM, _ value: Value) -> String { "_" }
         func eq(_ value1: Value, _ value2: Value) -> Bool { true }
         func toBit(_ value: Value) -> Bool { false }
     }
