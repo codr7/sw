@@ -1,3 +1,4 @@
+
 extension packages.Core {
     class RefType: BaseType<Ref>, ValueType {
         override init(_ id: String, _ parents: [any ValueType]) {

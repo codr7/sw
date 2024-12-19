@@ -4,14 +4,13 @@ swift run -Xswiftc -cross-module-optimization -c=release sw benchmarks/fib.sw
 
 0.472090641
 
-* add term from Sharpl
-** add move-to
-** add print
-** add line-break
-
 * add import macro
 ** term import
 ** remove auto import in main
+
+* finish chess support in term
+** add print
+** add line-break
 
 * finish make-board
 ** add empty squares

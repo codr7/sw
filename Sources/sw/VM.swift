@@ -22,9 +22,10 @@ class VM {
     var pc: PC = 0
     var stack: Stack = []
     var stacks: [Stack] = []
-
+    
     let core: packages.Core
     let char: packages.Char
+    let term: packages.Term
     let user: Package
     
     var currentPackage: Package
@@ -32,10 +33,18 @@ class VM {
     init() {
         core = packages.Core()
         char = packages.Char()
+        term = packages.Term()
         user = Package("user")
+
         currentPackage = user
+        user.bind(self, core)
+        user.bind(self, char)
+        user.bind(self, term)
+        user.bind(self, user)
+
         core.initBindings(self)
         char.initBindings(self)
+        term.initBindings(self)
         user.initBindings(self)
     }
 

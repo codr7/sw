@@ -8,10 +8,6 @@ func load(_ vm: VM, _ offset: Int) throws {
 
 let vm = VM()
 
-vm.user.bind(vm, vm.core)
-vm.user.bind(vm, vm.char)
-vm.user.bind(vm, vm.user)
-
 vm.user.importFrom(vm.core, vm.core.ids)
 
 if CommandLine.arguments.count == 1 {
