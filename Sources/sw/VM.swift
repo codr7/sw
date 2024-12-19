@@ -1,7 +1,7 @@
 import Foundation
 import SystemPackage
 
-let VERSION = 4
+let VERSION = 5
 
 class VM {
     var code: [Op] = []
@@ -17,10 +17,11 @@ class VM {
       readers.StringReader.instance
     )
     
+    var dos: [PC] = []
+    var iters: [Iter] = []
     var pc: PC = 0
     var stack: Stack = []
     var stacks: [Stack] = []
-    var dos: [PC] = []
 
     let core: packages.Core
     let char: packages.Char

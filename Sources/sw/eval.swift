@@ -15,6 +15,19 @@ extension VM {
             //print("\(pc) \(op)")
             
             switch op {
+            case let .BeginIter(location):
+                do {
+                    let s = stack.pop()
+
+                    if let st = s.type as? packages.Core.traits.Seq {
+                        iters.append(st.makeIter(s))
+                    } else {
+                        throw EvalError("Not supported: \(s.dump(self))",
+                                        location)
+                    }
+
+                    pc += 1
+                }
             case .BeginStack:
                 beginStack()
                 pc += 1
@@ -59,6 +72,9 @@ extension VM {
                 try body.emit(self)
                 dos.removeLast()
                 pc += 1
+            case .EndIter:
+                iters.removeLast()
+                pc += 1
             case .EndStack:
                 endStack(push: true)
                 pc += 1
@@ -66,6 +82,17 @@ extension VM {
                 throw BaseError("Fail", location)
             case let .Goto(targetPc):
                 pc = targetPc
+            case let .Iter(endPc, location):
+                do {
+                    var it = iters.last!
+                    
+                    if try it.next(self, location) {
+                        iters[iters.count-1] = it
+                        pc += 1
+                    } else {
+                        pc = endPc
+                    }
+                }
             case .Nop:
                 pc += 1
             case let .Pop(count):

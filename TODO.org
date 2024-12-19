@@ -9,12 +9,14 @@ swift run -Xswiftc -cross-module-optimization -c=release sw benchmarks/fib.sw
 ** add print
 ** add line-break
 
+* add import macro
+** term import
+** remove auto import in main
+
 * finish make-board
 ** add empty squares
 
 * add print-board
-** print columns/rows
-** add x for:; macro
 
 * test map with sw method
 

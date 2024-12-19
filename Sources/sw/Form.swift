@@ -55,7 +55,7 @@ extension Forms {
         return true
     }
 
-    mutating func getBody(_ stop: String? = nil) -> Forms {
+    mutating func getBody(_ stop: Set<String> = []) -> Forms {
         var i = 0
         var depth = 1
         
@@ -66,7 +66,7 @@ extension Forms {
                 depth -= 1
                 if depth == 0 { break }
             } else if let idf = f.tryCast(forms.Id.self) {
-                if depth == 1 && idf.value == stop { break }
+                if depth == 1 && stop.contains(idf.value) { break }
                 if idf.value.last! == ":" { depth += 1 }
             }
 

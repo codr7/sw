@@ -27,7 +27,7 @@ Launching `sw` without arguments enters the REPL.
 
 ```
 $ swift run
-sw4
+sw5
 
 1> "hello" say
 2>
@@ -183,7 +183,7 @@ repeat: (Int;Int) do:
 ```
 `[0]`
 
-## Branching
+## Branches
 `if:` may be used for conditional evaluation, it expends a condition on the stack and a body terminated with `;`:
 
 ```
@@ -197,6 +197,14 @@ repeat: (Int;Int) do:
 1 #f if: 2 else: 3;; 4
 ```
 `[1 3 4]`
+
+## Loops
+`for:` evaluates its body with each item on stack.
+
+```
+[1 2 3] for: dec;
+```
+`[0 1 2]`
 
 ## IO
 `say` may be used to print any value to standard output followed by a newline.

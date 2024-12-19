@@ -295,7 +295,7 @@ extension packages {
             
             bindMacro(vm, "do:", [], [],
                       {(vm, arguments, location) in
-                          let body = arguments.getBody("do:")
+                          let body = arguments.getBody()
                           vm.emit(.Do(body: body))
                       })
 
@@ -304,6 +304,18 @@ extension packages {
                            vm.stack.push(self.stringType,
                                          vm.stack.pop().dump(vm))
                        })
+            
+            bindMacro(vm, "for:", [seqType], [],
+                      {(vm, arguments, location) in
+                          vm.emit(.BeginIter(location: location))
+                          let iterPc = vm.emit(.Fail(location: location))
+                          var body = arguments.getBody()
+                          try body.emit(vm)
+                          vm.emit(.Goto(targetPc: iterPc))
+                          vm.code[iterPc] = .Iter(endPc: vm.emitPc,
+                                                  location: location)
+                          vm.emit(.EndIter)
+                      })
 
             bindMethod(vm, "get", [indexType, anyType], [anyType],
                        {(vm, location) in
@@ -322,7 +334,7 @@ extension packages {
                       {(vm, arguments, location) in
                           let branchPc = vm.emit(.Fail(location: location))
                           var elseBody = arguments.getBody()
-                          var ifBody = elseBody.getBody("else:")
+                          var ifBody = elseBody.getBody(["else:"])
                           try ifBody.emit(vm)
                           var elsePc = vm.emitPc
 

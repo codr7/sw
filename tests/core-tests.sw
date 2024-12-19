@@ -39,7 +39,7 @@ define: is-42 (I64;Bit) do: 42 =;;
 42 is-42
 [#t] check
 
-define: is-42 (I64;Bit) do: 42 do: =;;;
+define: is-42 (I64;Bit) do: 42; do: =;;
 7 is-42
 [#f] check
 
@@ -80,3 +80,6 @@ next S next S next
 
 [1 2 3] 2 get
 [3] check
+
+[1 2 3] for: dec;
+[0 1 2] check
